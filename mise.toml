@@ -1,0 +1,27 @@
+[tasks.generate]
+description = "Regenerate TypeScript types from openapi.yaml"
+run = "npm run generate"
+
+[tasks.build]
+description = "Build the package (ESM + CJS)"
+run = "npm run build"
+
+[tasks.dev]
+description = "Build in watch mode"
+run = "npm run dev"
+
+[tasks.test]
+description = "Run tests once"
+run = "npm test"
+
+[tasks."test:watch"]
+description = "Run tests in watch mode"
+run = "npm run test:watch"
+
+[tasks.clean]
+description = "Remove dist/"
+run = "npm run clean"
+
+[tasks.ci]
+description = "Full CI pass: generate types, build, test"
+run = "npm run prepare && npm test"
