@@ -40,8 +40,8 @@ export function createNexusClient(config: NexusSDKConfig) {
   async function fetchDefaultLocale(): Promise<string | null> {
     if (_cachedDefaultLocale !== undefined) return _cachedDefaultLocale;
     const data = await unwrap(
-      http.GET("/websites/{siteId}/locales", {
-        params: { path: { siteId: config.siteId } },
+      http.GET("/websites/{siteSlug}/locales", {
+        params: { path: { siteSlug: config.siteSlug } },
       })
     );
     _cachedDefaultLocale = data.default ?? null;
@@ -62,8 +62,8 @@ export function createNexusClient(config: NexusSDKConfig) {
 
     async getLocales() {
       return unwrap(
-        http.GET("/websites/{siteId}/locales", {
-          params: { path: { siteId: config.siteId } },
+        http.GET("/websites/{siteSlug}/locales", {
+          params: { path: { siteSlug: config.siteSlug } },
         })
       );
     },
@@ -72,8 +72,8 @@ export function createNexusClient(config: NexusSDKConfig) {
 
     async getBranding(params?: GetParams) {
       const data = await unwrap(
-        http.GET("/websites/{siteId}/branding", {
-          params: { path: { siteId: config.siteId } },
+        http.GET("/websites/{siteSlug}/branding", {
+          params: { path: { siteSlug: config.siteSlug } },
         })
       );
       return maybeLocalize(data, await resolveLocale(params));
@@ -83,9 +83,9 @@ export function createNexusClient(config: NexusSDKConfig) {
 
     async listTestimonials(params?: ListParams) {
       const data = await unwrap(
-        http.GET("/websites/{siteId}/testimonials", {
+        http.GET("/websites/{siteSlug}/testimonials", {
           params: {
-            path: { siteId: config.siteId },
+            path: { siteSlug: config.siteSlug },
             query: { limit: params?.limit, cursor: params?.cursor },
           },
         })
@@ -97,9 +97,9 @@ export function createNexusClient(config: NexusSDKConfig) {
 
     async listPages(params?: ListParams) {
       const data = await unwrap(
-        http.GET("/websites/{siteId}/pages", {
+        http.GET("/websites/{siteSlug}/pages", {
           params: {
-            path: { siteId: config.siteId },
+            path: { siteSlug: config.siteSlug },
             query: { limit: params?.limit, cursor: params?.cursor },
           },
         })
@@ -109,8 +109,8 @@ export function createNexusClient(config: NexusSDKConfig) {
 
     async getPage(slug: string, params?: GetParams) {
       const data = await unwrap(
-        http.GET("/websites/{siteId}/pages/{slug}", {
-          params: { path: { siteId: config.siteId, slug } },
+        http.GET("/websites/{siteSlug}/pages/{slug}", {
+          params: { path: { siteSlug: config.siteSlug, slug } },
         })
       );
       return maybeLocalize(data, await resolveLocale(params));
@@ -120,9 +120,9 @@ export function createNexusClient(config: NexusSDKConfig) {
 
     async listBlogPosts(params?: ListBlogParams) {
       const data = await unwrap(
-        http.GET("/websites/{siteId}/blog", {
+        http.GET("/websites/{siteSlug}/blog", {
           params: {
-            path: { siteId: config.siteId },
+            path: { siteSlug: config.siteSlug },
             query: {
               limit: params?.limit,
               cursor: params?.cursor,
@@ -138,8 +138,8 @@ export function createNexusClient(config: NexusSDKConfig) {
 
     async getBlogPost(slug: string, params?: GetParams) {
       const data = await unwrap(
-        http.GET("/websites/{siteId}/blog/{slug}", {
-          params: { path: { siteId: config.siteId, slug } },
+        http.GET("/websites/{siteSlug}/blog/{slug}", {
+          params: { path: { siteSlug: config.siteSlug, slug } },
         })
       );
       return maybeLocalize(data, await resolveLocale(params));
@@ -149,9 +149,9 @@ export function createNexusClient(config: NexusSDKConfig) {
 
     async listForms(params?: ListParams) {
       const data = await unwrap(
-        http.GET("/websites/{siteId}/forms", {
+        http.GET("/websites/{siteSlug}/forms", {
           params: {
-            path: { siteId: config.siteId },
+            path: { siteSlug: config.siteSlug },
             query: { limit: params?.limit, cursor: params?.cursor },
           },
         })
@@ -161,8 +161,8 @@ export function createNexusClient(config: NexusSDKConfig) {
 
     async getForm(slug: string, params?: GetParams) {
       const data = await unwrap(
-        http.GET("/websites/{siteId}/forms/{slug}", {
-          params: { path: { siteId: config.siteId, slug } },
+        http.GET("/websites/{siteSlug}/forms/{slug}", {
+          params: { path: { siteSlug: config.siteSlug, slug } },
         })
       );
       return maybeLocalize(data, await resolveLocale(params));
@@ -172,9 +172,9 @@ export function createNexusClient(config: NexusSDKConfig) {
 
     async listJobs(params?: ListParams) {
       const data = await unwrap(
-        http.GET("/websites/{siteId}/jobs", {
+        http.GET("/websites/{siteSlug}/jobs", {
           params: {
-            path: { siteId: config.siteId },
+            path: { siteSlug: config.siteSlug },
             query: { limit: params?.limit, cursor: params?.cursor },
           },
         })
@@ -184,8 +184,8 @@ export function createNexusClient(config: NexusSDKConfig) {
 
     async getJob(slug: string, params?: GetParams) {
       const data = await unwrap(
-        http.GET("/websites/{siteId}/jobs/{slug}", {
-          params: { path: { siteId: config.siteId, slug } },
+        http.GET("/websites/{siteSlug}/jobs/{slug}", {
+          params: { path: { siteSlug: config.siteSlug, slug } },
         })
       );
       return maybeLocalize(data, await resolveLocale(params));
@@ -195,9 +195,9 @@ export function createNexusClient(config: NexusSDKConfig) {
 
     async listTeamMembers(params?: ListParams) {
       const data = await unwrap(
-        http.GET("/websites/{siteId}/team-members", {
+        http.GET("/websites/{siteSlug}/team-members", {
           params: {
-            path: { siteId: config.siteId },
+            path: { siteSlug: config.siteSlug },
             query: { limit: params?.limit, cursor: params?.cursor },
           },
         })
@@ -209,9 +209,9 @@ export function createNexusClient(config: NexusSDKConfig) {
 
     async listNavigations(params?: ListParams) {
       const data = await unwrap(
-        http.GET("/websites/{siteId}/navigations", {
+        http.GET("/websites/{siteSlug}/navigations", {
           params: {
-            path: { siteId: config.siteId },
+            path: { siteSlug: config.siteSlug },
             query: { limit: params?.limit, cursor: params?.cursor },
           },
         })
@@ -219,10 +219,10 @@ export function createNexusClient(config: NexusSDKConfig) {
       return maybeLocalize(data, await resolveLocale(params));
     },
 
-    async getNavigation(id: number, params?: GetParams) {
+    async getNavigation(handle: string, params?: GetParams) {
       const data = await unwrap(
-        http.GET("/websites/{siteId}/navigations/{id}", {
-          params: { path: { siteId: config.siteId, id } },
+        http.GET("/websites/{siteSlug}/navigations/{handle}", {
+          params: { path: { siteSlug: config.siteSlug, handle } },
         })
       );
       return maybeLocalize(data, await resolveLocale(params));

@@ -4,7 +4,7 @@ import { http, HttpResponse } from "msw";
 import { createNexusClient } from "./client.js";
 
 const BASE_URL = "http://localhost/api/v1";
-const SITE_ID = 42;
+const SITE_SLUG = "acme";
 const API_KEY = "nxs_testkey";
 
 const server = setupServer();
@@ -14,7 +14,7 @@ afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 function makeClient() {
-  return createNexusClient({ baseUrl: BASE_URL, apiKey: API_KEY, siteId: SITE_ID });
+  return createNexusClient({ baseUrl: BASE_URL, apiKey: API_KEY, siteSlug: SITE_SLUG });
 }
 
 // Locale endpoint fixtures
@@ -37,22 +37,22 @@ describe("createNexusClient", () => {
     it("injects siteId into the path", async () => {
       let capturedUrl = "";
       server.use(
-        http.get(`${BASE_URL}/websites/:siteId/locales`, () => HttpResponse.json(localesNone)),
-        http.get(`${BASE_URL}/websites/:siteId/testimonials`, ({ request, params }) => {
+        http.get(`${BASE_URL}/websites/:siteSlug/locales`, () => HttpResponse.json(localesNone)),
+        http.get(`${BASE_URL}/websites/:siteSlug/testimonials`, ({ request, params }) => {
           capturedUrl = request.url;
-          expect(params.siteId).toBe(String(SITE_ID));
+          expect(params.siteSlug).toBe(SITE_SLUG);
           return HttpResponse.json(testimonialListResponse);
         })
       );
       await makeClient().listTestimonials();
-      expect(capturedUrl).toContain(`/websites/${SITE_ID}/testimonials`);
+      expect(capturedUrl).toContain(`/websites/${SITE_SLUG}/testimonials`);
     });
 
     it("sends the Authorization header on every request", async () => {
       let capturedAuth = "";
       server.use(
-        http.get(`${BASE_URL}/websites/:siteId/locales`, () => HttpResponse.json(localesNone)),
-        http.get(`${BASE_URL}/websites/:siteId/testimonials`, ({ request }) => {
+        http.get(`${BASE_URL}/websites/:siteSlug/locales`, () => HttpResponse.json(localesNone)),
+        http.get(`${BASE_URL}/websites/:siteSlug/testimonials`, ({ request }) => {
           capturedAuth = request.headers.get("Authorization") ?? "";
           return HttpResponse.json(testimonialListResponse);
         })
@@ -64,8 +64,8 @@ describe("createNexusClient", () => {
     it("forwards limit and cursor as query params", async () => {
       let url: URL | null = null;
       server.use(
-        http.get(`${BASE_URL}/websites/:siteId/locales`, () => HttpResponse.json(localesNone)),
-        http.get(`${BASE_URL}/websites/:siteId/testimonials`, ({ request }) => {
+        http.get(`${BASE_URL}/websites/:siteSlug/locales`, () => HttpResponse.json(localesNone)),
+        http.get(`${BASE_URL}/websites/:siteSlug/testimonials`, ({ request }) => {
           url = new URL(request.url);
           return HttpResponse.json(testimonialListResponse);
         })
@@ -78,8 +78,8 @@ describe("createNexusClient", () => {
     it("includes the slug in the path for slug-based get methods", async () => {
       let capturedUrl = "";
       server.use(
-        http.get(`${BASE_URL}/websites/:siteId/locales`, () => HttpResponse.json(localesNone)),
-        http.get(`${BASE_URL}/websites/:siteId/pages/:slug`, ({ request }) => {
+        http.get(`${BASE_URL}/websites/:siteSlug/locales`, () => HttpResponse.json(localesNone)),
+        http.get(`${BASE_URL}/websites/:siteSlug/pages/:slug`, ({ request }) => {
           capturedUrl = request.url;
           return HttpResponse.json({ id: 1, slug: "about-us", title: "About Us", blocks: [] });
         })
@@ -88,17 +88,17 @@ describe("createNexusClient", () => {
       expect(capturedUrl).toContain("/pages/about-us");
     });
 
-    it("includes the numeric id in the path for getNavigation", async () => {
+    it("includes the handle in the path for getNavigation", async () => {
       let capturedUrl = "";
       server.use(
-        http.get(`${BASE_URL}/websites/:siteId/locales`, () => HttpResponse.json(localesNone)),
-        http.get(`${BASE_URL}/websites/:siteId/navigations/:id`, ({ request }) => {
+        http.get(`${BASE_URL}/websites/:siteSlug/locales`, () => HttpResponse.json(localesNone)),
+        http.get(`${BASE_URL}/websites/:siteSlug/navigations/:handle`, ({ request }) => {
           capturedUrl = request.url;
           return HttpResponse.json({ id: 1, handle: "main-menu", position: 1, items: [] });
         })
       );
-      await makeClient().getNavigation(1);
-      expect(capturedUrl).toContain("/navigations/1");
+      await makeClient().getNavigation("main-menu");
+      expect(capturedUrl).toContain("/navigations/main-menu");
     });
   });
 
@@ -106,11 +106,11 @@ describe("createNexusClient", () => {
     it("fetches default locale from the /locales endpoint on first call", async () => {
       let localesFetched = false;
       server.use(
-        http.get(`${BASE_URL}/websites/:siteId/locales`, () => {
+        http.get(`${BASE_URL}/websites/:siteSlug/locales`, () => {
           localesFetched = true;
           return HttpResponse.json(localesEn);
         }),
-        http.get(`${BASE_URL}/websites/:siteId/testimonials`, () =>
+        http.get(`${BASE_URL}/websites/:siteSlug/testimonials`, () =>
           HttpResponse.json(testimonialListResponse)
         )
       );
@@ -121,11 +121,11 @@ describe("createNexusClient", () => {
     it("caches the default locale — only one /locales request per client lifetime", async () => {
       let localeCallCount = 0;
       server.use(
-        http.get(`${BASE_URL}/websites/:siteId/locales`, () => {
+        http.get(`${BASE_URL}/websites/:siteSlug/locales`, () => {
           localeCallCount++;
           return HttpResponse.json(localesEn);
         }),
-        http.get(`${BASE_URL}/websites/:siteId/testimonials`, () =>
+        http.get(`${BASE_URL}/websites/:siteSlug/testimonials`, () =>
           HttpResponse.json(testimonialListResponse)
         )
       );
@@ -137,8 +137,8 @@ describe("createNexusClient", () => {
 
     it("returns raw response (translations array) when site has no default locale", async () => {
       server.use(
-        http.get(`${BASE_URL}/websites/:siteId/locales`, () => HttpResponse.json(localesNone)),
-        http.get(`${BASE_URL}/websites/:siteId/testimonials`, () =>
+        http.get(`${BASE_URL}/websites/:siteSlug/locales`, () => HttpResponse.json(localesNone)),
+        http.get(`${BASE_URL}/websites/:siteSlug/testimonials`, () =>
           HttpResponse.json(testimonialListResponse)
         )
       );
@@ -149,8 +149,8 @@ describe("createNexusClient", () => {
 
     it("applies the API default locale — replaces translations with translation", async () => {
       server.use(
-        http.get(`${BASE_URL}/websites/:siteId/locales`, () => HttpResponse.json(localesEn)),
-        http.get(`${BASE_URL}/websites/:siteId/testimonials`, () =>
+        http.get(`${BASE_URL}/websites/:siteSlug/locales`, () => HttpResponse.json(localesEn)),
+        http.get(`${BASE_URL}/websites/:siteSlug/testimonials`, () =>
           HttpResponse.json(testimonialListResponse)
         )
       );
@@ -162,8 +162,8 @@ describe("createNexusClient", () => {
 
     it("per-call locale overrides the API default locale", async () => {
       server.use(
-        http.get(`${BASE_URL}/websites/:siteId/locales`, () => HttpResponse.json(localesEn)),
-        http.get(`${BASE_URL}/websites/:siteId/testimonials`, () =>
+        http.get(`${BASE_URL}/websites/:siteSlug/locales`, () => HttpResponse.json(localesEn)),
+        http.get(`${BASE_URL}/websites/:siteSlug/testimonials`, () =>
           HttpResponse.json(testimonialListResponse)
         )
       );
@@ -176,11 +176,11 @@ describe("createNexusClient", () => {
     it("per-call locale skips the /locales fetch entirely", async () => {
       let localesFetched = false;
       server.use(
-        http.get(`${BASE_URL}/websites/:siteId/locales`, () => {
+        http.get(`${BASE_URL}/websites/:siteSlug/locales`, () => {
           localesFetched = true;
           return HttpResponse.json(localesEn);
         }),
-        http.get(`${BASE_URL}/websites/:siteId/testimonials`, () =>
+        http.get(`${BASE_URL}/websites/:siteSlug/testimonials`, () =>
           HttpResponse.json(testimonialListResponse)
         )
       );
@@ -190,10 +190,10 @@ describe("createNexusClient", () => {
 
     it("sets translation: null when locale has no match", async () => {
       server.use(
-        http.get(`${BASE_URL}/websites/:siteId/locales`, () =>
+        http.get(`${BASE_URL}/websites/:siteSlug/locales`, () =>
           HttpResponse.json({ locales: [{ locale: "fr", name: "French", isDefault: true }], default: "fr" })
         ),
-        http.get(`${BASE_URL}/websites/:siteId/testimonials`, () =>
+        http.get(`${BASE_URL}/websites/:siteSlug/testimonials`, () =>
           HttpResponse.json(testimonialListResponse)
         )
       );
@@ -222,8 +222,8 @@ describe("createNexusClient", () => {
     it("forwards tag, from, and to as query params", async () => {
       let url: URL | null = null;
       server.use(
-        http.get(`${BASE_URL}/websites/:siteId/locales`, () => HttpResponse.json(localesNone)),
-        http.get(`${BASE_URL}/websites/:siteId/blog`, ({ request }) => {
+        http.get(`${BASE_URL}/websites/:siteSlug/locales`, () => HttpResponse.json(localesNone)),
+        http.get(`${BASE_URL}/websites/:siteSlug/blog`, ({ request }) => {
           url = new URL(request.url);
           return HttpResponse.json(blogListResponse);
         })
@@ -241,8 +241,8 @@ describe("createNexusClient", () => {
     it("fetches a single blog post by slug", async () => {
       let capturedUrl = "";
       server.use(
-        http.get(`${BASE_URL}/websites/:siteId/locales`, () => HttpResponse.json(localesNone)),
-        http.get(`${BASE_URL}/websites/:siteId/blog/:slug`, ({ request }) => {
+        http.get(`${BASE_URL}/websites/:siteSlug/locales`, () => HttpResponse.json(localesNone)),
+        http.get(`${BASE_URL}/websites/:siteSlug/blog/:slug`, ({ request }) => {
           capturedUrl = request.url;
           return HttpResponse.json(blogListResponse.data[0]);
         })
@@ -255,8 +255,8 @@ describe("createNexusClient", () => {
   describe("error handling", () => {
     it("throws with the API error string on 404", async () => {
       server.use(
-        http.get(`${BASE_URL}/websites/:siteId/locales`, () => HttpResponse.json(localesNone)),
-        http.get(`${BASE_URL}/websites/:siteId/pages/:slug`, () =>
+        http.get(`${BASE_URL}/websites/:siteSlug/locales`, () => HttpResponse.json(localesNone)),
+        http.get(`${BASE_URL}/websites/:siteSlug/pages/:slug`, () =>
           HttpResponse.json({ error: "Resource not found" }, { status: 404 })
         )
       );
@@ -265,8 +265,8 @@ describe("createNexusClient", () => {
 
     it("throws with HTTP status fallback when body has no error field", async () => {
       server.use(
-        http.get(`${BASE_URL}/websites/:siteId/locales`, () => HttpResponse.json(localesNone)),
-        http.get(`${BASE_URL}/websites/:siteId/testimonials`, () =>
+        http.get(`${BASE_URL}/websites/:siteSlug/locales`, () => HttpResponse.json(localesNone)),
+        http.get(`${BASE_URL}/websites/:siteSlug/testimonials`, () =>
           new HttpResponse(null, { status: 500 })
         )
       );
@@ -275,7 +275,8 @@ describe("createNexusClient", () => {
 
     it("throws on 401 unauthorized", async () => {
       server.use(
-        http.get(`${BASE_URL}/websites/:siteId/branding`, () =>
+        http.get(`${BASE_URL}/websites/:siteSlug/locales`, () => HttpResponse.json(localesNone)),
+        http.get(`${BASE_URL}/websites/:siteSlug/branding`, () =>
           HttpResponse.json({ error: "Missing or invalid API key" }, { status: 401 })
         )
       );

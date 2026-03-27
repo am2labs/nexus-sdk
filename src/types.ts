@@ -3,8 +3,8 @@ export interface NexusSDKConfig {
   baseUrl: string;
   /** Bearer token issued by the Nexus admin dashboard (nxs_...) */
   apiKey: string;
-  /** Numeric site identifier */
-  siteId: number;
+  /** Site slug identifier (from the Nexus admin dashboard) */
+  siteSlug: string;
   /** Log every request and response to the console */
   debug?: boolean;
 }

@@ -31,14 +31,556 @@ interface GetParams {
 //#region src/client.d.ts
 declare function createNexusClient(config: NexusSDKConfig): {
   getLocales(): Promise<{
+    data: {
+      id: number;
+      author: string;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      submitAction: {};
+      spamProtection: {};
+      translations: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+        submitLabel: string;
+      }[];
+      steps: {
+        id: number;
+        position: number;
+        translations: {
+          locale: string;
+          title: string;
+          description?: string | null | undefined;
+        }[];
+      }[];
+      fields: {
+        id: number;
+        stepId?: number | null | undefined;
+        parentId?: number | null | undefined;
+        position: number;
+        name: string;
+        type: string;
+        required: boolean;
+        config: {};
+        conditions: {};
+        translations: {
+          locale: string;
+          label: string;
+          placeholder?: string | null | undefined;
+          helperText?: string | null | undefined;
+          optionLabels?: {} | null | undefined;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    submitAction: {};
+    spamProtection: {};
+    translations: {
+      locale: string;
+      title: string;
+      description?: string | null | undefined;
+      submitLabel: string;
+    }[];
+    steps: {
+      id: number;
+      position: number;
+      translations: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+      }[];
+    }[];
+    fields: {
+      id: number;
+      stepId?: number | null | undefined;
+      parentId?: number | null | undefined;
+      position: number;
+      name: string;
+      type: string;
+      required: boolean;
+      config: {};
+      conditions: {};
+      translations: {
+        locale: string;
+        label: string;
+        placeholder?: string | null | undefined;
+        helperText?: string | null | undefined;
+        optionLabels?: {} | null | undefined;
+      }[];
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        type: string;
+        position: number;
+        meta?: string | null | undefined;
+        translations: {
+          locale: string;
+          content: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      type: string;
+      position: number;
+      meta?: string | null | undefined;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+  } | {
+    data: {
+      id: number;
+      firstName: string;
+      lastName: string;
+      position: number;
+      groupId: number | null;
+      translations: {
+        locale: string;
+        title: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      workArrangement: string;
+      employmentType: string;
+      department: string;
+      salaryMin?: number | null | undefined;
+      salaryMax?: number | null | undefined;
+      salaryCurrency: string;
+      location?: {
+        id: number;
+        name: string;
+        city: string;
+        state: string;
+        country: string;
+      } | null | undefined;
+      translations: {
+        locale: string;
+        title: string;
+        description: string;
+        requirements: string;
+        niceToHaves: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    workArrangement: string;
+    employmentType: string;
+    department: string;
+    salaryMin?: number | null | undefined;
+    salaryMax?: number | null | undefined;
+    salaryCurrency: string;
+    location?: {
+      id: number;
+      name: string;
+      city: string;
+      state: string;
+      country: string;
+    } | null | undefined;
+    translations: {
+      locale: string;
+      title: string;
+      description: string;
+      requirements: string;
+      niceToHaves: string;
+    }[];
+  } | {
+    data: {
+      id: number;
+      handle: string;
+      position: number;
+      items: {
+        id: number;
+        parentId: number | null;
+        position: number;
+        url: string;
+        openInNewTab: boolean;
+        translations: {
+          locale: string;
+          label: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    handle: string;
+    position: number;
+    items: {
+      id: number;
+      parentId: number | null;
+      position: number;
+      url: string;
+      openInNewTab: boolean;
+      translations: {
+        locale: string;
+        label: string;
+      }[];
+    }[];
+  } | {
     locales: {
       locale: string;
       name: string;
       isDefault: boolean;
     }[];
     default: string | null;
+  } | {
+    globals: {
+      phone: string;
+      email: string;
+      translations: {
+        locale: string;
+        tagline: string;
+        footerCopyright: string;
+        footerAddress: string;
+      }[];
+    } | null;
+    logos: {
+      id: number;
+      role: string;
+      galleryImageId: number | null;
+      position: number;
+      translations: {
+        locale: string;
+        altText: string;
+      }[];
+    }[];
+    ctas: {
+      id: number;
+      zone: string;
+      url: string;
+      openInNewTab: boolean;
+      position: number;
+      translations: {
+        locale: string;
+        label: string;
+      }[];
+    }[];
+    socialLinks: {
+      id: number;
+      platform: string;
+      url: string;
+      position: number;
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      publishedAt: string | null;
+      author?: {
+        id: number;
+        firstName: string;
+        lastName: string;
+      } | null | undefined;
+      coverImage?: {
+        id: number;
+        slug: string;
+        r2Key: string;
+        altText: string;
+      } | null | undefined;
+      tags: string[];
+      translations: {
+        locale: string;
+        excerpt: string;
+        seoTitle: string;
+      }[];
+      blocks: {
+        id: number;
+        type: string;
+        position: number;
+        meta?: string | null | undefined;
+        translations: {
+          locale: string;
+          content: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    publishedAt: string | null;
+    author?: {
+      id: number;
+      firstName: string;
+      lastName: string;
+    } | null | undefined;
+    coverImage?: {
+      id: number;
+      slug: string;
+      r2Key: string;
+      altText: string;
+    } | null | undefined;
+    tags: string[];
+    translations: {
+      locale: string;
+      excerpt: string;
+      seoTitle: string;
+    }[];
+    blocks: {
+      id: number;
+      type: string;
+      position: number;
+      meta?: string | null | undefined;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
   }>;
   getBranding(params?: GetParams): Promise<{
+    data: {
+      id: number;
+      author: string;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      submitAction: {};
+      spamProtection: {};
+      translations: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+        submitLabel: string;
+      }[];
+      steps: {
+        id: number;
+        position: number;
+        translations: {
+          locale: string;
+          title: string;
+          description?: string | null | undefined;
+        }[];
+      }[];
+      fields: {
+        id: number;
+        stepId?: number | null | undefined;
+        parentId?: number | null | undefined;
+        position: number;
+        name: string;
+        type: string;
+        required: boolean;
+        config: {};
+        conditions: {};
+        translations: {
+          locale: string;
+          label: string;
+          placeholder?: string | null | undefined;
+          helperText?: string | null | undefined;
+          optionLabels?: {} | null | undefined;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    submitAction: {};
+    spamProtection: {};
+    translations: {
+      locale: string;
+      title: string;
+      description?: string | null | undefined;
+      submitLabel: string;
+    }[];
+    steps: {
+      id: number;
+      position: number;
+      translations: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+      }[];
+    }[];
+    fields: {
+      id: number;
+      stepId?: number | null | undefined;
+      parentId?: number | null | undefined;
+      position: number;
+      name: string;
+      type: string;
+      required: boolean;
+      config: {};
+      conditions: {};
+      translations: {
+        locale: string;
+        label: string;
+        placeholder?: string | null | undefined;
+        helperText?: string | null | undefined;
+        optionLabels?: {} | null | undefined;
+      }[];
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        type: string;
+        position: number;
+        meta?: string | null | undefined;
+        translations: {
+          locale: string;
+          content: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      type: string;
+      position: number;
+      meta?: string | null | undefined;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+  } | {
+    data: {
+      id: number;
+      firstName: string;
+      lastName: string;
+      position: number;
+      groupId: number | null;
+      translations: {
+        locale: string;
+        title: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      workArrangement: string;
+      employmentType: string;
+      department: string;
+      salaryMin?: number | null | undefined;
+      salaryMax?: number | null | undefined;
+      salaryCurrency: string;
+      location?: {
+        id: number;
+        name: string;
+        city: string;
+        state: string;
+        country: string;
+      } | null | undefined;
+      translations: {
+        locale: string;
+        title: string;
+        description: string;
+        requirements: string;
+        niceToHaves: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    workArrangement: string;
+    employmentType: string;
+    department: string;
+    salaryMin?: number | null | undefined;
+    salaryMax?: number | null | undefined;
+    salaryCurrency: string;
+    location?: {
+      id: number;
+      name: string;
+      city: string;
+      state: string;
+      country: string;
+    } | null | undefined;
+    translations: {
+      locale: string;
+      title: string;
+      description: string;
+      requirements: string;
+      niceToHaves: string;
+    }[];
+  } | {
+    data: {
+      id: number;
+      handle: string;
+      position: number;
+      items: {
+        id: number;
+        parentId: number | null;
+        position: number;
+        url: string;
+        openInNewTab: boolean;
+        translations: {
+          locale: string;
+          label: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    handle: string;
+    position: number;
+    items: {
+      id: number;
+      parentId: number | null;
+      position: number;
+      url: string;
+      openInNewTab: boolean;
+      translations: {
+        locale: string;
+        label: string;
+      }[];
+    }[];
+  } | {
+    locales: {
+      locale: string;
+      name: string;
+      isDefault: boolean;
+    }[];
+    default: string | null;
+  } | {
     globals: {
       phone: string;
       email: string;
@@ -77,130 +619,6 @@ declare function createNexusClient(config: NexusSDKConfig): {
       position: number;
     }[];
   } | {
-    globals: {
-      phone: string;
-      email: string;
-      translation: {
-        locale: string;
-        tagline: string;
-        footerCopyright: string;
-        footerAddress: string;
-      } | null;
-    } | null;
-    logos: {
-      id: number;
-      role: string;
-      galleryImageId: number | null;
-      position: number;
-      translation: {
-        locale: string;
-        altText: string;
-      } | null;
-    }[];
-    ctas: {
-      id: number;
-      position: number;
-      zone: string;
-      url: string;
-      openInNewTab: boolean;
-      translation: {
-        locale: string;
-        label: string;
-      } | null;
-    }[];
-    socialLinks: {
-      id: number;
-      platform: string;
-      url: string;
-      position: number;
-    }[];
-  }>;
-  listTestimonials(params?: ListParams): Promise<{
-    data: {
-      id: number;
-      author: string;
-      translations: {
-        locale: string;
-        content: string;
-      }[];
-    }[];
-    nextCursor: string | null;
-  } | {
-    data: {
-      id: number;
-      author: string;
-      translation: {
-        locale: string;
-        content: string;
-      } | null;
-    }[];
-    nextCursor: string | null;
-  }>;
-  listPages(params?: ListParams): Promise<{
-    data: {
-      id: number;
-      slug: string;
-      title: string;
-      blocks: {
-        id: number;
-        type: string;
-        position: number;
-        meta?: string | null | undefined;
-        translations: {
-          locale: string;
-          content: string;
-        }[];
-      }[];
-    }[];
-    nextCursor: string | null;
-  } | {
-    data: {
-      id: number;
-      slug: string;
-      title: string;
-      blocks: {
-        id: number;
-        position: number;
-        type: string;
-        meta?: string | null | undefined;
-        translation: {
-          locale: string;
-          content: string;
-        } | null;
-      }[];
-    }[];
-    nextCursor: string | null;
-  }>;
-  getPage(slug: string, params?: GetParams): Promise<{
-    id: number;
-    slug: string;
-    title: string;
-    blocks: {
-      id: number;
-      type: string;
-      position: number;
-      meta?: string | null | undefined;
-      translations: {
-        locale: string;
-        content: string;
-      }[];
-    }[];
-  } | {
-    id: number;
-    slug: string;
-    title: string;
-    blocks: {
-      id: number;
-      position: number;
-      type: string;
-      meta?: string | null | undefined;
-      translation: {
-        locale: string;
-        content: string;
-      } | null;
-    }[];
-  }>;
-  listBlogPosts(params?: ListBlogParams): Promise<{
     data: {
       id: number;
       slug: string;
@@ -236,42 +654,6 @@ declare function createNexusClient(config: NexusSDKConfig): {
     }[];
     nextCursor: string | null;
   } | {
-    data: {
-      id: number;
-      author?: {
-        id: number;
-        firstName: string;
-        lastName: string;
-      } | null | undefined;
-      slug: string;
-      title: string;
-      blocks: {
-        id: number;
-        position: number;
-        type: string;
-        meta?: string | null | undefined;
-        translation: {
-          locale: string;
-          content: string;
-        } | null;
-      }[];
-      publishedAt: string | null;
-      coverImage?: {
-        id: number;
-        slug: string;
-        r2Key: string;
-        altText: string;
-      } | null | undefined;
-      tags: string[];
-      translation: {
-        locale: string;
-        excerpt: string;
-        seoTitle: string;
-      } | null;
-    }[];
-    nextCursor: string | null;
-  }>;
-  getBlogPost(slug: string, params?: GetParams): Promise<{
     id: number;
     slug: string;
     title: string;
@@ -304,12 +686,302 @@ declare function createNexusClient(config: NexusSDKConfig): {
       }[];
     }[];
   } | {
-    id: number;
-    author?: {
+    data: {
       id: number;
+      author: string;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      submitAction: {};
+      spamProtection: {};
+      steps: {
+        id: number;
+        position: number;
+        translation: {
+          locale: string;
+          title: string;
+          description?: string | null | undefined;
+        } | null;
+      }[];
+      fields: {
+        id: number;
+        position: number;
+        stepId?: number | null | undefined;
+        parentId?: number | null | undefined;
+        name: string;
+        type: string;
+        required: boolean;
+        config: {};
+        conditions: {};
+        translation: {
+          locale: string;
+          label: string;
+          placeholder?: string | null | undefined;
+          helperText?: string | null | undefined;
+          optionLabels?: {} | null | undefined;
+        } | null;
+      }[];
+      translation: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+        submitLabel: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    submitAction: {};
+    spamProtection: {};
+    steps: {
+      id: number;
+      position: number;
+      translation: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+      } | null;
+    }[];
+    fields: {
+      id: number;
+      position: number;
+      stepId?: number | null | undefined;
+      parentId?: number | null | undefined;
+      name: string;
+      type: string;
+      required: boolean;
+      config: {};
+      conditions: {};
+      translation: {
+        locale: string;
+        label: string;
+        placeholder?: string | null | undefined;
+        helperText?: string | null | undefined;
+        optionLabels?: {} | null | undefined;
+      } | null;
+    }[];
+    translation: {
+      locale: string;
+      title: string;
+      description?: string | null | undefined;
+      submitLabel: string;
+    } | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        position: number;
+        type: string;
+        meta?: string | null | undefined;
+        translation: {
+          locale: string;
+          content: string;
+        } | null;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      position: number;
+      type: string;
+      meta?: string | null | undefined;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+  } | {
+    data: {
+      id: number;
+      position: number;
       firstName: string;
       lastName: string;
+      groupId: number | null;
+      translation: {
+        locale: string;
+        title: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      location?: {
+        id: number;
+        name: string;
+        city: string;
+        state: string;
+        country: string;
+      } | null | undefined;
+      id: number;
+      slug: string;
+      workArrangement: string;
+      employmentType: string;
+      department: string;
+      salaryMin?: number | null | undefined;
+      salaryMax?: number | null | undefined;
+      salaryCurrency: string;
+      translation: {
+        locale: string;
+        title: string;
+        description: string;
+        requirements: string;
+        niceToHaves: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    location?: {
+      id: number;
+      name: string;
+      city: string;
+      state: string;
+      country: string;
     } | null | undefined;
+    id: number;
+    slug: string;
+    workArrangement: string;
+    employmentType: string;
+    department: string;
+    salaryMin?: number | null | undefined;
+    salaryMax?: number | null | undefined;
+    salaryCurrency: string;
+    translation: {
+      locale: string;
+      title: string;
+      description: string;
+      requirements: string;
+      niceToHaves: string;
+    } | null;
+  } | {
+    data: {
+      id: number;
+      handle: string;
+      position: number;
+      items: {
+        id: number;
+        position: number;
+        parentId: number | null;
+        url: string;
+        openInNewTab: boolean;
+        translation: {
+          locale: string;
+          label: string;
+        } | null;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    handle: string;
+    position: number;
+    items: {
+      id: number;
+      position: number;
+      parentId: number | null;
+      url: string;
+      openInNewTab: boolean;
+      translation: {
+        locale: string;
+        label: string;
+      } | null;
+    }[];
+  } | {
+    locales: {
+      locale: string;
+      name: string;
+      isDefault: boolean;
+    }[];
+    default: string | null;
+  } | {
+    globals: {
+      phone: string;
+      email: string;
+      translation: {
+        locale: string;
+        tagline: string;
+        footerCopyright: string;
+        footerAddress: string;
+      } | null;
+    } | null;
+    logos: {
+      id: number;
+      position: number;
+      role: string;
+      galleryImageId: number | null;
+      translation: {
+        locale: string;
+        altText: string;
+      } | null;
+    }[];
+    ctas: {
+      id: number;
+      position: number;
+      url: string;
+      openInNewTab: boolean;
+      zone: string;
+      translation: {
+        locale: string;
+        label: string;
+      } | null;
+    }[];
+    socialLinks: {
+      id: number;
+      platform: string;
+      url: string;
+      position: number;
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        position: number;
+        type: string;
+        meta?: string | null | undefined;
+        translation: {
+          locale: string;
+          content: string;
+        } | null;
+      }[];
+      publishedAt: string | null;
+      author?: {
+        id: number;
+        firstName: string;
+        lastName: string;
+      } | null | undefined;
+      coverImage?: {
+        id: number;
+        slug: string;
+        r2Key: string;
+        altText: string;
+      } | null | undefined;
+      tags: string[];
+      translation: {
+        locale: string;
+        excerpt: string;
+        seoTitle: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
     slug: string;
     title: string;
     blocks: {
@@ -323,6 +995,3286 @@ declare function createNexusClient(config: NexusSDKConfig): {
       } | null;
     }[];
     publishedAt: string | null;
+    author?: {
+      id: number;
+      firstName: string;
+      lastName: string;
+    } | null | undefined;
+    coverImage?: {
+      id: number;
+      slug: string;
+      r2Key: string;
+      altText: string;
+    } | null | undefined;
+    tags: string[];
+    translation: {
+      locale: string;
+      excerpt: string;
+      seoTitle: string;
+    } | null;
+  }>;
+  listTestimonials(params?: ListParams): Promise<{
+    data: {
+      id: number;
+      author: string;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      submitAction: {};
+      spamProtection: {};
+      translations: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+        submitLabel: string;
+      }[];
+      steps: {
+        id: number;
+        position: number;
+        translations: {
+          locale: string;
+          title: string;
+          description?: string | null | undefined;
+        }[];
+      }[];
+      fields: {
+        id: number;
+        stepId?: number | null | undefined;
+        parentId?: number | null | undefined;
+        position: number;
+        name: string;
+        type: string;
+        required: boolean;
+        config: {};
+        conditions: {};
+        translations: {
+          locale: string;
+          label: string;
+          placeholder?: string | null | undefined;
+          helperText?: string | null | undefined;
+          optionLabels?: {} | null | undefined;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    submitAction: {};
+    spamProtection: {};
+    translations: {
+      locale: string;
+      title: string;
+      description?: string | null | undefined;
+      submitLabel: string;
+    }[];
+    steps: {
+      id: number;
+      position: number;
+      translations: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+      }[];
+    }[];
+    fields: {
+      id: number;
+      stepId?: number | null | undefined;
+      parentId?: number | null | undefined;
+      position: number;
+      name: string;
+      type: string;
+      required: boolean;
+      config: {};
+      conditions: {};
+      translations: {
+        locale: string;
+        label: string;
+        placeholder?: string | null | undefined;
+        helperText?: string | null | undefined;
+        optionLabels?: {} | null | undefined;
+      }[];
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        type: string;
+        position: number;
+        meta?: string | null | undefined;
+        translations: {
+          locale: string;
+          content: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      type: string;
+      position: number;
+      meta?: string | null | undefined;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+  } | {
+    data: {
+      id: number;
+      firstName: string;
+      lastName: string;
+      position: number;
+      groupId: number | null;
+      translations: {
+        locale: string;
+        title: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      workArrangement: string;
+      employmentType: string;
+      department: string;
+      salaryMin?: number | null | undefined;
+      salaryMax?: number | null | undefined;
+      salaryCurrency: string;
+      location?: {
+        id: number;
+        name: string;
+        city: string;
+        state: string;
+        country: string;
+      } | null | undefined;
+      translations: {
+        locale: string;
+        title: string;
+        description: string;
+        requirements: string;
+        niceToHaves: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    workArrangement: string;
+    employmentType: string;
+    department: string;
+    salaryMin?: number | null | undefined;
+    salaryMax?: number | null | undefined;
+    salaryCurrency: string;
+    location?: {
+      id: number;
+      name: string;
+      city: string;
+      state: string;
+      country: string;
+    } | null | undefined;
+    translations: {
+      locale: string;
+      title: string;
+      description: string;
+      requirements: string;
+      niceToHaves: string;
+    }[];
+  } | {
+    data: {
+      id: number;
+      handle: string;
+      position: number;
+      items: {
+        id: number;
+        parentId: number | null;
+        position: number;
+        url: string;
+        openInNewTab: boolean;
+        translations: {
+          locale: string;
+          label: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    handle: string;
+    position: number;
+    items: {
+      id: number;
+      parentId: number | null;
+      position: number;
+      url: string;
+      openInNewTab: boolean;
+      translations: {
+        locale: string;
+        label: string;
+      }[];
+    }[];
+  } | {
+    locales: {
+      locale: string;
+      name: string;
+      isDefault: boolean;
+    }[];
+    default: string | null;
+  } | {
+    globals: {
+      phone: string;
+      email: string;
+      translations: {
+        locale: string;
+        tagline: string;
+        footerCopyright: string;
+        footerAddress: string;
+      }[];
+    } | null;
+    logos: {
+      id: number;
+      role: string;
+      galleryImageId: number | null;
+      position: number;
+      translations: {
+        locale: string;
+        altText: string;
+      }[];
+    }[];
+    ctas: {
+      id: number;
+      zone: string;
+      url: string;
+      openInNewTab: boolean;
+      position: number;
+      translations: {
+        locale: string;
+        label: string;
+      }[];
+    }[];
+    socialLinks: {
+      id: number;
+      platform: string;
+      url: string;
+      position: number;
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      publishedAt: string | null;
+      author?: {
+        id: number;
+        firstName: string;
+        lastName: string;
+      } | null | undefined;
+      coverImage?: {
+        id: number;
+        slug: string;
+        r2Key: string;
+        altText: string;
+      } | null | undefined;
+      tags: string[];
+      translations: {
+        locale: string;
+        excerpt: string;
+        seoTitle: string;
+      }[];
+      blocks: {
+        id: number;
+        type: string;
+        position: number;
+        meta?: string | null | undefined;
+        translations: {
+          locale: string;
+          content: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    publishedAt: string | null;
+    author?: {
+      id: number;
+      firstName: string;
+      lastName: string;
+    } | null | undefined;
+    coverImage?: {
+      id: number;
+      slug: string;
+      r2Key: string;
+      altText: string;
+    } | null | undefined;
+    tags: string[];
+    translations: {
+      locale: string;
+      excerpt: string;
+      seoTitle: string;
+    }[];
+    blocks: {
+      id: number;
+      type: string;
+      position: number;
+      meta?: string | null | undefined;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+  } | {
+    data: {
+      id: number;
+      author: string;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      submitAction: {};
+      spamProtection: {};
+      steps: {
+        id: number;
+        position: number;
+        translation: {
+          locale: string;
+          title: string;
+          description?: string | null | undefined;
+        } | null;
+      }[];
+      fields: {
+        id: number;
+        position: number;
+        stepId?: number | null | undefined;
+        parentId?: number | null | undefined;
+        name: string;
+        type: string;
+        required: boolean;
+        config: {};
+        conditions: {};
+        translation: {
+          locale: string;
+          label: string;
+          placeholder?: string | null | undefined;
+          helperText?: string | null | undefined;
+          optionLabels?: {} | null | undefined;
+        } | null;
+      }[];
+      translation: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+        submitLabel: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    submitAction: {};
+    spamProtection: {};
+    steps: {
+      id: number;
+      position: number;
+      translation: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+      } | null;
+    }[];
+    fields: {
+      id: number;
+      position: number;
+      stepId?: number | null | undefined;
+      parentId?: number | null | undefined;
+      name: string;
+      type: string;
+      required: boolean;
+      config: {};
+      conditions: {};
+      translation: {
+        locale: string;
+        label: string;
+        placeholder?: string | null | undefined;
+        helperText?: string | null | undefined;
+        optionLabels?: {} | null | undefined;
+      } | null;
+    }[];
+    translation: {
+      locale: string;
+      title: string;
+      description?: string | null | undefined;
+      submitLabel: string;
+    } | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        position: number;
+        type: string;
+        meta?: string | null | undefined;
+        translation: {
+          locale: string;
+          content: string;
+        } | null;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      position: number;
+      type: string;
+      meta?: string | null | undefined;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+  } | {
+    data: {
+      id: number;
+      position: number;
+      firstName: string;
+      lastName: string;
+      groupId: number | null;
+      translation: {
+        locale: string;
+        title: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      location?: {
+        id: number;
+        name: string;
+        city: string;
+        state: string;
+        country: string;
+      } | null | undefined;
+      id: number;
+      slug: string;
+      workArrangement: string;
+      employmentType: string;
+      department: string;
+      salaryMin?: number | null | undefined;
+      salaryMax?: number | null | undefined;
+      salaryCurrency: string;
+      translation: {
+        locale: string;
+        title: string;
+        description: string;
+        requirements: string;
+        niceToHaves: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    location?: {
+      id: number;
+      name: string;
+      city: string;
+      state: string;
+      country: string;
+    } | null | undefined;
+    id: number;
+    slug: string;
+    workArrangement: string;
+    employmentType: string;
+    department: string;
+    salaryMin?: number | null | undefined;
+    salaryMax?: number | null | undefined;
+    salaryCurrency: string;
+    translation: {
+      locale: string;
+      title: string;
+      description: string;
+      requirements: string;
+      niceToHaves: string;
+    } | null;
+  } | {
+    data: {
+      id: number;
+      handle: string;
+      position: number;
+      items: {
+        id: number;
+        position: number;
+        parentId: number | null;
+        url: string;
+        openInNewTab: boolean;
+        translation: {
+          locale: string;
+          label: string;
+        } | null;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    handle: string;
+    position: number;
+    items: {
+      id: number;
+      position: number;
+      parentId: number | null;
+      url: string;
+      openInNewTab: boolean;
+      translation: {
+        locale: string;
+        label: string;
+      } | null;
+    }[];
+  } | {
+    locales: {
+      locale: string;
+      name: string;
+      isDefault: boolean;
+    }[];
+    default: string | null;
+  } | {
+    globals: {
+      phone: string;
+      email: string;
+      translation: {
+        locale: string;
+        tagline: string;
+        footerCopyright: string;
+        footerAddress: string;
+      } | null;
+    } | null;
+    logos: {
+      id: number;
+      position: number;
+      role: string;
+      galleryImageId: number | null;
+      translation: {
+        locale: string;
+        altText: string;
+      } | null;
+    }[];
+    ctas: {
+      id: number;
+      position: number;
+      url: string;
+      openInNewTab: boolean;
+      zone: string;
+      translation: {
+        locale: string;
+        label: string;
+      } | null;
+    }[];
+    socialLinks: {
+      id: number;
+      platform: string;
+      url: string;
+      position: number;
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        position: number;
+        type: string;
+        meta?: string | null | undefined;
+        translation: {
+          locale: string;
+          content: string;
+        } | null;
+      }[];
+      publishedAt: string | null;
+      author?: {
+        id: number;
+        firstName: string;
+        lastName: string;
+      } | null | undefined;
+      coverImage?: {
+        id: number;
+        slug: string;
+        r2Key: string;
+        altText: string;
+      } | null | undefined;
+      tags: string[];
+      translation: {
+        locale: string;
+        excerpt: string;
+        seoTitle: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      position: number;
+      type: string;
+      meta?: string | null | undefined;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+    publishedAt: string | null;
+    author?: {
+      id: number;
+      firstName: string;
+      lastName: string;
+    } | null | undefined;
+    coverImage?: {
+      id: number;
+      slug: string;
+      r2Key: string;
+      altText: string;
+    } | null | undefined;
+    tags: string[];
+    translation: {
+      locale: string;
+      excerpt: string;
+      seoTitle: string;
+    } | null;
+  }>;
+  listPages(params?: ListParams): Promise<{
+    data: {
+      id: number;
+      author: string;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      submitAction: {};
+      spamProtection: {};
+      translations: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+        submitLabel: string;
+      }[];
+      steps: {
+        id: number;
+        position: number;
+        translations: {
+          locale: string;
+          title: string;
+          description?: string | null | undefined;
+        }[];
+      }[];
+      fields: {
+        id: number;
+        stepId?: number | null | undefined;
+        parentId?: number | null | undefined;
+        position: number;
+        name: string;
+        type: string;
+        required: boolean;
+        config: {};
+        conditions: {};
+        translations: {
+          locale: string;
+          label: string;
+          placeholder?: string | null | undefined;
+          helperText?: string | null | undefined;
+          optionLabels?: {} | null | undefined;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    submitAction: {};
+    spamProtection: {};
+    translations: {
+      locale: string;
+      title: string;
+      description?: string | null | undefined;
+      submitLabel: string;
+    }[];
+    steps: {
+      id: number;
+      position: number;
+      translations: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+      }[];
+    }[];
+    fields: {
+      id: number;
+      stepId?: number | null | undefined;
+      parentId?: number | null | undefined;
+      position: number;
+      name: string;
+      type: string;
+      required: boolean;
+      config: {};
+      conditions: {};
+      translations: {
+        locale: string;
+        label: string;
+        placeholder?: string | null | undefined;
+        helperText?: string | null | undefined;
+        optionLabels?: {} | null | undefined;
+      }[];
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        type: string;
+        position: number;
+        meta?: string | null | undefined;
+        translations: {
+          locale: string;
+          content: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      type: string;
+      position: number;
+      meta?: string | null | undefined;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+  } | {
+    data: {
+      id: number;
+      firstName: string;
+      lastName: string;
+      position: number;
+      groupId: number | null;
+      translations: {
+        locale: string;
+        title: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      workArrangement: string;
+      employmentType: string;
+      department: string;
+      salaryMin?: number | null | undefined;
+      salaryMax?: number | null | undefined;
+      salaryCurrency: string;
+      location?: {
+        id: number;
+        name: string;
+        city: string;
+        state: string;
+        country: string;
+      } | null | undefined;
+      translations: {
+        locale: string;
+        title: string;
+        description: string;
+        requirements: string;
+        niceToHaves: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    workArrangement: string;
+    employmentType: string;
+    department: string;
+    salaryMin?: number | null | undefined;
+    salaryMax?: number | null | undefined;
+    salaryCurrency: string;
+    location?: {
+      id: number;
+      name: string;
+      city: string;
+      state: string;
+      country: string;
+    } | null | undefined;
+    translations: {
+      locale: string;
+      title: string;
+      description: string;
+      requirements: string;
+      niceToHaves: string;
+    }[];
+  } | {
+    data: {
+      id: number;
+      handle: string;
+      position: number;
+      items: {
+        id: number;
+        parentId: number | null;
+        position: number;
+        url: string;
+        openInNewTab: boolean;
+        translations: {
+          locale: string;
+          label: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    handle: string;
+    position: number;
+    items: {
+      id: number;
+      parentId: number | null;
+      position: number;
+      url: string;
+      openInNewTab: boolean;
+      translations: {
+        locale: string;
+        label: string;
+      }[];
+    }[];
+  } | {
+    locales: {
+      locale: string;
+      name: string;
+      isDefault: boolean;
+    }[];
+    default: string | null;
+  } | {
+    globals: {
+      phone: string;
+      email: string;
+      translations: {
+        locale: string;
+        tagline: string;
+        footerCopyright: string;
+        footerAddress: string;
+      }[];
+    } | null;
+    logos: {
+      id: number;
+      role: string;
+      galleryImageId: number | null;
+      position: number;
+      translations: {
+        locale: string;
+        altText: string;
+      }[];
+    }[];
+    ctas: {
+      id: number;
+      zone: string;
+      url: string;
+      openInNewTab: boolean;
+      position: number;
+      translations: {
+        locale: string;
+        label: string;
+      }[];
+    }[];
+    socialLinks: {
+      id: number;
+      platform: string;
+      url: string;
+      position: number;
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      publishedAt: string | null;
+      author?: {
+        id: number;
+        firstName: string;
+        lastName: string;
+      } | null | undefined;
+      coverImage?: {
+        id: number;
+        slug: string;
+        r2Key: string;
+        altText: string;
+      } | null | undefined;
+      tags: string[];
+      translations: {
+        locale: string;
+        excerpt: string;
+        seoTitle: string;
+      }[];
+      blocks: {
+        id: number;
+        type: string;
+        position: number;
+        meta?: string | null | undefined;
+        translations: {
+          locale: string;
+          content: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    publishedAt: string | null;
+    author?: {
+      id: number;
+      firstName: string;
+      lastName: string;
+    } | null | undefined;
+    coverImage?: {
+      id: number;
+      slug: string;
+      r2Key: string;
+      altText: string;
+    } | null | undefined;
+    tags: string[];
+    translations: {
+      locale: string;
+      excerpt: string;
+      seoTitle: string;
+    }[];
+    blocks: {
+      id: number;
+      type: string;
+      position: number;
+      meta?: string | null | undefined;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+  } | {
+    data: {
+      id: number;
+      author: string;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      submitAction: {};
+      spamProtection: {};
+      steps: {
+        id: number;
+        position: number;
+        translation: {
+          locale: string;
+          title: string;
+          description?: string | null | undefined;
+        } | null;
+      }[];
+      fields: {
+        id: number;
+        position: number;
+        stepId?: number | null | undefined;
+        parentId?: number | null | undefined;
+        name: string;
+        type: string;
+        required: boolean;
+        config: {};
+        conditions: {};
+        translation: {
+          locale: string;
+          label: string;
+          placeholder?: string | null | undefined;
+          helperText?: string | null | undefined;
+          optionLabels?: {} | null | undefined;
+        } | null;
+      }[];
+      translation: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+        submitLabel: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    submitAction: {};
+    spamProtection: {};
+    steps: {
+      id: number;
+      position: number;
+      translation: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+      } | null;
+    }[];
+    fields: {
+      id: number;
+      position: number;
+      stepId?: number | null | undefined;
+      parentId?: number | null | undefined;
+      name: string;
+      type: string;
+      required: boolean;
+      config: {};
+      conditions: {};
+      translation: {
+        locale: string;
+        label: string;
+        placeholder?: string | null | undefined;
+        helperText?: string | null | undefined;
+        optionLabels?: {} | null | undefined;
+      } | null;
+    }[];
+    translation: {
+      locale: string;
+      title: string;
+      description?: string | null | undefined;
+      submitLabel: string;
+    } | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        position: number;
+        type: string;
+        meta?: string | null | undefined;
+        translation: {
+          locale: string;
+          content: string;
+        } | null;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      position: number;
+      type: string;
+      meta?: string | null | undefined;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+  } | {
+    data: {
+      id: number;
+      position: number;
+      firstName: string;
+      lastName: string;
+      groupId: number | null;
+      translation: {
+        locale: string;
+        title: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      location?: {
+        id: number;
+        name: string;
+        city: string;
+        state: string;
+        country: string;
+      } | null | undefined;
+      id: number;
+      slug: string;
+      workArrangement: string;
+      employmentType: string;
+      department: string;
+      salaryMin?: number | null | undefined;
+      salaryMax?: number | null | undefined;
+      salaryCurrency: string;
+      translation: {
+        locale: string;
+        title: string;
+        description: string;
+        requirements: string;
+        niceToHaves: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    location?: {
+      id: number;
+      name: string;
+      city: string;
+      state: string;
+      country: string;
+    } | null | undefined;
+    id: number;
+    slug: string;
+    workArrangement: string;
+    employmentType: string;
+    department: string;
+    salaryMin?: number | null | undefined;
+    salaryMax?: number | null | undefined;
+    salaryCurrency: string;
+    translation: {
+      locale: string;
+      title: string;
+      description: string;
+      requirements: string;
+      niceToHaves: string;
+    } | null;
+  } | {
+    data: {
+      id: number;
+      handle: string;
+      position: number;
+      items: {
+        id: number;
+        position: number;
+        parentId: number | null;
+        url: string;
+        openInNewTab: boolean;
+        translation: {
+          locale: string;
+          label: string;
+        } | null;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    handle: string;
+    position: number;
+    items: {
+      id: number;
+      position: number;
+      parentId: number | null;
+      url: string;
+      openInNewTab: boolean;
+      translation: {
+        locale: string;
+        label: string;
+      } | null;
+    }[];
+  } | {
+    locales: {
+      locale: string;
+      name: string;
+      isDefault: boolean;
+    }[];
+    default: string | null;
+  } | {
+    globals: {
+      phone: string;
+      email: string;
+      translation: {
+        locale: string;
+        tagline: string;
+        footerCopyright: string;
+        footerAddress: string;
+      } | null;
+    } | null;
+    logos: {
+      id: number;
+      position: number;
+      role: string;
+      galleryImageId: number | null;
+      translation: {
+        locale: string;
+        altText: string;
+      } | null;
+    }[];
+    ctas: {
+      id: number;
+      position: number;
+      url: string;
+      openInNewTab: boolean;
+      zone: string;
+      translation: {
+        locale: string;
+        label: string;
+      } | null;
+    }[];
+    socialLinks: {
+      id: number;
+      platform: string;
+      url: string;
+      position: number;
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        position: number;
+        type: string;
+        meta?: string | null | undefined;
+        translation: {
+          locale: string;
+          content: string;
+        } | null;
+      }[];
+      publishedAt: string | null;
+      author?: {
+        id: number;
+        firstName: string;
+        lastName: string;
+      } | null | undefined;
+      coverImage?: {
+        id: number;
+        slug: string;
+        r2Key: string;
+        altText: string;
+      } | null | undefined;
+      tags: string[];
+      translation: {
+        locale: string;
+        excerpt: string;
+        seoTitle: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      position: number;
+      type: string;
+      meta?: string | null | undefined;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+    publishedAt: string | null;
+    author?: {
+      id: number;
+      firstName: string;
+      lastName: string;
+    } | null | undefined;
+    coverImage?: {
+      id: number;
+      slug: string;
+      r2Key: string;
+      altText: string;
+    } | null | undefined;
+    tags: string[];
+    translation: {
+      locale: string;
+      excerpt: string;
+      seoTitle: string;
+    } | null;
+  }>;
+  getPage(slug: string, params?: GetParams): Promise<{
+    data: {
+      id: number;
+      author: string;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      submitAction: {};
+      spamProtection: {};
+      translations: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+        submitLabel: string;
+      }[];
+      steps: {
+        id: number;
+        position: number;
+        translations: {
+          locale: string;
+          title: string;
+          description?: string | null | undefined;
+        }[];
+      }[];
+      fields: {
+        id: number;
+        stepId?: number | null | undefined;
+        parentId?: number | null | undefined;
+        position: number;
+        name: string;
+        type: string;
+        required: boolean;
+        config: {};
+        conditions: {};
+        translations: {
+          locale: string;
+          label: string;
+          placeholder?: string | null | undefined;
+          helperText?: string | null | undefined;
+          optionLabels?: {} | null | undefined;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    submitAction: {};
+    spamProtection: {};
+    translations: {
+      locale: string;
+      title: string;
+      description?: string | null | undefined;
+      submitLabel: string;
+    }[];
+    steps: {
+      id: number;
+      position: number;
+      translations: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+      }[];
+    }[];
+    fields: {
+      id: number;
+      stepId?: number | null | undefined;
+      parentId?: number | null | undefined;
+      position: number;
+      name: string;
+      type: string;
+      required: boolean;
+      config: {};
+      conditions: {};
+      translations: {
+        locale: string;
+        label: string;
+        placeholder?: string | null | undefined;
+        helperText?: string | null | undefined;
+        optionLabels?: {} | null | undefined;
+      }[];
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        type: string;
+        position: number;
+        meta?: string | null | undefined;
+        translations: {
+          locale: string;
+          content: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      type: string;
+      position: number;
+      meta?: string | null | undefined;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+  } | {
+    data: {
+      id: number;
+      firstName: string;
+      lastName: string;
+      position: number;
+      groupId: number | null;
+      translations: {
+        locale: string;
+        title: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      workArrangement: string;
+      employmentType: string;
+      department: string;
+      salaryMin?: number | null | undefined;
+      salaryMax?: number | null | undefined;
+      salaryCurrency: string;
+      location?: {
+        id: number;
+        name: string;
+        city: string;
+        state: string;
+        country: string;
+      } | null | undefined;
+      translations: {
+        locale: string;
+        title: string;
+        description: string;
+        requirements: string;
+        niceToHaves: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    workArrangement: string;
+    employmentType: string;
+    department: string;
+    salaryMin?: number | null | undefined;
+    salaryMax?: number | null | undefined;
+    salaryCurrency: string;
+    location?: {
+      id: number;
+      name: string;
+      city: string;
+      state: string;
+      country: string;
+    } | null | undefined;
+    translations: {
+      locale: string;
+      title: string;
+      description: string;
+      requirements: string;
+      niceToHaves: string;
+    }[];
+  } | {
+    data: {
+      id: number;
+      handle: string;
+      position: number;
+      items: {
+        id: number;
+        parentId: number | null;
+        position: number;
+        url: string;
+        openInNewTab: boolean;
+        translations: {
+          locale: string;
+          label: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    handle: string;
+    position: number;
+    items: {
+      id: number;
+      parentId: number | null;
+      position: number;
+      url: string;
+      openInNewTab: boolean;
+      translations: {
+        locale: string;
+        label: string;
+      }[];
+    }[];
+  } | {
+    locales: {
+      locale: string;
+      name: string;
+      isDefault: boolean;
+    }[];
+    default: string | null;
+  } | {
+    globals: {
+      phone: string;
+      email: string;
+      translations: {
+        locale: string;
+        tagline: string;
+        footerCopyright: string;
+        footerAddress: string;
+      }[];
+    } | null;
+    logos: {
+      id: number;
+      role: string;
+      galleryImageId: number | null;
+      position: number;
+      translations: {
+        locale: string;
+        altText: string;
+      }[];
+    }[];
+    ctas: {
+      id: number;
+      zone: string;
+      url: string;
+      openInNewTab: boolean;
+      position: number;
+      translations: {
+        locale: string;
+        label: string;
+      }[];
+    }[];
+    socialLinks: {
+      id: number;
+      platform: string;
+      url: string;
+      position: number;
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      publishedAt: string | null;
+      author?: {
+        id: number;
+        firstName: string;
+        lastName: string;
+      } | null | undefined;
+      coverImage?: {
+        id: number;
+        slug: string;
+        r2Key: string;
+        altText: string;
+      } | null | undefined;
+      tags: string[];
+      translations: {
+        locale: string;
+        excerpt: string;
+        seoTitle: string;
+      }[];
+      blocks: {
+        id: number;
+        type: string;
+        position: number;
+        meta?: string | null | undefined;
+        translations: {
+          locale: string;
+          content: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    publishedAt: string | null;
+    author?: {
+      id: number;
+      firstName: string;
+      lastName: string;
+    } | null | undefined;
+    coverImage?: {
+      id: number;
+      slug: string;
+      r2Key: string;
+      altText: string;
+    } | null | undefined;
+    tags: string[];
+    translations: {
+      locale: string;
+      excerpt: string;
+      seoTitle: string;
+    }[];
+    blocks: {
+      id: number;
+      type: string;
+      position: number;
+      meta?: string | null | undefined;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+  } | {
+    data: {
+      id: number;
+      author: string;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      submitAction: {};
+      spamProtection: {};
+      steps: {
+        id: number;
+        position: number;
+        translation: {
+          locale: string;
+          title: string;
+          description?: string | null | undefined;
+        } | null;
+      }[];
+      fields: {
+        id: number;
+        position: number;
+        stepId?: number | null | undefined;
+        parentId?: number | null | undefined;
+        name: string;
+        type: string;
+        required: boolean;
+        config: {};
+        conditions: {};
+        translation: {
+          locale: string;
+          label: string;
+          placeholder?: string | null | undefined;
+          helperText?: string | null | undefined;
+          optionLabels?: {} | null | undefined;
+        } | null;
+      }[];
+      translation: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+        submitLabel: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    submitAction: {};
+    spamProtection: {};
+    steps: {
+      id: number;
+      position: number;
+      translation: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+      } | null;
+    }[];
+    fields: {
+      id: number;
+      position: number;
+      stepId?: number | null | undefined;
+      parentId?: number | null | undefined;
+      name: string;
+      type: string;
+      required: boolean;
+      config: {};
+      conditions: {};
+      translation: {
+        locale: string;
+        label: string;
+        placeholder?: string | null | undefined;
+        helperText?: string | null | undefined;
+        optionLabels?: {} | null | undefined;
+      } | null;
+    }[];
+    translation: {
+      locale: string;
+      title: string;
+      description?: string | null | undefined;
+      submitLabel: string;
+    } | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        position: number;
+        type: string;
+        meta?: string | null | undefined;
+        translation: {
+          locale: string;
+          content: string;
+        } | null;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      position: number;
+      type: string;
+      meta?: string | null | undefined;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+  } | {
+    data: {
+      id: number;
+      position: number;
+      firstName: string;
+      lastName: string;
+      groupId: number | null;
+      translation: {
+        locale: string;
+        title: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      location?: {
+        id: number;
+        name: string;
+        city: string;
+        state: string;
+        country: string;
+      } | null | undefined;
+      id: number;
+      slug: string;
+      workArrangement: string;
+      employmentType: string;
+      department: string;
+      salaryMin?: number | null | undefined;
+      salaryMax?: number | null | undefined;
+      salaryCurrency: string;
+      translation: {
+        locale: string;
+        title: string;
+        description: string;
+        requirements: string;
+        niceToHaves: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    location?: {
+      id: number;
+      name: string;
+      city: string;
+      state: string;
+      country: string;
+    } | null | undefined;
+    id: number;
+    slug: string;
+    workArrangement: string;
+    employmentType: string;
+    department: string;
+    salaryMin?: number | null | undefined;
+    salaryMax?: number | null | undefined;
+    salaryCurrency: string;
+    translation: {
+      locale: string;
+      title: string;
+      description: string;
+      requirements: string;
+      niceToHaves: string;
+    } | null;
+  } | {
+    data: {
+      id: number;
+      handle: string;
+      position: number;
+      items: {
+        id: number;
+        position: number;
+        parentId: number | null;
+        url: string;
+        openInNewTab: boolean;
+        translation: {
+          locale: string;
+          label: string;
+        } | null;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    handle: string;
+    position: number;
+    items: {
+      id: number;
+      position: number;
+      parentId: number | null;
+      url: string;
+      openInNewTab: boolean;
+      translation: {
+        locale: string;
+        label: string;
+      } | null;
+    }[];
+  } | {
+    locales: {
+      locale: string;
+      name: string;
+      isDefault: boolean;
+    }[];
+    default: string | null;
+  } | {
+    globals: {
+      phone: string;
+      email: string;
+      translation: {
+        locale: string;
+        tagline: string;
+        footerCopyright: string;
+        footerAddress: string;
+      } | null;
+    } | null;
+    logos: {
+      id: number;
+      position: number;
+      role: string;
+      galleryImageId: number | null;
+      translation: {
+        locale: string;
+        altText: string;
+      } | null;
+    }[];
+    ctas: {
+      id: number;
+      position: number;
+      url: string;
+      openInNewTab: boolean;
+      zone: string;
+      translation: {
+        locale: string;
+        label: string;
+      } | null;
+    }[];
+    socialLinks: {
+      id: number;
+      platform: string;
+      url: string;
+      position: number;
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        position: number;
+        type: string;
+        meta?: string | null | undefined;
+        translation: {
+          locale: string;
+          content: string;
+        } | null;
+      }[];
+      publishedAt: string | null;
+      author?: {
+        id: number;
+        firstName: string;
+        lastName: string;
+      } | null | undefined;
+      coverImage?: {
+        id: number;
+        slug: string;
+        r2Key: string;
+        altText: string;
+      } | null | undefined;
+      tags: string[];
+      translation: {
+        locale: string;
+        excerpt: string;
+        seoTitle: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      position: number;
+      type: string;
+      meta?: string | null | undefined;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+    publishedAt: string | null;
+    author?: {
+      id: number;
+      firstName: string;
+      lastName: string;
+    } | null | undefined;
+    coverImage?: {
+      id: number;
+      slug: string;
+      r2Key: string;
+      altText: string;
+    } | null | undefined;
+    tags: string[];
+    translation: {
+      locale: string;
+      excerpt: string;
+      seoTitle: string;
+    } | null;
+  }>;
+  listBlogPosts(params?: ListBlogParams): Promise<{
+    data: {
+      id: number;
+      author: string;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      submitAction: {};
+      spamProtection: {};
+      translations: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+        submitLabel: string;
+      }[];
+      steps: {
+        id: number;
+        position: number;
+        translations: {
+          locale: string;
+          title: string;
+          description?: string | null | undefined;
+        }[];
+      }[];
+      fields: {
+        id: number;
+        stepId?: number | null | undefined;
+        parentId?: number | null | undefined;
+        position: number;
+        name: string;
+        type: string;
+        required: boolean;
+        config: {};
+        conditions: {};
+        translations: {
+          locale: string;
+          label: string;
+          placeholder?: string | null | undefined;
+          helperText?: string | null | undefined;
+          optionLabels?: {} | null | undefined;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    submitAction: {};
+    spamProtection: {};
+    translations: {
+      locale: string;
+      title: string;
+      description?: string | null | undefined;
+      submitLabel: string;
+    }[];
+    steps: {
+      id: number;
+      position: number;
+      translations: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+      }[];
+    }[];
+    fields: {
+      id: number;
+      stepId?: number | null | undefined;
+      parentId?: number | null | undefined;
+      position: number;
+      name: string;
+      type: string;
+      required: boolean;
+      config: {};
+      conditions: {};
+      translations: {
+        locale: string;
+        label: string;
+        placeholder?: string | null | undefined;
+        helperText?: string | null | undefined;
+        optionLabels?: {} | null | undefined;
+      }[];
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        type: string;
+        position: number;
+        meta?: string | null | undefined;
+        translations: {
+          locale: string;
+          content: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      type: string;
+      position: number;
+      meta?: string | null | undefined;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+  } | {
+    data: {
+      id: number;
+      firstName: string;
+      lastName: string;
+      position: number;
+      groupId: number | null;
+      translations: {
+        locale: string;
+        title: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      workArrangement: string;
+      employmentType: string;
+      department: string;
+      salaryMin?: number | null | undefined;
+      salaryMax?: number | null | undefined;
+      salaryCurrency: string;
+      location?: {
+        id: number;
+        name: string;
+        city: string;
+        state: string;
+        country: string;
+      } | null | undefined;
+      translations: {
+        locale: string;
+        title: string;
+        description: string;
+        requirements: string;
+        niceToHaves: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    workArrangement: string;
+    employmentType: string;
+    department: string;
+    salaryMin?: number | null | undefined;
+    salaryMax?: number | null | undefined;
+    salaryCurrency: string;
+    location?: {
+      id: number;
+      name: string;
+      city: string;
+      state: string;
+      country: string;
+    } | null | undefined;
+    translations: {
+      locale: string;
+      title: string;
+      description: string;
+      requirements: string;
+      niceToHaves: string;
+    }[];
+  } | {
+    data: {
+      id: number;
+      handle: string;
+      position: number;
+      items: {
+        id: number;
+        parentId: number | null;
+        position: number;
+        url: string;
+        openInNewTab: boolean;
+        translations: {
+          locale: string;
+          label: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    handle: string;
+    position: number;
+    items: {
+      id: number;
+      parentId: number | null;
+      position: number;
+      url: string;
+      openInNewTab: boolean;
+      translations: {
+        locale: string;
+        label: string;
+      }[];
+    }[];
+  } | {
+    locales: {
+      locale: string;
+      name: string;
+      isDefault: boolean;
+    }[];
+    default: string | null;
+  } | {
+    globals: {
+      phone: string;
+      email: string;
+      translations: {
+        locale: string;
+        tagline: string;
+        footerCopyright: string;
+        footerAddress: string;
+      }[];
+    } | null;
+    logos: {
+      id: number;
+      role: string;
+      galleryImageId: number | null;
+      position: number;
+      translations: {
+        locale: string;
+        altText: string;
+      }[];
+    }[];
+    ctas: {
+      id: number;
+      zone: string;
+      url: string;
+      openInNewTab: boolean;
+      position: number;
+      translations: {
+        locale: string;
+        label: string;
+      }[];
+    }[];
+    socialLinks: {
+      id: number;
+      platform: string;
+      url: string;
+      position: number;
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      publishedAt: string | null;
+      author?: {
+        id: number;
+        firstName: string;
+        lastName: string;
+      } | null | undefined;
+      coverImage?: {
+        id: number;
+        slug: string;
+        r2Key: string;
+        altText: string;
+      } | null | undefined;
+      tags: string[];
+      translations: {
+        locale: string;
+        excerpt: string;
+        seoTitle: string;
+      }[];
+      blocks: {
+        id: number;
+        type: string;
+        position: number;
+        meta?: string | null | undefined;
+        translations: {
+          locale: string;
+          content: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    publishedAt: string | null;
+    author?: {
+      id: number;
+      firstName: string;
+      lastName: string;
+    } | null | undefined;
+    coverImage?: {
+      id: number;
+      slug: string;
+      r2Key: string;
+      altText: string;
+    } | null | undefined;
+    tags: string[];
+    translations: {
+      locale: string;
+      excerpt: string;
+      seoTitle: string;
+    }[];
+    blocks: {
+      id: number;
+      type: string;
+      position: number;
+      meta?: string | null | undefined;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+  } | {
+    data: {
+      id: number;
+      author: string;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      submitAction: {};
+      spamProtection: {};
+      steps: {
+        id: number;
+        position: number;
+        translation: {
+          locale: string;
+          title: string;
+          description?: string | null | undefined;
+        } | null;
+      }[];
+      fields: {
+        id: number;
+        position: number;
+        stepId?: number | null | undefined;
+        parentId?: number | null | undefined;
+        name: string;
+        type: string;
+        required: boolean;
+        config: {};
+        conditions: {};
+        translation: {
+          locale: string;
+          label: string;
+          placeholder?: string | null | undefined;
+          helperText?: string | null | undefined;
+          optionLabels?: {} | null | undefined;
+        } | null;
+      }[];
+      translation: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+        submitLabel: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    submitAction: {};
+    spamProtection: {};
+    steps: {
+      id: number;
+      position: number;
+      translation: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+      } | null;
+    }[];
+    fields: {
+      id: number;
+      position: number;
+      stepId?: number | null | undefined;
+      parentId?: number | null | undefined;
+      name: string;
+      type: string;
+      required: boolean;
+      config: {};
+      conditions: {};
+      translation: {
+        locale: string;
+        label: string;
+        placeholder?: string | null | undefined;
+        helperText?: string | null | undefined;
+        optionLabels?: {} | null | undefined;
+      } | null;
+    }[];
+    translation: {
+      locale: string;
+      title: string;
+      description?: string | null | undefined;
+      submitLabel: string;
+    } | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        position: number;
+        type: string;
+        meta?: string | null | undefined;
+        translation: {
+          locale: string;
+          content: string;
+        } | null;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      position: number;
+      type: string;
+      meta?: string | null | undefined;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+  } | {
+    data: {
+      id: number;
+      position: number;
+      firstName: string;
+      lastName: string;
+      groupId: number | null;
+      translation: {
+        locale: string;
+        title: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      location?: {
+        id: number;
+        name: string;
+        city: string;
+        state: string;
+        country: string;
+      } | null | undefined;
+      id: number;
+      slug: string;
+      workArrangement: string;
+      employmentType: string;
+      department: string;
+      salaryMin?: number | null | undefined;
+      salaryMax?: number | null | undefined;
+      salaryCurrency: string;
+      translation: {
+        locale: string;
+        title: string;
+        description: string;
+        requirements: string;
+        niceToHaves: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    location?: {
+      id: number;
+      name: string;
+      city: string;
+      state: string;
+      country: string;
+    } | null | undefined;
+    id: number;
+    slug: string;
+    workArrangement: string;
+    employmentType: string;
+    department: string;
+    salaryMin?: number | null | undefined;
+    salaryMax?: number | null | undefined;
+    salaryCurrency: string;
+    translation: {
+      locale: string;
+      title: string;
+      description: string;
+      requirements: string;
+      niceToHaves: string;
+    } | null;
+  } | {
+    data: {
+      id: number;
+      handle: string;
+      position: number;
+      items: {
+        id: number;
+        position: number;
+        parentId: number | null;
+        url: string;
+        openInNewTab: boolean;
+        translation: {
+          locale: string;
+          label: string;
+        } | null;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    handle: string;
+    position: number;
+    items: {
+      id: number;
+      position: number;
+      parentId: number | null;
+      url: string;
+      openInNewTab: boolean;
+      translation: {
+        locale: string;
+        label: string;
+      } | null;
+    }[];
+  } | {
+    locales: {
+      locale: string;
+      name: string;
+      isDefault: boolean;
+    }[];
+    default: string | null;
+  } | {
+    globals: {
+      phone: string;
+      email: string;
+      translation: {
+        locale: string;
+        tagline: string;
+        footerCopyright: string;
+        footerAddress: string;
+      } | null;
+    } | null;
+    logos: {
+      id: number;
+      position: number;
+      role: string;
+      galleryImageId: number | null;
+      translation: {
+        locale: string;
+        altText: string;
+      } | null;
+    }[];
+    ctas: {
+      id: number;
+      position: number;
+      url: string;
+      openInNewTab: boolean;
+      zone: string;
+      translation: {
+        locale: string;
+        label: string;
+      } | null;
+    }[];
+    socialLinks: {
+      id: number;
+      platform: string;
+      url: string;
+      position: number;
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        position: number;
+        type: string;
+        meta?: string | null | undefined;
+        translation: {
+          locale: string;
+          content: string;
+        } | null;
+      }[];
+      publishedAt: string | null;
+      author?: {
+        id: number;
+        firstName: string;
+        lastName: string;
+      } | null | undefined;
+      coverImage?: {
+        id: number;
+        slug: string;
+        r2Key: string;
+        altText: string;
+      } | null | undefined;
+      tags: string[];
+      translation: {
+        locale: string;
+        excerpt: string;
+        seoTitle: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      position: number;
+      type: string;
+      meta?: string | null | undefined;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+    publishedAt: string | null;
+    author?: {
+      id: number;
+      firstName: string;
+      lastName: string;
+    } | null | undefined;
+    coverImage?: {
+      id: number;
+      slug: string;
+      r2Key: string;
+      altText: string;
+    } | null | undefined;
+    tags: string[];
+    translation: {
+      locale: string;
+      excerpt: string;
+      seoTitle: string;
+    } | null;
+  }>;
+  getBlogPost(slug: string, params?: GetParams): Promise<{
+    data: {
+      id: number;
+      author: string;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      submitAction: {};
+      spamProtection: {};
+      translations: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+        submitLabel: string;
+      }[];
+      steps: {
+        id: number;
+        position: number;
+        translations: {
+          locale: string;
+          title: string;
+          description?: string | null | undefined;
+        }[];
+      }[];
+      fields: {
+        id: number;
+        stepId?: number | null | undefined;
+        parentId?: number | null | undefined;
+        position: number;
+        name: string;
+        type: string;
+        required: boolean;
+        config: {};
+        conditions: {};
+        translations: {
+          locale: string;
+          label: string;
+          placeholder?: string | null | undefined;
+          helperText?: string | null | undefined;
+          optionLabels?: {} | null | undefined;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    submitAction: {};
+    spamProtection: {};
+    translations: {
+      locale: string;
+      title: string;
+      description?: string | null | undefined;
+      submitLabel: string;
+    }[];
+    steps: {
+      id: number;
+      position: number;
+      translations: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+      }[];
+    }[];
+    fields: {
+      id: number;
+      stepId?: number | null | undefined;
+      parentId?: number | null | undefined;
+      position: number;
+      name: string;
+      type: string;
+      required: boolean;
+      config: {};
+      conditions: {};
+      translations: {
+        locale: string;
+        label: string;
+        placeholder?: string | null | undefined;
+        helperText?: string | null | undefined;
+        optionLabels?: {} | null | undefined;
+      }[];
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        type: string;
+        position: number;
+        meta?: string | null | undefined;
+        translations: {
+          locale: string;
+          content: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      type: string;
+      position: number;
+      meta?: string | null | undefined;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+  } | {
+    data: {
+      id: number;
+      firstName: string;
+      lastName: string;
+      position: number;
+      groupId: number | null;
+      translations: {
+        locale: string;
+        title: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      workArrangement: string;
+      employmentType: string;
+      department: string;
+      salaryMin?: number | null | undefined;
+      salaryMax?: number | null | undefined;
+      salaryCurrency: string;
+      location?: {
+        id: number;
+        name: string;
+        city: string;
+        state: string;
+        country: string;
+      } | null | undefined;
+      translations: {
+        locale: string;
+        title: string;
+        description: string;
+        requirements: string;
+        niceToHaves: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    workArrangement: string;
+    employmentType: string;
+    department: string;
+    salaryMin?: number | null | undefined;
+    salaryMax?: number | null | undefined;
+    salaryCurrency: string;
+    location?: {
+      id: number;
+      name: string;
+      city: string;
+      state: string;
+      country: string;
+    } | null | undefined;
+    translations: {
+      locale: string;
+      title: string;
+      description: string;
+      requirements: string;
+      niceToHaves: string;
+    }[];
+  } | {
+    data: {
+      id: number;
+      handle: string;
+      position: number;
+      items: {
+        id: number;
+        parentId: number | null;
+        position: number;
+        url: string;
+        openInNewTab: boolean;
+        translations: {
+          locale: string;
+          label: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    handle: string;
+    position: number;
+    items: {
+      id: number;
+      parentId: number | null;
+      position: number;
+      url: string;
+      openInNewTab: boolean;
+      translations: {
+        locale: string;
+        label: string;
+      }[];
+    }[];
+  } | {
+    locales: {
+      locale: string;
+      name: string;
+      isDefault: boolean;
+    }[];
+    default: string | null;
+  } | {
+    globals: {
+      phone: string;
+      email: string;
+      translations: {
+        locale: string;
+        tagline: string;
+        footerCopyright: string;
+        footerAddress: string;
+      }[];
+    } | null;
+    logos: {
+      id: number;
+      role: string;
+      galleryImageId: number | null;
+      position: number;
+      translations: {
+        locale: string;
+        altText: string;
+      }[];
+    }[];
+    ctas: {
+      id: number;
+      zone: string;
+      url: string;
+      openInNewTab: boolean;
+      position: number;
+      translations: {
+        locale: string;
+        label: string;
+      }[];
+    }[];
+    socialLinks: {
+      id: number;
+      platform: string;
+      url: string;
+      position: number;
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      publishedAt: string | null;
+      author?: {
+        id: number;
+        firstName: string;
+        lastName: string;
+      } | null | undefined;
+      coverImage?: {
+        id: number;
+        slug: string;
+        r2Key: string;
+        altText: string;
+      } | null | undefined;
+      tags: string[];
+      translations: {
+        locale: string;
+        excerpt: string;
+        seoTitle: string;
+      }[];
+      blocks: {
+        id: number;
+        type: string;
+        position: number;
+        meta?: string | null | undefined;
+        translations: {
+          locale: string;
+          content: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    publishedAt: string | null;
+    author?: {
+      id: number;
+      firstName: string;
+      lastName: string;
+    } | null | undefined;
+    coverImage?: {
+      id: number;
+      slug: string;
+      r2Key: string;
+      altText: string;
+    } | null | undefined;
+    tags: string[];
+    translations: {
+      locale: string;
+      excerpt: string;
+      seoTitle: string;
+    }[];
+    blocks: {
+      id: number;
+      type: string;
+      position: number;
+      meta?: string | null | undefined;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+  } | {
+    data: {
+      id: number;
+      author: string;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      submitAction: {};
+      spamProtection: {};
+      steps: {
+        id: number;
+        position: number;
+        translation: {
+          locale: string;
+          title: string;
+          description?: string | null | undefined;
+        } | null;
+      }[];
+      fields: {
+        id: number;
+        position: number;
+        stepId?: number | null | undefined;
+        parentId?: number | null | undefined;
+        name: string;
+        type: string;
+        required: boolean;
+        config: {};
+        conditions: {};
+        translation: {
+          locale: string;
+          label: string;
+          placeholder?: string | null | undefined;
+          helperText?: string | null | undefined;
+          optionLabels?: {} | null | undefined;
+        } | null;
+      }[];
+      translation: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+        submitLabel: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    submitAction: {};
+    spamProtection: {};
+    steps: {
+      id: number;
+      position: number;
+      translation: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+      } | null;
+    }[];
+    fields: {
+      id: number;
+      position: number;
+      stepId?: number | null | undefined;
+      parentId?: number | null | undefined;
+      name: string;
+      type: string;
+      required: boolean;
+      config: {};
+      conditions: {};
+      translation: {
+        locale: string;
+        label: string;
+        placeholder?: string | null | undefined;
+        helperText?: string | null | undefined;
+        optionLabels?: {} | null | undefined;
+      } | null;
+    }[];
+    translation: {
+      locale: string;
+      title: string;
+      description?: string | null | undefined;
+      submitLabel: string;
+    } | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        position: number;
+        type: string;
+        meta?: string | null | undefined;
+        translation: {
+          locale: string;
+          content: string;
+        } | null;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      position: number;
+      type: string;
+      meta?: string | null | undefined;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+  } | {
+    data: {
+      id: number;
+      position: number;
+      firstName: string;
+      lastName: string;
+      groupId: number | null;
+      translation: {
+        locale: string;
+        title: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      location?: {
+        id: number;
+        name: string;
+        city: string;
+        state: string;
+        country: string;
+      } | null | undefined;
+      id: number;
+      slug: string;
+      workArrangement: string;
+      employmentType: string;
+      department: string;
+      salaryMin?: number | null | undefined;
+      salaryMax?: number | null | undefined;
+      salaryCurrency: string;
+      translation: {
+        locale: string;
+        title: string;
+        description: string;
+        requirements: string;
+        niceToHaves: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    location?: {
+      id: number;
+      name: string;
+      city: string;
+      state: string;
+      country: string;
+    } | null | undefined;
+    id: number;
+    slug: string;
+    workArrangement: string;
+    employmentType: string;
+    department: string;
+    salaryMin?: number | null | undefined;
+    salaryMax?: number | null | undefined;
+    salaryCurrency: string;
+    translation: {
+      locale: string;
+      title: string;
+      description: string;
+      requirements: string;
+      niceToHaves: string;
+    } | null;
+  } | {
+    data: {
+      id: number;
+      handle: string;
+      position: number;
+      items: {
+        id: number;
+        position: number;
+        parentId: number | null;
+        url: string;
+        openInNewTab: boolean;
+        translation: {
+          locale: string;
+          label: string;
+        } | null;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    handle: string;
+    position: number;
+    items: {
+      id: number;
+      position: number;
+      parentId: number | null;
+      url: string;
+      openInNewTab: boolean;
+      translation: {
+        locale: string;
+        label: string;
+      } | null;
+    }[];
+  } | {
+    locales: {
+      locale: string;
+      name: string;
+      isDefault: boolean;
+    }[];
+    default: string | null;
+  } | {
+    globals: {
+      phone: string;
+      email: string;
+      translation: {
+        locale: string;
+        tagline: string;
+        footerCopyright: string;
+        footerAddress: string;
+      } | null;
+    } | null;
+    logos: {
+      id: number;
+      position: number;
+      role: string;
+      galleryImageId: number | null;
+      translation: {
+        locale: string;
+        altText: string;
+      } | null;
+    }[];
+    ctas: {
+      id: number;
+      position: number;
+      url: string;
+      openInNewTab: boolean;
+      zone: string;
+      translation: {
+        locale: string;
+        label: string;
+      } | null;
+    }[];
+    socialLinks: {
+      id: number;
+      platform: string;
+      url: string;
+      position: number;
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        position: number;
+        type: string;
+        meta?: string | null | undefined;
+        translation: {
+          locale: string;
+          content: string;
+        } | null;
+      }[];
+      publishedAt: string | null;
+      author?: {
+        id: number;
+        firstName: string;
+        lastName: string;
+      } | null | undefined;
+      coverImage?: {
+        id: number;
+        slug: string;
+        r2Key: string;
+        altText: string;
+      } | null | undefined;
+      tags: string[];
+      translation: {
+        locale: string;
+        excerpt: string;
+        seoTitle: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      position: number;
+      type: string;
+      meta?: string | null | undefined;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+    publishedAt: string | null;
+    author?: {
+      id: number;
+      firstName: string;
+      lastName: string;
+    } | null | undefined;
     coverImage?: {
       id: number;
       slug: string;
@@ -339,6 +4291,16 @@ declare function createNexusClient(config: NexusSDKConfig): {
   listForms(params?: ListParams): Promise<{
     data: {
       id: number;
+      author: string;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
       slug: string;
       submitAction: {};
       spamProtection: {};
@@ -378,48 +4340,6 @@ declare function createNexusClient(config: NexusSDKConfig): {
     }[];
     nextCursor: string | null;
   } | {
-    data: {
-      id: number;
-      slug: string;
-      submitAction: {};
-      spamProtection: {};
-      steps: {
-        id: number;
-        position: number;
-        translation: {
-          locale: string;
-          title: string;
-          description?: string | null | undefined;
-        } | null;
-      }[];
-      fields: {
-        name: string;
-        id: number;
-        position: number;
-        type: string;
-        stepId?: number | null | undefined;
-        parentId?: number | null | undefined;
-        required: boolean;
-        config: {};
-        conditions: {};
-        translation: {
-          locale: string;
-          label: string;
-          placeholder?: string | null | undefined;
-          helperText?: string | null | undefined;
-          optionLabels?: {} | null | undefined;
-        } | null;
-      }[];
-      translation: {
-        locale: string;
-        title: string;
-        description?: string | null | undefined;
-        submitLabel: string;
-      } | null;
-    }[];
-    nextCursor: string | null;
-  }>;
-  getForm(slug: string, params?: GetParams): Promise<{
     id: number;
     slug: string;
     submitAction: {};
@@ -458,6 +4378,295 @@ declare function createNexusClient(config: NexusSDKConfig): {
       }[];
     }[];
   } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        type: string;
+        position: number;
+        meta?: string | null | undefined;
+        translations: {
+          locale: string;
+          content: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      type: string;
+      position: number;
+      meta?: string | null | undefined;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+  } | {
+    data: {
+      id: number;
+      firstName: string;
+      lastName: string;
+      position: number;
+      groupId: number | null;
+      translations: {
+        locale: string;
+        title: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      workArrangement: string;
+      employmentType: string;
+      department: string;
+      salaryMin?: number | null | undefined;
+      salaryMax?: number | null | undefined;
+      salaryCurrency: string;
+      location?: {
+        id: number;
+        name: string;
+        city: string;
+        state: string;
+        country: string;
+      } | null | undefined;
+      translations: {
+        locale: string;
+        title: string;
+        description: string;
+        requirements: string;
+        niceToHaves: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    workArrangement: string;
+    employmentType: string;
+    department: string;
+    salaryMin?: number | null | undefined;
+    salaryMax?: number | null | undefined;
+    salaryCurrency: string;
+    location?: {
+      id: number;
+      name: string;
+      city: string;
+      state: string;
+      country: string;
+    } | null | undefined;
+    translations: {
+      locale: string;
+      title: string;
+      description: string;
+      requirements: string;
+      niceToHaves: string;
+    }[];
+  } | {
+    data: {
+      id: number;
+      handle: string;
+      position: number;
+      items: {
+        id: number;
+        parentId: number | null;
+        position: number;
+        url: string;
+        openInNewTab: boolean;
+        translations: {
+          locale: string;
+          label: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    handle: string;
+    position: number;
+    items: {
+      id: number;
+      parentId: number | null;
+      position: number;
+      url: string;
+      openInNewTab: boolean;
+      translations: {
+        locale: string;
+        label: string;
+      }[];
+    }[];
+  } | {
+    locales: {
+      locale: string;
+      name: string;
+      isDefault: boolean;
+    }[];
+    default: string | null;
+  } | {
+    globals: {
+      phone: string;
+      email: string;
+      translations: {
+        locale: string;
+        tagline: string;
+        footerCopyright: string;
+        footerAddress: string;
+      }[];
+    } | null;
+    logos: {
+      id: number;
+      role: string;
+      galleryImageId: number | null;
+      position: number;
+      translations: {
+        locale: string;
+        altText: string;
+      }[];
+    }[];
+    ctas: {
+      id: number;
+      zone: string;
+      url: string;
+      openInNewTab: boolean;
+      position: number;
+      translations: {
+        locale: string;
+        label: string;
+      }[];
+    }[];
+    socialLinks: {
+      id: number;
+      platform: string;
+      url: string;
+      position: number;
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      publishedAt: string | null;
+      author?: {
+        id: number;
+        firstName: string;
+        lastName: string;
+      } | null | undefined;
+      coverImage?: {
+        id: number;
+        slug: string;
+        r2Key: string;
+        altText: string;
+      } | null | undefined;
+      tags: string[];
+      translations: {
+        locale: string;
+        excerpt: string;
+        seoTitle: string;
+      }[];
+      blocks: {
+        id: number;
+        type: string;
+        position: number;
+        meta?: string | null | undefined;
+        translations: {
+          locale: string;
+          content: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    publishedAt: string | null;
+    author?: {
+      id: number;
+      firstName: string;
+      lastName: string;
+    } | null | undefined;
+    coverImage?: {
+      id: number;
+      slug: string;
+      r2Key: string;
+      altText: string;
+    } | null | undefined;
+    tags: string[];
+    translations: {
+      locale: string;
+      excerpt: string;
+      seoTitle: string;
+    }[];
+    blocks: {
+      id: number;
+      type: string;
+      position: number;
+      meta?: string | null | undefined;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+  } | {
+    data: {
+      id: number;
+      author: string;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      submitAction: {};
+      spamProtection: {};
+      steps: {
+        id: number;
+        position: number;
+        translation: {
+          locale: string;
+          title: string;
+          description?: string | null | undefined;
+        } | null;
+      }[];
+      fields: {
+        id: number;
+        position: number;
+        stepId?: number | null | undefined;
+        parentId?: number | null | undefined;
+        name: string;
+        type: string;
+        required: boolean;
+        config: {};
+        conditions: {};
+        translation: {
+          locale: string;
+          label: string;
+          placeholder?: string | null | undefined;
+          helperText?: string | null | undefined;
+          optionLabels?: {} | null | undefined;
+        } | null;
+      }[];
+      translation: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+        submitLabel: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
     id: number;
     slug: string;
     submitAction: {};
@@ -472,12 +4681,12 @@ declare function createNexusClient(config: NexusSDKConfig): {
       } | null;
     }[];
     fields: {
-      name: string;
       id: number;
       position: number;
-      type: string;
       stepId?: number | null | undefined;
       parentId?: number | null | undefined;
+      name: string;
+      type: string;
       required: boolean;
       config: {};
       conditions: {};
@@ -494,11 +4703,1037 @@ declare function createNexusClient(config: NexusSDKConfig): {
       title: string;
       description?: string | null | undefined;
       submitLabel: string;
+    } | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        position: number;
+        type: string;
+        meta?: string | null | undefined;
+        translation: {
+          locale: string;
+          content: string;
+        } | null;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      position: number;
+      type: string;
+      meta?: string | null | undefined;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+  } | {
+    data: {
+      id: number;
+      position: number;
+      firstName: string;
+      lastName: string;
+      groupId: number | null;
+      translation: {
+        locale: string;
+        title: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      location?: {
+        id: number;
+        name: string;
+        city: string;
+        state: string;
+        country: string;
+      } | null | undefined;
+      id: number;
+      slug: string;
+      workArrangement: string;
+      employmentType: string;
+      department: string;
+      salaryMin?: number | null | undefined;
+      salaryMax?: number | null | undefined;
+      salaryCurrency: string;
+      translation: {
+        locale: string;
+        title: string;
+        description: string;
+        requirements: string;
+        niceToHaves: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    location?: {
+      id: number;
+      name: string;
+      city: string;
+      state: string;
+      country: string;
+    } | null | undefined;
+    id: number;
+    slug: string;
+    workArrangement: string;
+    employmentType: string;
+    department: string;
+    salaryMin?: number | null | undefined;
+    salaryMax?: number | null | undefined;
+    salaryCurrency: string;
+    translation: {
+      locale: string;
+      title: string;
+      description: string;
+      requirements: string;
+      niceToHaves: string;
+    } | null;
+  } | {
+    data: {
+      id: number;
+      handle: string;
+      position: number;
+      items: {
+        id: number;
+        position: number;
+        parentId: number | null;
+        url: string;
+        openInNewTab: boolean;
+        translation: {
+          locale: string;
+          label: string;
+        } | null;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    handle: string;
+    position: number;
+    items: {
+      id: number;
+      position: number;
+      parentId: number | null;
+      url: string;
+      openInNewTab: boolean;
+      translation: {
+        locale: string;
+        label: string;
+      } | null;
+    }[];
+  } | {
+    locales: {
+      locale: string;
+      name: string;
+      isDefault: boolean;
+    }[];
+    default: string | null;
+  } | {
+    globals: {
+      phone: string;
+      email: string;
+      translation: {
+        locale: string;
+        tagline: string;
+        footerCopyright: string;
+        footerAddress: string;
+      } | null;
+    } | null;
+    logos: {
+      id: number;
+      position: number;
+      role: string;
+      galleryImageId: number | null;
+      translation: {
+        locale: string;
+        altText: string;
+      } | null;
+    }[];
+    ctas: {
+      id: number;
+      position: number;
+      url: string;
+      openInNewTab: boolean;
+      zone: string;
+      translation: {
+        locale: string;
+        label: string;
+      } | null;
+    }[];
+    socialLinks: {
+      id: number;
+      platform: string;
+      url: string;
+      position: number;
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        position: number;
+        type: string;
+        meta?: string | null | undefined;
+        translation: {
+          locale: string;
+          content: string;
+        } | null;
+      }[];
+      publishedAt: string | null;
+      author?: {
+        id: number;
+        firstName: string;
+        lastName: string;
+      } | null | undefined;
+      coverImage?: {
+        id: number;
+        slug: string;
+        r2Key: string;
+        altText: string;
+      } | null | undefined;
+      tags: string[];
+      translation: {
+        locale: string;
+        excerpt: string;
+        seoTitle: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      position: number;
+      type: string;
+      meta?: string | null | undefined;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+    publishedAt: string | null;
+    author?: {
+      id: number;
+      firstName: string;
+      lastName: string;
+    } | null | undefined;
+    coverImage?: {
+      id: number;
+      slug: string;
+      r2Key: string;
+      altText: string;
+    } | null | undefined;
+    tags: string[];
+    translation: {
+      locale: string;
+      excerpt: string;
+      seoTitle: string;
+    } | null;
+  }>;
+  getForm(slug: string, params?: GetParams): Promise<{
+    data: {
+      id: number;
+      author: string;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      submitAction: {};
+      spamProtection: {};
+      translations: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+        submitLabel: string;
+      }[];
+      steps: {
+        id: number;
+        position: number;
+        translations: {
+          locale: string;
+          title: string;
+          description?: string | null | undefined;
+        }[];
+      }[];
+      fields: {
+        id: number;
+        stepId?: number | null | undefined;
+        parentId?: number | null | undefined;
+        position: number;
+        name: string;
+        type: string;
+        required: boolean;
+        config: {};
+        conditions: {};
+        translations: {
+          locale: string;
+          label: string;
+          placeholder?: string | null | undefined;
+          helperText?: string | null | undefined;
+          optionLabels?: {} | null | undefined;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    submitAction: {};
+    spamProtection: {};
+    translations: {
+      locale: string;
+      title: string;
+      description?: string | null | undefined;
+      submitLabel: string;
+    }[];
+    steps: {
+      id: number;
+      position: number;
+      translations: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+      }[];
+    }[];
+    fields: {
+      id: number;
+      stepId?: number | null | undefined;
+      parentId?: number | null | undefined;
+      position: number;
+      name: string;
+      type: string;
+      required: boolean;
+      config: {};
+      conditions: {};
+      translations: {
+        locale: string;
+        label: string;
+        placeholder?: string | null | undefined;
+        helperText?: string | null | undefined;
+        optionLabels?: {} | null | undefined;
+      }[];
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        type: string;
+        position: number;
+        meta?: string | null | undefined;
+        translations: {
+          locale: string;
+          content: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      type: string;
+      position: number;
+      meta?: string | null | undefined;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+  } | {
+    data: {
+      id: number;
+      firstName: string;
+      lastName: string;
+      position: number;
+      groupId: number | null;
+      translations: {
+        locale: string;
+        title: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      workArrangement: string;
+      employmentType: string;
+      department: string;
+      salaryMin?: number | null | undefined;
+      salaryMax?: number | null | undefined;
+      salaryCurrency: string;
+      location?: {
+        id: number;
+        name: string;
+        city: string;
+        state: string;
+        country: string;
+      } | null | undefined;
+      translations: {
+        locale: string;
+        title: string;
+        description: string;
+        requirements: string;
+        niceToHaves: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    workArrangement: string;
+    employmentType: string;
+    department: string;
+    salaryMin?: number | null | undefined;
+    salaryMax?: number | null | undefined;
+    salaryCurrency: string;
+    location?: {
+      id: number;
+      name: string;
+      city: string;
+      state: string;
+      country: string;
+    } | null | undefined;
+    translations: {
+      locale: string;
+      title: string;
+      description: string;
+      requirements: string;
+      niceToHaves: string;
+    }[];
+  } | {
+    data: {
+      id: number;
+      handle: string;
+      position: number;
+      items: {
+        id: number;
+        parentId: number | null;
+        position: number;
+        url: string;
+        openInNewTab: boolean;
+        translations: {
+          locale: string;
+          label: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    handle: string;
+    position: number;
+    items: {
+      id: number;
+      parentId: number | null;
+      position: number;
+      url: string;
+      openInNewTab: boolean;
+      translations: {
+        locale: string;
+        label: string;
+      }[];
+    }[];
+  } | {
+    locales: {
+      locale: string;
+      name: string;
+      isDefault: boolean;
+    }[];
+    default: string | null;
+  } | {
+    globals: {
+      phone: string;
+      email: string;
+      translations: {
+        locale: string;
+        tagline: string;
+        footerCopyright: string;
+        footerAddress: string;
+      }[];
+    } | null;
+    logos: {
+      id: number;
+      role: string;
+      galleryImageId: number | null;
+      position: number;
+      translations: {
+        locale: string;
+        altText: string;
+      }[];
+    }[];
+    ctas: {
+      id: number;
+      zone: string;
+      url: string;
+      openInNewTab: boolean;
+      position: number;
+      translations: {
+        locale: string;
+        label: string;
+      }[];
+    }[];
+    socialLinks: {
+      id: number;
+      platform: string;
+      url: string;
+      position: number;
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      publishedAt: string | null;
+      author?: {
+        id: number;
+        firstName: string;
+        lastName: string;
+      } | null | undefined;
+      coverImage?: {
+        id: number;
+        slug: string;
+        r2Key: string;
+        altText: string;
+      } | null | undefined;
+      tags: string[];
+      translations: {
+        locale: string;
+        excerpt: string;
+        seoTitle: string;
+      }[];
+      blocks: {
+        id: number;
+        type: string;
+        position: number;
+        meta?: string | null | undefined;
+        translations: {
+          locale: string;
+          content: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    publishedAt: string | null;
+    author?: {
+      id: number;
+      firstName: string;
+      lastName: string;
+    } | null | undefined;
+    coverImage?: {
+      id: number;
+      slug: string;
+      r2Key: string;
+      altText: string;
+    } | null | undefined;
+    tags: string[];
+    translations: {
+      locale: string;
+      excerpt: string;
+      seoTitle: string;
+    }[];
+    blocks: {
+      id: number;
+      type: string;
+      position: number;
+      meta?: string | null | undefined;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+  } | {
+    data: {
+      id: number;
+      author: string;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      submitAction: {};
+      spamProtection: {};
+      steps: {
+        id: number;
+        position: number;
+        translation: {
+          locale: string;
+          title: string;
+          description?: string | null | undefined;
+        } | null;
+      }[];
+      fields: {
+        id: number;
+        position: number;
+        stepId?: number | null | undefined;
+        parentId?: number | null | undefined;
+        name: string;
+        type: string;
+        required: boolean;
+        config: {};
+        conditions: {};
+        translation: {
+          locale: string;
+          label: string;
+          placeholder?: string | null | undefined;
+          helperText?: string | null | undefined;
+          optionLabels?: {} | null | undefined;
+        } | null;
+      }[];
+      translation: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+        submitLabel: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    submitAction: {};
+    spamProtection: {};
+    steps: {
+      id: number;
+      position: number;
+      translation: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+      } | null;
+    }[];
+    fields: {
+      id: number;
+      position: number;
+      stepId?: number | null | undefined;
+      parentId?: number | null | undefined;
+      name: string;
+      type: string;
+      required: boolean;
+      config: {};
+      conditions: {};
+      translation: {
+        locale: string;
+        label: string;
+        placeholder?: string | null | undefined;
+        helperText?: string | null | undefined;
+        optionLabels?: {} | null | undefined;
+      } | null;
+    }[];
+    translation: {
+      locale: string;
+      title: string;
+      description?: string | null | undefined;
+      submitLabel: string;
+    } | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        position: number;
+        type: string;
+        meta?: string | null | undefined;
+        translation: {
+          locale: string;
+          content: string;
+        } | null;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      position: number;
+      type: string;
+      meta?: string | null | undefined;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+  } | {
+    data: {
+      id: number;
+      position: number;
+      firstName: string;
+      lastName: string;
+      groupId: number | null;
+      translation: {
+        locale: string;
+        title: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      location?: {
+        id: number;
+        name: string;
+        city: string;
+        state: string;
+        country: string;
+      } | null | undefined;
+      id: number;
+      slug: string;
+      workArrangement: string;
+      employmentType: string;
+      department: string;
+      salaryMin?: number | null | undefined;
+      salaryMax?: number | null | undefined;
+      salaryCurrency: string;
+      translation: {
+        locale: string;
+        title: string;
+        description: string;
+        requirements: string;
+        niceToHaves: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    location?: {
+      id: number;
+      name: string;
+      city: string;
+      state: string;
+      country: string;
+    } | null | undefined;
+    id: number;
+    slug: string;
+    workArrangement: string;
+    employmentType: string;
+    department: string;
+    salaryMin?: number | null | undefined;
+    salaryMax?: number | null | undefined;
+    salaryCurrency: string;
+    translation: {
+      locale: string;
+      title: string;
+      description: string;
+      requirements: string;
+      niceToHaves: string;
+    } | null;
+  } | {
+    data: {
+      id: number;
+      handle: string;
+      position: number;
+      items: {
+        id: number;
+        position: number;
+        parentId: number | null;
+        url: string;
+        openInNewTab: boolean;
+        translation: {
+          locale: string;
+          label: string;
+        } | null;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    handle: string;
+    position: number;
+    items: {
+      id: number;
+      position: number;
+      parentId: number | null;
+      url: string;
+      openInNewTab: boolean;
+      translation: {
+        locale: string;
+        label: string;
+      } | null;
+    }[];
+  } | {
+    locales: {
+      locale: string;
+      name: string;
+      isDefault: boolean;
+    }[];
+    default: string | null;
+  } | {
+    globals: {
+      phone: string;
+      email: string;
+      translation: {
+        locale: string;
+        tagline: string;
+        footerCopyright: string;
+        footerAddress: string;
+      } | null;
+    } | null;
+    logos: {
+      id: number;
+      position: number;
+      role: string;
+      galleryImageId: number | null;
+      translation: {
+        locale: string;
+        altText: string;
+      } | null;
+    }[];
+    ctas: {
+      id: number;
+      position: number;
+      url: string;
+      openInNewTab: boolean;
+      zone: string;
+      translation: {
+        locale: string;
+        label: string;
+      } | null;
+    }[];
+    socialLinks: {
+      id: number;
+      platform: string;
+      url: string;
+      position: number;
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        position: number;
+        type: string;
+        meta?: string | null | undefined;
+        translation: {
+          locale: string;
+          content: string;
+        } | null;
+      }[];
+      publishedAt: string | null;
+      author?: {
+        id: number;
+        firstName: string;
+        lastName: string;
+      } | null | undefined;
+      coverImage?: {
+        id: number;
+        slug: string;
+        r2Key: string;
+        altText: string;
+      } | null | undefined;
+      tags: string[];
+      translation: {
+        locale: string;
+        excerpt: string;
+        seoTitle: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      position: number;
+      type: string;
+      meta?: string | null | undefined;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+    publishedAt: string | null;
+    author?: {
+      id: number;
+      firstName: string;
+      lastName: string;
+    } | null | undefined;
+    coverImage?: {
+      id: number;
+      slug: string;
+      r2Key: string;
+      altText: string;
+    } | null | undefined;
+    tags: string[];
+    translation: {
+      locale: string;
+      excerpt: string;
+      seoTitle: string;
     } | null;
   }>;
   listJobs(params?: ListParams): Promise<{
     data: {
       id: number;
+      author: string;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      submitAction: {};
+      spamProtection: {};
+      translations: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+        submitLabel: string;
+      }[];
+      steps: {
+        id: number;
+        position: number;
+        translations: {
+          locale: string;
+          title: string;
+          description?: string | null | undefined;
+        }[];
+      }[];
+      fields: {
+        id: number;
+        stepId?: number | null | undefined;
+        parentId?: number | null | undefined;
+        position: number;
+        name: string;
+        type: string;
+        required: boolean;
+        config: {};
+        conditions: {};
+        translations: {
+          locale: string;
+          label: string;
+          placeholder?: string | null | undefined;
+          helperText?: string | null | undefined;
+          optionLabels?: {} | null | undefined;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    submitAction: {};
+    spamProtection: {};
+    translations: {
+      locale: string;
+      title: string;
+      description?: string | null | undefined;
+      submitLabel: string;
+    }[];
+    steps: {
+      id: number;
+      position: number;
+      translations: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+      }[];
+    }[];
+    fields: {
+      id: number;
+      stepId?: number | null | undefined;
+      parentId?: number | null | undefined;
+      position: number;
+      name: string;
+      type: string;
+      required: boolean;
+      config: {};
+      conditions: {};
+      translations: {
+        locale: string;
+        label: string;
+        placeholder?: string | null | undefined;
+        helperText?: string | null | undefined;
+        optionLabels?: {} | null | undefined;
+      }[];
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        type: string;
+        position: number;
+        meta?: string | null | undefined;
+        translations: {
+          locale: string;
+          content: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      type: string;
+      position: number;
+      meta?: string | null | undefined;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+  } | {
+    data: {
+      id: number;
+      firstName: string;
+      lastName: string;
+      position: number;
+      groupId: number | null;
+      translations: {
+        locale: string;
+        title: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
       slug: string;
       workArrangement: string;
       employmentType: string;
@@ -523,33 +5758,6 @@ declare function createNexusClient(config: NexusSDKConfig): {
     }[];
     nextCursor: string | null;
   } | {
-    data: {
-      location?: {
-        id: number;
-        name: string;
-        city: string;
-        state: string;
-        country: string;
-      } | null | undefined;
-      id: number;
-      slug: string;
-      workArrangement: string;
-      employmentType: string;
-      department: string;
-      salaryMin?: number | null | undefined;
-      salaryMax?: number | null | undefined;
-      salaryCurrency: string;
-      translation: {
-        locale: string;
-        title: string;
-        description: string;
-        requirements: string;
-        niceToHaves: string;
-      } | null;
-    }[];
-    nextCursor: string | null;
-  }>;
-  getJob(slug: string, params?: GetParams): Promise<{
     id: number;
     slug: string;
     workArrangement: string;
@@ -573,6 +5781,310 @@ declare function createNexusClient(config: NexusSDKConfig): {
       niceToHaves: string;
     }[];
   } | {
+    data: {
+      id: number;
+      handle: string;
+      position: number;
+      items: {
+        id: number;
+        parentId: number | null;
+        position: number;
+        url: string;
+        openInNewTab: boolean;
+        translations: {
+          locale: string;
+          label: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    handle: string;
+    position: number;
+    items: {
+      id: number;
+      parentId: number | null;
+      position: number;
+      url: string;
+      openInNewTab: boolean;
+      translations: {
+        locale: string;
+        label: string;
+      }[];
+    }[];
+  } | {
+    locales: {
+      locale: string;
+      name: string;
+      isDefault: boolean;
+    }[];
+    default: string | null;
+  } | {
+    globals: {
+      phone: string;
+      email: string;
+      translations: {
+        locale: string;
+        tagline: string;
+        footerCopyright: string;
+        footerAddress: string;
+      }[];
+    } | null;
+    logos: {
+      id: number;
+      role: string;
+      galleryImageId: number | null;
+      position: number;
+      translations: {
+        locale: string;
+        altText: string;
+      }[];
+    }[];
+    ctas: {
+      id: number;
+      zone: string;
+      url: string;
+      openInNewTab: boolean;
+      position: number;
+      translations: {
+        locale: string;
+        label: string;
+      }[];
+    }[];
+    socialLinks: {
+      id: number;
+      platform: string;
+      url: string;
+      position: number;
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      publishedAt: string | null;
+      author?: {
+        id: number;
+        firstName: string;
+        lastName: string;
+      } | null | undefined;
+      coverImage?: {
+        id: number;
+        slug: string;
+        r2Key: string;
+        altText: string;
+      } | null | undefined;
+      tags: string[];
+      translations: {
+        locale: string;
+        excerpt: string;
+        seoTitle: string;
+      }[];
+      blocks: {
+        id: number;
+        type: string;
+        position: number;
+        meta?: string | null | undefined;
+        translations: {
+          locale: string;
+          content: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    publishedAt: string | null;
+    author?: {
+      id: number;
+      firstName: string;
+      lastName: string;
+    } | null | undefined;
+    coverImage?: {
+      id: number;
+      slug: string;
+      r2Key: string;
+      altText: string;
+    } | null | undefined;
+    tags: string[];
+    translations: {
+      locale: string;
+      excerpt: string;
+      seoTitle: string;
+    }[];
+    blocks: {
+      id: number;
+      type: string;
+      position: number;
+      meta?: string | null | undefined;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+  } | {
+    data: {
+      id: number;
+      author: string;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      submitAction: {};
+      spamProtection: {};
+      steps: {
+        id: number;
+        position: number;
+        translation: {
+          locale: string;
+          title: string;
+          description?: string | null | undefined;
+        } | null;
+      }[];
+      fields: {
+        id: number;
+        position: number;
+        stepId?: number | null | undefined;
+        parentId?: number | null | undefined;
+        name: string;
+        type: string;
+        required: boolean;
+        config: {};
+        conditions: {};
+        translation: {
+          locale: string;
+          label: string;
+          placeholder?: string | null | undefined;
+          helperText?: string | null | undefined;
+          optionLabels?: {} | null | undefined;
+        } | null;
+      }[];
+      translation: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+        submitLabel: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    submitAction: {};
+    spamProtection: {};
+    steps: {
+      id: number;
+      position: number;
+      translation: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+      } | null;
+    }[];
+    fields: {
+      id: number;
+      position: number;
+      stepId?: number | null | undefined;
+      parentId?: number | null | undefined;
+      name: string;
+      type: string;
+      required: boolean;
+      config: {};
+      conditions: {};
+      translation: {
+        locale: string;
+        label: string;
+        placeholder?: string | null | undefined;
+        helperText?: string | null | undefined;
+        optionLabels?: {} | null | undefined;
+      } | null;
+    }[];
+    translation: {
+      locale: string;
+      title: string;
+      description?: string | null | undefined;
+      submitLabel: string;
+    } | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        position: number;
+        type: string;
+        meta?: string | null | undefined;
+        translation: {
+          locale: string;
+          content: string;
+        } | null;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      position: number;
+      type: string;
+      meta?: string | null | undefined;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+  } | {
+    data: {
+      id: number;
+      position: number;
+      firstName: string;
+      lastName: string;
+      groupId: number | null;
+      translation: {
+        locale: string;
+        title: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      location?: {
+        id: number;
+        name: string;
+        city: string;
+        state: string;
+        country: string;
+      } | null | undefined;
+      id: number;
+      slug: string;
+      workArrangement: string;
+      employmentType: string;
+      department: string;
+      salaryMin?: number | null | undefined;
+      salaryMax?: number | null | undefined;
+      salaryCurrency: string;
+      translation: {
+        locale: string;
+        title: string;
+        description: string;
+        requirements: string;
+        niceToHaves: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
     location?: {
       id: number;
       name: string;
@@ -595,8 +6107,273 @@ declare function createNexusClient(config: NexusSDKConfig): {
       requirements: string;
       niceToHaves: string;
     } | null;
+  } | {
+    data: {
+      id: number;
+      handle: string;
+      position: number;
+      items: {
+        id: number;
+        position: number;
+        parentId: number | null;
+        url: string;
+        openInNewTab: boolean;
+        translation: {
+          locale: string;
+          label: string;
+        } | null;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    handle: string;
+    position: number;
+    items: {
+      id: number;
+      position: number;
+      parentId: number | null;
+      url: string;
+      openInNewTab: boolean;
+      translation: {
+        locale: string;
+        label: string;
+      } | null;
+    }[];
+  } | {
+    locales: {
+      locale: string;
+      name: string;
+      isDefault: boolean;
+    }[];
+    default: string | null;
+  } | {
+    globals: {
+      phone: string;
+      email: string;
+      translation: {
+        locale: string;
+        tagline: string;
+        footerCopyright: string;
+        footerAddress: string;
+      } | null;
+    } | null;
+    logos: {
+      id: number;
+      position: number;
+      role: string;
+      galleryImageId: number | null;
+      translation: {
+        locale: string;
+        altText: string;
+      } | null;
+    }[];
+    ctas: {
+      id: number;
+      position: number;
+      url: string;
+      openInNewTab: boolean;
+      zone: string;
+      translation: {
+        locale: string;
+        label: string;
+      } | null;
+    }[];
+    socialLinks: {
+      id: number;
+      platform: string;
+      url: string;
+      position: number;
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        position: number;
+        type: string;
+        meta?: string | null | undefined;
+        translation: {
+          locale: string;
+          content: string;
+        } | null;
+      }[];
+      publishedAt: string | null;
+      author?: {
+        id: number;
+        firstName: string;
+        lastName: string;
+      } | null | undefined;
+      coverImage?: {
+        id: number;
+        slug: string;
+        r2Key: string;
+        altText: string;
+      } | null | undefined;
+      tags: string[];
+      translation: {
+        locale: string;
+        excerpt: string;
+        seoTitle: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      position: number;
+      type: string;
+      meta?: string | null | undefined;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+    publishedAt: string | null;
+    author?: {
+      id: number;
+      firstName: string;
+      lastName: string;
+    } | null | undefined;
+    coverImage?: {
+      id: number;
+      slug: string;
+      r2Key: string;
+      altText: string;
+    } | null | undefined;
+    tags: string[];
+    translation: {
+      locale: string;
+      excerpt: string;
+      seoTitle: string;
+    } | null;
   }>;
-  listTeamMembers(params?: ListParams): Promise<{
+  getJob(slug: string, params?: GetParams): Promise<{
+    data: {
+      id: number;
+      author: string;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      submitAction: {};
+      spamProtection: {};
+      translations: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+        submitLabel: string;
+      }[];
+      steps: {
+        id: number;
+        position: number;
+        translations: {
+          locale: string;
+          title: string;
+          description?: string | null | undefined;
+        }[];
+      }[];
+      fields: {
+        id: number;
+        stepId?: number | null | undefined;
+        parentId?: number | null | undefined;
+        position: number;
+        name: string;
+        type: string;
+        required: boolean;
+        config: {};
+        conditions: {};
+        translations: {
+          locale: string;
+          label: string;
+          placeholder?: string | null | undefined;
+          helperText?: string | null | undefined;
+          optionLabels?: {} | null | undefined;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    submitAction: {};
+    spamProtection: {};
+    translations: {
+      locale: string;
+      title: string;
+      description?: string | null | undefined;
+      submitLabel: string;
+    }[];
+    steps: {
+      id: number;
+      position: number;
+      translations: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+      }[];
+    }[];
+    fields: {
+      id: number;
+      stepId?: number | null | undefined;
+      parentId?: number | null | undefined;
+      position: number;
+      name: string;
+      type: string;
+      required: boolean;
+      config: {};
+      conditions: {};
+      translations: {
+        locale: string;
+        label: string;
+        placeholder?: string | null | undefined;
+        helperText?: string | null | undefined;
+        optionLabels?: {} | null | undefined;
+      }[];
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        type: string;
+        position: number;
+        meta?: string | null | undefined;
+        translations: {
+          locale: string;
+          content: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      type: string;
+      position: number;
+      meta?: string | null | undefined;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+  } | {
     data: {
       id: number;
       firstName: string;
@@ -612,18 +6389,53 @@ declare function createNexusClient(config: NexusSDKConfig): {
   } | {
     data: {
       id: number;
-      position: number;
-      firstName: string;
-      lastName: string;
-      groupId: number | null;
-      translation: {
+      slug: string;
+      workArrangement: string;
+      employmentType: string;
+      department: string;
+      salaryMin?: number | null | undefined;
+      salaryMax?: number | null | undefined;
+      salaryCurrency: string;
+      location?: {
+        id: number;
+        name: string;
+        city: string;
+        state: string;
+        country: string;
+      } | null | undefined;
+      translations: {
         locale: string;
         title: string;
-      } | null;
+        description: string;
+        requirements: string;
+        niceToHaves: string;
+      }[];
     }[];
     nextCursor: string | null;
-  }>;
-  listNavigations(params?: ListParams): Promise<{
+  } | {
+    id: number;
+    slug: string;
+    workArrangement: string;
+    employmentType: string;
+    department: string;
+    salaryMin?: number | null | undefined;
+    salaryMax?: number | null | undefined;
+    salaryCurrency: string;
+    location?: {
+      id: number;
+      name: string;
+      city: string;
+      state: string;
+      country: string;
+    } | null | undefined;
+    translations: {
+      locale: string;
+      title: string;
+      description: string;
+      requirements: string;
+      niceToHaves: string;
+    }[];
+  } | {
     data: {
       id: number;
       handle: string;
@@ -642,25 +6454,6 @@ declare function createNexusClient(config: NexusSDKConfig): {
     }[];
     nextCursor: string | null;
   } | {
-    data: {
-      id: number;
-      handle: string;
-      position: number;
-      items: {
-        id: number;
-        position: number;
-        url: string;
-        openInNewTab: boolean;
-        parentId: number | null;
-        translation: {
-          locale: string;
-          label: string;
-        } | null;
-      }[];
-    }[];
-    nextCursor: string | null;
-  }>;
-  getNavigation(id: number, params?: GetParams): Promise<{
     id: number;
     handle: string;
     position: number;
@@ -676,20 +6469,2409 @@ declare function createNexusClient(config: NexusSDKConfig): {
       }[];
     }[];
   } | {
+    locales: {
+      locale: string;
+      name: string;
+      isDefault: boolean;
+    }[];
+    default: string | null;
+  } | {
+    globals: {
+      phone: string;
+      email: string;
+      translations: {
+        locale: string;
+        tagline: string;
+        footerCopyright: string;
+        footerAddress: string;
+      }[];
+    } | null;
+    logos: {
+      id: number;
+      role: string;
+      galleryImageId: number | null;
+      position: number;
+      translations: {
+        locale: string;
+        altText: string;
+      }[];
+    }[];
+    ctas: {
+      id: number;
+      zone: string;
+      url: string;
+      openInNewTab: boolean;
+      position: number;
+      translations: {
+        locale: string;
+        label: string;
+      }[];
+    }[];
+    socialLinks: {
+      id: number;
+      platform: string;
+      url: string;
+      position: number;
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      publishedAt: string | null;
+      author?: {
+        id: number;
+        firstName: string;
+        lastName: string;
+      } | null | undefined;
+      coverImage?: {
+        id: number;
+        slug: string;
+        r2Key: string;
+        altText: string;
+      } | null | undefined;
+      tags: string[];
+      translations: {
+        locale: string;
+        excerpt: string;
+        seoTitle: string;
+      }[];
+      blocks: {
+        id: number;
+        type: string;
+        position: number;
+        meta?: string | null | undefined;
+        translations: {
+          locale: string;
+          content: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    publishedAt: string | null;
+    author?: {
+      id: number;
+      firstName: string;
+      lastName: string;
+    } | null | undefined;
+    coverImage?: {
+      id: number;
+      slug: string;
+      r2Key: string;
+      altText: string;
+    } | null | undefined;
+    tags: string[];
+    translations: {
+      locale: string;
+      excerpt: string;
+      seoTitle: string;
+    }[];
+    blocks: {
+      id: number;
+      type: string;
+      position: number;
+      meta?: string | null | undefined;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+  } | {
+    data: {
+      id: number;
+      author: string;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      submitAction: {};
+      spamProtection: {};
+      steps: {
+        id: number;
+        position: number;
+        translation: {
+          locale: string;
+          title: string;
+          description?: string | null | undefined;
+        } | null;
+      }[];
+      fields: {
+        id: number;
+        position: number;
+        stepId?: number | null | undefined;
+        parentId?: number | null | undefined;
+        name: string;
+        type: string;
+        required: boolean;
+        config: {};
+        conditions: {};
+        translation: {
+          locale: string;
+          label: string;
+          placeholder?: string | null | undefined;
+          helperText?: string | null | undefined;
+          optionLabels?: {} | null | undefined;
+        } | null;
+      }[];
+      translation: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+        submitLabel: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    submitAction: {};
+    spamProtection: {};
+    steps: {
+      id: number;
+      position: number;
+      translation: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+      } | null;
+    }[];
+    fields: {
+      id: number;
+      position: number;
+      stepId?: number | null | undefined;
+      parentId?: number | null | undefined;
+      name: string;
+      type: string;
+      required: boolean;
+      config: {};
+      conditions: {};
+      translation: {
+        locale: string;
+        label: string;
+        placeholder?: string | null | undefined;
+        helperText?: string | null | undefined;
+        optionLabels?: {} | null | undefined;
+      } | null;
+    }[];
+    translation: {
+      locale: string;
+      title: string;
+      description?: string | null | undefined;
+      submitLabel: string;
+    } | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        position: number;
+        type: string;
+        meta?: string | null | undefined;
+        translation: {
+          locale: string;
+          content: string;
+        } | null;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      position: number;
+      type: string;
+      meta?: string | null | undefined;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+  } | {
+    data: {
+      id: number;
+      position: number;
+      firstName: string;
+      lastName: string;
+      groupId: number | null;
+      translation: {
+        locale: string;
+        title: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      location?: {
+        id: number;
+        name: string;
+        city: string;
+        state: string;
+        country: string;
+      } | null | undefined;
+      id: number;
+      slug: string;
+      workArrangement: string;
+      employmentType: string;
+      department: string;
+      salaryMin?: number | null | undefined;
+      salaryMax?: number | null | undefined;
+      salaryCurrency: string;
+      translation: {
+        locale: string;
+        title: string;
+        description: string;
+        requirements: string;
+        niceToHaves: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    location?: {
+      id: number;
+      name: string;
+      city: string;
+      state: string;
+      country: string;
+    } | null | undefined;
+    id: number;
+    slug: string;
+    workArrangement: string;
+    employmentType: string;
+    department: string;
+    salaryMin?: number | null | undefined;
+    salaryMax?: number | null | undefined;
+    salaryCurrency: string;
+    translation: {
+      locale: string;
+      title: string;
+      description: string;
+      requirements: string;
+      niceToHaves: string;
+    } | null;
+  } | {
+    data: {
+      id: number;
+      handle: string;
+      position: number;
+      items: {
+        id: number;
+        position: number;
+        parentId: number | null;
+        url: string;
+        openInNewTab: boolean;
+        translation: {
+          locale: string;
+          label: string;
+        } | null;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
     id: number;
     handle: string;
     position: number;
     items: {
       id: number;
       position: number;
+      parentId: number | null;
       url: string;
       openInNewTab: boolean;
-      parentId: number | null;
       translation: {
         locale: string;
         label: string;
       } | null;
     }[];
+  } | {
+    locales: {
+      locale: string;
+      name: string;
+      isDefault: boolean;
+    }[];
+    default: string | null;
+  } | {
+    globals: {
+      phone: string;
+      email: string;
+      translation: {
+        locale: string;
+        tagline: string;
+        footerCopyright: string;
+        footerAddress: string;
+      } | null;
+    } | null;
+    logos: {
+      id: number;
+      position: number;
+      role: string;
+      galleryImageId: number | null;
+      translation: {
+        locale: string;
+        altText: string;
+      } | null;
+    }[];
+    ctas: {
+      id: number;
+      position: number;
+      url: string;
+      openInNewTab: boolean;
+      zone: string;
+      translation: {
+        locale: string;
+        label: string;
+      } | null;
+    }[];
+    socialLinks: {
+      id: number;
+      platform: string;
+      url: string;
+      position: number;
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        position: number;
+        type: string;
+        meta?: string | null | undefined;
+        translation: {
+          locale: string;
+          content: string;
+        } | null;
+      }[];
+      publishedAt: string | null;
+      author?: {
+        id: number;
+        firstName: string;
+        lastName: string;
+      } | null | undefined;
+      coverImage?: {
+        id: number;
+        slug: string;
+        r2Key: string;
+        altText: string;
+      } | null | undefined;
+      tags: string[];
+      translation: {
+        locale: string;
+        excerpt: string;
+        seoTitle: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      position: number;
+      type: string;
+      meta?: string | null | undefined;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+    publishedAt: string | null;
+    author?: {
+      id: number;
+      firstName: string;
+      lastName: string;
+    } | null | undefined;
+    coverImage?: {
+      id: number;
+      slug: string;
+      r2Key: string;
+      altText: string;
+    } | null | undefined;
+    tags: string[];
+    translation: {
+      locale: string;
+      excerpt: string;
+      seoTitle: string;
+    } | null;
+  }>;
+  listTeamMembers(params?: ListParams): Promise<{
+    data: {
+      id: number;
+      author: string;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      submitAction: {};
+      spamProtection: {};
+      translations: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+        submitLabel: string;
+      }[];
+      steps: {
+        id: number;
+        position: number;
+        translations: {
+          locale: string;
+          title: string;
+          description?: string | null | undefined;
+        }[];
+      }[];
+      fields: {
+        id: number;
+        stepId?: number | null | undefined;
+        parentId?: number | null | undefined;
+        position: number;
+        name: string;
+        type: string;
+        required: boolean;
+        config: {};
+        conditions: {};
+        translations: {
+          locale: string;
+          label: string;
+          placeholder?: string | null | undefined;
+          helperText?: string | null | undefined;
+          optionLabels?: {} | null | undefined;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    submitAction: {};
+    spamProtection: {};
+    translations: {
+      locale: string;
+      title: string;
+      description?: string | null | undefined;
+      submitLabel: string;
+    }[];
+    steps: {
+      id: number;
+      position: number;
+      translations: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+      }[];
+    }[];
+    fields: {
+      id: number;
+      stepId?: number | null | undefined;
+      parentId?: number | null | undefined;
+      position: number;
+      name: string;
+      type: string;
+      required: boolean;
+      config: {};
+      conditions: {};
+      translations: {
+        locale: string;
+        label: string;
+        placeholder?: string | null | undefined;
+        helperText?: string | null | undefined;
+        optionLabels?: {} | null | undefined;
+      }[];
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        type: string;
+        position: number;
+        meta?: string | null | undefined;
+        translations: {
+          locale: string;
+          content: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      type: string;
+      position: number;
+      meta?: string | null | undefined;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+  } | {
+    data: {
+      id: number;
+      firstName: string;
+      lastName: string;
+      position: number;
+      groupId: number | null;
+      translations: {
+        locale: string;
+        title: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      workArrangement: string;
+      employmentType: string;
+      department: string;
+      salaryMin?: number | null | undefined;
+      salaryMax?: number | null | undefined;
+      salaryCurrency: string;
+      location?: {
+        id: number;
+        name: string;
+        city: string;
+        state: string;
+        country: string;
+      } | null | undefined;
+      translations: {
+        locale: string;
+        title: string;
+        description: string;
+        requirements: string;
+        niceToHaves: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    workArrangement: string;
+    employmentType: string;
+    department: string;
+    salaryMin?: number | null | undefined;
+    salaryMax?: number | null | undefined;
+    salaryCurrency: string;
+    location?: {
+      id: number;
+      name: string;
+      city: string;
+      state: string;
+      country: string;
+    } | null | undefined;
+    translations: {
+      locale: string;
+      title: string;
+      description: string;
+      requirements: string;
+      niceToHaves: string;
+    }[];
+  } | {
+    data: {
+      id: number;
+      handle: string;
+      position: number;
+      items: {
+        id: number;
+        parentId: number | null;
+        position: number;
+        url: string;
+        openInNewTab: boolean;
+        translations: {
+          locale: string;
+          label: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    handle: string;
+    position: number;
+    items: {
+      id: number;
+      parentId: number | null;
+      position: number;
+      url: string;
+      openInNewTab: boolean;
+      translations: {
+        locale: string;
+        label: string;
+      }[];
+    }[];
+  } | {
+    locales: {
+      locale: string;
+      name: string;
+      isDefault: boolean;
+    }[];
+    default: string | null;
+  } | {
+    globals: {
+      phone: string;
+      email: string;
+      translations: {
+        locale: string;
+        tagline: string;
+        footerCopyright: string;
+        footerAddress: string;
+      }[];
+    } | null;
+    logos: {
+      id: number;
+      role: string;
+      galleryImageId: number | null;
+      position: number;
+      translations: {
+        locale: string;
+        altText: string;
+      }[];
+    }[];
+    ctas: {
+      id: number;
+      zone: string;
+      url: string;
+      openInNewTab: boolean;
+      position: number;
+      translations: {
+        locale: string;
+        label: string;
+      }[];
+    }[];
+    socialLinks: {
+      id: number;
+      platform: string;
+      url: string;
+      position: number;
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      publishedAt: string | null;
+      author?: {
+        id: number;
+        firstName: string;
+        lastName: string;
+      } | null | undefined;
+      coverImage?: {
+        id: number;
+        slug: string;
+        r2Key: string;
+        altText: string;
+      } | null | undefined;
+      tags: string[];
+      translations: {
+        locale: string;
+        excerpt: string;
+        seoTitle: string;
+      }[];
+      blocks: {
+        id: number;
+        type: string;
+        position: number;
+        meta?: string | null | undefined;
+        translations: {
+          locale: string;
+          content: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    publishedAt: string | null;
+    author?: {
+      id: number;
+      firstName: string;
+      lastName: string;
+    } | null | undefined;
+    coverImage?: {
+      id: number;
+      slug: string;
+      r2Key: string;
+      altText: string;
+    } | null | undefined;
+    tags: string[];
+    translations: {
+      locale: string;
+      excerpt: string;
+      seoTitle: string;
+    }[];
+    blocks: {
+      id: number;
+      type: string;
+      position: number;
+      meta?: string | null | undefined;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+  } | {
+    data: {
+      id: number;
+      author: string;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      submitAction: {};
+      spamProtection: {};
+      steps: {
+        id: number;
+        position: number;
+        translation: {
+          locale: string;
+          title: string;
+          description?: string | null | undefined;
+        } | null;
+      }[];
+      fields: {
+        id: number;
+        position: number;
+        stepId?: number | null | undefined;
+        parentId?: number | null | undefined;
+        name: string;
+        type: string;
+        required: boolean;
+        config: {};
+        conditions: {};
+        translation: {
+          locale: string;
+          label: string;
+          placeholder?: string | null | undefined;
+          helperText?: string | null | undefined;
+          optionLabels?: {} | null | undefined;
+        } | null;
+      }[];
+      translation: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+        submitLabel: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    submitAction: {};
+    spamProtection: {};
+    steps: {
+      id: number;
+      position: number;
+      translation: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+      } | null;
+    }[];
+    fields: {
+      id: number;
+      position: number;
+      stepId?: number | null | undefined;
+      parentId?: number | null | undefined;
+      name: string;
+      type: string;
+      required: boolean;
+      config: {};
+      conditions: {};
+      translation: {
+        locale: string;
+        label: string;
+        placeholder?: string | null | undefined;
+        helperText?: string | null | undefined;
+        optionLabels?: {} | null | undefined;
+      } | null;
+    }[];
+    translation: {
+      locale: string;
+      title: string;
+      description?: string | null | undefined;
+      submitLabel: string;
+    } | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        position: number;
+        type: string;
+        meta?: string | null | undefined;
+        translation: {
+          locale: string;
+          content: string;
+        } | null;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      position: number;
+      type: string;
+      meta?: string | null | undefined;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+  } | {
+    data: {
+      id: number;
+      position: number;
+      firstName: string;
+      lastName: string;
+      groupId: number | null;
+      translation: {
+        locale: string;
+        title: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      location?: {
+        id: number;
+        name: string;
+        city: string;
+        state: string;
+        country: string;
+      } | null | undefined;
+      id: number;
+      slug: string;
+      workArrangement: string;
+      employmentType: string;
+      department: string;
+      salaryMin?: number | null | undefined;
+      salaryMax?: number | null | undefined;
+      salaryCurrency: string;
+      translation: {
+        locale: string;
+        title: string;
+        description: string;
+        requirements: string;
+        niceToHaves: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    location?: {
+      id: number;
+      name: string;
+      city: string;
+      state: string;
+      country: string;
+    } | null | undefined;
+    id: number;
+    slug: string;
+    workArrangement: string;
+    employmentType: string;
+    department: string;
+    salaryMin?: number | null | undefined;
+    salaryMax?: number | null | undefined;
+    salaryCurrency: string;
+    translation: {
+      locale: string;
+      title: string;
+      description: string;
+      requirements: string;
+      niceToHaves: string;
+    } | null;
+  } | {
+    data: {
+      id: number;
+      handle: string;
+      position: number;
+      items: {
+        id: number;
+        position: number;
+        parentId: number | null;
+        url: string;
+        openInNewTab: boolean;
+        translation: {
+          locale: string;
+          label: string;
+        } | null;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    handle: string;
+    position: number;
+    items: {
+      id: number;
+      position: number;
+      parentId: number | null;
+      url: string;
+      openInNewTab: boolean;
+      translation: {
+        locale: string;
+        label: string;
+      } | null;
+    }[];
+  } | {
+    locales: {
+      locale: string;
+      name: string;
+      isDefault: boolean;
+    }[];
+    default: string | null;
+  } | {
+    globals: {
+      phone: string;
+      email: string;
+      translation: {
+        locale: string;
+        tagline: string;
+        footerCopyright: string;
+        footerAddress: string;
+      } | null;
+    } | null;
+    logos: {
+      id: number;
+      position: number;
+      role: string;
+      galleryImageId: number | null;
+      translation: {
+        locale: string;
+        altText: string;
+      } | null;
+    }[];
+    ctas: {
+      id: number;
+      position: number;
+      url: string;
+      openInNewTab: boolean;
+      zone: string;
+      translation: {
+        locale: string;
+        label: string;
+      } | null;
+    }[];
+    socialLinks: {
+      id: number;
+      platform: string;
+      url: string;
+      position: number;
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        position: number;
+        type: string;
+        meta?: string | null | undefined;
+        translation: {
+          locale: string;
+          content: string;
+        } | null;
+      }[];
+      publishedAt: string | null;
+      author?: {
+        id: number;
+        firstName: string;
+        lastName: string;
+      } | null | undefined;
+      coverImage?: {
+        id: number;
+        slug: string;
+        r2Key: string;
+        altText: string;
+      } | null | undefined;
+      tags: string[];
+      translation: {
+        locale: string;
+        excerpt: string;
+        seoTitle: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      position: number;
+      type: string;
+      meta?: string | null | undefined;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+    publishedAt: string | null;
+    author?: {
+      id: number;
+      firstName: string;
+      lastName: string;
+    } | null | undefined;
+    coverImage?: {
+      id: number;
+      slug: string;
+      r2Key: string;
+      altText: string;
+    } | null | undefined;
+    tags: string[];
+    translation: {
+      locale: string;
+      excerpt: string;
+      seoTitle: string;
+    } | null;
+  }>;
+  listNavigations(params?: ListParams): Promise<{
+    data: {
+      id: number;
+      author: string;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      submitAction: {};
+      spamProtection: {};
+      translations: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+        submitLabel: string;
+      }[];
+      steps: {
+        id: number;
+        position: number;
+        translations: {
+          locale: string;
+          title: string;
+          description?: string | null | undefined;
+        }[];
+      }[];
+      fields: {
+        id: number;
+        stepId?: number | null | undefined;
+        parentId?: number | null | undefined;
+        position: number;
+        name: string;
+        type: string;
+        required: boolean;
+        config: {};
+        conditions: {};
+        translations: {
+          locale: string;
+          label: string;
+          placeholder?: string | null | undefined;
+          helperText?: string | null | undefined;
+          optionLabels?: {} | null | undefined;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    submitAction: {};
+    spamProtection: {};
+    translations: {
+      locale: string;
+      title: string;
+      description?: string | null | undefined;
+      submitLabel: string;
+    }[];
+    steps: {
+      id: number;
+      position: number;
+      translations: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+      }[];
+    }[];
+    fields: {
+      id: number;
+      stepId?: number | null | undefined;
+      parentId?: number | null | undefined;
+      position: number;
+      name: string;
+      type: string;
+      required: boolean;
+      config: {};
+      conditions: {};
+      translations: {
+        locale: string;
+        label: string;
+        placeholder?: string | null | undefined;
+        helperText?: string | null | undefined;
+        optionLabels?: {} | null | undefined;
+      }[];
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        type: string;
+        position: number;
+        meta?: string | null | undefined;
+        translations: {
+          locale: string;
+          content: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      type: string;
+      position: number;
+      meta?: string | null | undefined;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+  } | {
+    data: {
+      id: number;
+      firstName: string;
+      lastName: string;
+      position: number;
+      groupId: number | null;
+      translations: {
+        locale: string;
+        title: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      workArrangement: string;
+      employmentType: string;
+      department: string;
+      salaryMin?: number | null | undefined;
+      salaryMax?: number | null | undefined;
+      salaryCurrency: string;
+      location?: {
+        id: number;
+        name: string;
+        city: string;
+        state: string;
+        country: string;
+      } | null | undefined;
+      translations: {
+        locale: string;
+        title: string;
+        description: string;
+        requirements: string;
+        niceToHaves: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    workArrangement: string;
+    employmentType: string;
+    department: string;
+    salaryMin?: number | null | undefined;
+    salaryMax?: number | null | undefined;
+    salaryCurrency: string;
+    location?: {
+      id: number;
+      name: string;
+      city: string;
+      state: string;
+      country: string;
+    } | null | undefined;
+    translations: {
+      locale: string;
+      title: string;
+      description: string;
+      requirements: string;
+      niceToHaves: string;
+    }[];
+  } | {
+    data: {
+      id: number;
+      handle: string;
+      position: number;
+      items: {
+        id: number;
+        parentId: number | null;
+        position: number;
+        url: string;
+        openInNewTab: boolean;
+        translations: {
+          locale: string;
+          label: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    handle: string;
+    position: number;
+    items: {
+      id: number;
+      parentId: number | null;
+      position: number;
+      url: string;
+      openInNewTab: boolean;
+      translations: {
+        locale: string;
+        label: string;
+      }[];
+    }[];
+  } | {
+    locales: {
+      locale: string;
+      name: string;
+      isDefault: boolean;
+    }[];
+    default: string | null;
+  } | {
+    globals: {
+      phone: string;
+      email: string;
+      translations: {
+        locale: string;
+        tagline: string;
+        footerCopyright: string;
+        footerAddress: string;
+      }[];
+    } | null;
+    logos: {
+      id: number;
+      role: string;
+      galleryImageId: number | null;
+      position: number;
+      translations: {
+        locale: string;
+        altText: string;
+      }[];
+    }[];
+    ctas: {
+      id: number;
+      zone: string;
+      url: string;
+      openInNewTab: boolean;
+      position: number;
+      translations: {
+        locale: string;
+        label: string;
+      }[];
+    }[];
+    socialLinks: {
+      id: number;
+      platform: string;
+      url: string;
+      position: number;
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      publishedAt: string | null;
+      author?: {
+        id: number;
+        firstName: string;
+        lastName: string;
+      } | null | undefined;
+      coverImage?: {
+        id: number;
+        slug: string;
+        r2Key: string;
+        altText: string;
+      } | null | undefined;
+      tags: string[];
+      translations: {
+        locale: string;
+        excerpt: string;
+        seoTitle: string;
+      }[];
+      blocks: {
+        id: number;
+        type: string;
+        position: number;
+        meta?: string | null | undefined;
+        translations: {
+          locale: string;
+          content: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    publishedAt: string | null;
+    author?: {
+      id: number;
+      firstName: string;
+      lastName: string;
+    } | null | undefined;
+    coverImage?: {
+      id: number;
+      slug: string;
+      r2Key: string;
+      altText: string;
+    } | null | undefined;
+    tags: string[];
+    translations: {
+      locale: string;
+      excerpt: string;
+      seoTitle: string;
+    }[];
+    blocks: {
+      id: number;
+      type: string;
+      position: number;
+      meta?: string | null | undefined;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+  } | {
+    data: {
+      id: number;
+      author: string;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      submitAction: {};
+      spamProtection: {};
+      steps: {
+        id: number;
+        position: number;
+        translation: {
+          locale: string;
+          title: string;
+          description?: string | null | undefined;
+        } | null;
+      }[];
+      fields: {
+        id: number;
+        position: number;
+        stepId?: number | null | undefined;
+        parentId?: number | null | undefined;
+        name: string;
+        type: string;
+        required: boolean;
+        config: {};
+        conditions: {};
+        translation: {
+          locale: string;
+          label: string;
+          placeholder?: string | null | undefined;
+          helperText?: string | null | undefined;
+          optionLabels?: {} | null | undefined;
+        } | null;
+      }[];
+      translation: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+        submitLabel: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    submitAction: {};
+    spamProtection: {};
+    steps: {
+      id: number;
+      position: number;
+      translation: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+      } | null;
+    }[];
+    fields: {
+      id: number;
+      position: number;
+      stepId?: number | null | undefined;
+      parentId?: number | null | undefined;
+      name: string;
+      type: string;
+      required: boolean;
+      config: {};
+      conditions: {};
+      translation: {
+        locale: string;
+        label: string;
+        placeholder?: string | null | undefined;
+        helperText?: string | null | undefined;
+        optionLabels?: {} | null | undefined;
+      } | null;
+    }[];
+    translation: {
+      locale: string;
+      title: string;
+      description?: string | null | undefined;
+      submitLabel: string;
+    } | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        position: number;
+        type: string;
+        meta?: string | null | undefined;
+        translation: {
+          locale: string;
+          content: string;
+        } | null;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      position: number;
+      type: string;
+      meta?: string | null | undefined;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+  } | {
+    data: {
+      id: number;
+      position: number;
+      firstName: string;
+      lastName: string;
+      groupId: number | null;
+      translation: {
+        locale: string;
+        title: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      location?: {
+        id: number;
+        name: string;
+        city: string;
+        state: string;
+        country: string;
+      } | null | undefined;
+      id: number;
+      slug: string;
+      workArrangement: string;
+      employmentType: string;
+      department: string;
+      salaryMin?: number | null | undefined;
+      salaryMax?: number | null | undefined;
+      salaryCurrency: string;
+      translation: {
+        locale: string;
+        title: string;
+        description: string;
+        requirements: string;
+        niceToHaves: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    location?: {
+      id: number;
+      name: string;
+      city: string;
+      state: string;
+      country: string;
+    } | null | undefined;
+    id: number;
+    slug: string;
+    workArrangement: string;
+    employmentType: string;
+    department: string;
+    salaryMin?: number | null | undefined;
+    salaryMax?: number | null | undefined;
+    salaryCurrency: string;
+    translation: {
+      locale: string;
+      title: string;
+      description: string;
+      requirements: string;
+      niceToHaves: string;
+    } | null;
+  } | {
+    data: {
+      id: number;
+      handle: string;
+      position: number;
+      items: {
+        id: number;
+        position: number;
+        parentId: number | null;
+        url: string;
+        openInNewTab: boolean;
+        translation: {
+          locale: string;
+          label: string;
+        } | null;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    handle: string;
+    position: number;
+    items: {
+      id: number;
+      position: number;
+      parentId: number | null;
+      url: string;
+      openInNewTab: boolean;
+      translation: {
+        locale: string;
+        label: string;
+      } | null;
+    }[];
+  } | {
+    locales: {
+      locale: string;
+      name: string;
+      isDefault: boolean;
+    }[];
+    default: string | null;
+  } | {
+    globals: {
+      phone: string;
+      email: string;
+      translation: {
+        locale: string;
+        tagline: string;
+        footerCopyright: string;
+        footerAddress: string;
+      } | null;
+    } | null;
+    logos: {
+      id: number;
+      position: number;
+      role: string;
+      galleryImageId: number | null;
+      translation: {
+        locale: string;
+        altText: string;
+      } | null;
+    }[];
+    ctas: {
+      id: number;
+      position: number;
+      url: string;
+      openInNewTab: boolean;
+      zone: string;
+      translation: {
+        locale: string;
+        label: string;
+      } | null;
+    }[];
+    socialLinks: {
+      id: number;
+      platform: string;
+      url: string;
+      position: number;
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        position: number;
+        type: string;
+        meta?: string | null | undefined;
+        translation: {
+          locale: string;
+          content: string;
+        } | null;
+      }[];
+      publishedAt: string | null;
+      author?: {
+        id: number;
+        firstName: string;
+        lastName: string;
+      } | null | undefined;
+      coverImage?: {
+        id: number;
+        slug: string;
+        r2Key: string;
+        altText: string;
+      } | null | undefined;
+      tags: string[];
+      translation: {
+        locale: string;
+        excerpt: string;
+        seoTitle: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      position: number;
+      type: string;
+      meta?: string | null | undefined;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+    publishedAt: string | null;
+    author?: {
+      id: number;
+      firstName: string;
+      lastName: string;
+    } | null | undefined;
+    coverImage?: {
+      id: number;
+      slug: string;
+      r2Key: string;
+      altText: string;
+    } | null | undefined;
+    tags: string[];
+    translation: {
+      locale: string;
+      excerpt: string;
+      seoTitle: string;
+    } | null;
+  }>;
+  getNavigation(id: number, params?: GetParams): Promise<{
+    data: {
+      id: number;
+      author: string;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      submitAction: {};
+      spamProtection: {};
+      translations: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+        submitLabel: string;
+      }[];
+      steps: {
+        id: number;
+        position: number;
+        translations: {
+          locale: string;
+          title: string;
+          description?: string | null | undefined;
+        }[];
+      }[];
+      fields: {
+        id: number;
+        stepId?: number | null | undefined;
+        parentId?: number | null | undefined;
+        position: number;
+        name: string;
+        type: string;
+        required: boolean;
+        config: {};
+        conditions: {};
+        translations: {
+          locale: string;
+          label: string;
+          placeholder?: string | null | undefined;
+          helperText?: string | null | undefined;
+          optionLabels?: {} | null | undefined;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    submitAction: {};
+    spamProtection: {};
+    translations: {
+      locale: string;
+      title: string;
+      description?: string | null | undefined;
+      submitLabel: string;
+    }[];
+    steps: {
+      id: number;
+      position: number;
+      translations: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+      }[];
+    }[];
+    fields: {
+      id: number;
+      stepId?: number | null | undefined;
+      parentId?: number | null | undefined;
+      position: number;
+      name: string;
+      type: string;
+      required: boolean;
+      config: {};
+      conditions: {};
+      translations: {
+        locale: string;
+        label: string;
+        placeholder?: string | null | undefined;
+        helperText?: string | null | undefined;
+        optionLabels?: {} | null | undefined;
+      }[];
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        type: string;
+        position: number;
+        meta?: string | null | undefined;
+        translations: {
+          locale: string;
+          content: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      type: string;
+      position: number;
+      meta?: string | null | undefined;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+  } | {
+    data: {
+      id: number;
+      firstName: string;
+      lastName: string;
+      position: number;
+      groupId: number | null;
+      translations: {
+        locale: string;
+        title: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      workArrangement: string;
+      employmentType: string;
+      department: string;
+      salaryMin?: number | null | undefined;
+      salaryMax?: number | null | undefined;
+      salaryCurrency: string;
+      location?: {
+        id: number;
+        name: string;
+        city: string;
+        state: string;
+        country: string;
+      } | null | undefined;
+      translations: {
+        locale: string;
+        title: string;
+        description: string;
+        requirements: string;
+        niceToHaves: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    workArrangement: string;
+    employmentType: string;
+    department: string;
+    salaryMin?: number | null | undefined;
+    salaryMax?: number | null | undefined;
+    salaryCurrency: string;
+    location?: {
+      id: number;
+      name: string;
+      city: string;
+      state: string;
+      country: string;
+    } | null | undefined;
+    translations: {
+      locale: string;
+      title: string;
+      description: string;
+      requirements: string;
+      niceToHaves: string;
+    }[];
+  } | {
+    data: {
+      id: number;
+      handle: string;
+      position: number;
+      items: {
+        id: number;
+        parentId: number | null;
+        position: number;
+        url: string;
+        openInNewTab: boolean;
+        translations: {
+          locale: string;
+          label: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    handle: string;
+    position: number;
+    items: {
+      id: number;
+      parentId: number | null;
+      position: number;
+      url: string;
+      openInNewTab: boolean;
+      translations: {
+        locale: string;
+        label: string;
+      }[];
+    }[];
+  } | {
+    locales: {
+      locale: string;
+      name: string;
+      isDefault: boolean;
+    }[];
+    default: string | null;
+  } | {
+    globals: {
+      phone: string;
+      email: string;
+      translations: {
+        locale: string;
+        tagline: string;
+        footerCopyright: string;
+        footerAddress: string;
+      }[];
+    } | null;
+    logos: {
+      id: number;
+      role: string;
+      galleryImageId: number | null;
+      position: number;
+      translations: {
+        locale: string;
+        altText: string;
+      }[];
+    }[];
+    ctas: {
+      id: number;
+      zone: string;
+      url: string;
+      openInNewTab: boolean;
+      position: number;
+      translations: {
+        locale: string;
+        label: string;
+      }[];
+    }[];
+    socialLinks: {
+      id: number;
+      platform: string;
+      url: string;
+      position: number;
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      publishedAt: string | null;
+      author?: {
+        id: number;
+        firstName: string;
+        lastName: string;
+      } | null | undefined;
+      coverImage?: {
+        id: number;
+        slug: string;
+        r2Key: string;
+        altText: string;
+      } | null | undefined;
+      tags: string[];
+      translations: {
+        locale: string;
+        excerpt: string;
+        seoTitle: string;
+      }[];
+      blocks: {
+        id: number;
+        type: string;
+        position: number;
+        meta?: string | null | undefined;
+        translations: {
+          locale: string;
+          content: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    publishedAt: string | null;
+    author?: {
+      id: number;
+      firstName: string;
+      lastName: string;
+    } | null | undefined;
+    coverImage?: {
+      id: number;
+      slug: string;
+      r2Key: string;
+      altText: string;
+    } | null | undefined;
+    tags: string[];
+    translations: {
+      locale: string;
+      excerpt: string;
+      seoTitle: string;
+    }[];
+    blocks: {
+      id: number;
+      type: string;
+      position: number;
+      meta?: string | null | undefined;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+  } | {
+    data: {
+      id: number;
+      author: string;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      submitAction: {};
+      spamProtection: {};
+      steps: {
+        id: number;
+        position: number;
+        translation: {
+          locale: string;
+          title: string;
+          description?: string | null | undefined;
+        } | null;
+      }[];
+      fields: {
+        id: number;
+        position: number;
+        stepId?: number | null | undefined;
+        parentId?: number | null | undefined;
+        name: string;
+        type: string;
+        required: boolean;
+        config: {};
+        conditions: {};
+        translation: {
+          locale: string;
+          label: string;
+          placeholder?: string | null | undefined;
+          helperText?: string | null | undefined;
+          optionLabels?: {} | null | undefined;
+        } | null;
+      }[];
+      translation: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+        submitLabel: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    submitAction: {};
+    spamProtection: {};
+    steps: {
+      id: number;
+      position: number;
+      translation: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+      } | null;
+    }[];
+    fields: {
+      id: number;
+      position: number;
+      stepId?: number | null | undefined;
+      parentId?: number | null | undefined;
+      name: string;
+      type: string;
+      required: boolean;
+      config: {};
+      conditions: {};
+      translation: {
+        locale: string;
+        label: string;
+        placeholder?: string | null | undefined;
+        helperText?: string | null | undefined;
+        optionLabels?: {} | null | undefined;
+      } | null;
+    }[];
+    translation: {
+      locale: string;
+      title: string;
+      description?: string | null | undefined;
+      submitLabel: string;
+    } | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        position: number;
+        type: string;
+        meta?: string | null | undefined;
+        translation: {
+          locale: string;
+          content: string;
+        } | null;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      position: number;
+      type: string;
+      meta?: string | null | undefined;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+  } | {
+    data: {
+      id: number;
+      position: number;
+      firstName: string;
+      lastName: string;
+      groupId: number | null;
+      translation: {
+        locale: string;
+        title: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      location?: {
+        id: number;
+        name: string;
+        city: string;
+        state: string;
+        country: string;
+      } | null | undefined;
+      id: number;
+      slug: string;
+      workArrangement: string;
+      employmentType: string;
+      department: string;
+      salaryMin?: number | null | undefined;
+      salaryMax?: number | null | undefined;
+      salaryCurrency: string;
+      translation: {
+        locale: string;
+        title: string;
+        description: string;
+        requirements: string;
+        niceToHaves: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    location?: {
+      id: number;
+      name: string;
+      city: string;
+      state: string;
+      country: string;
+    } | null | undefined;
+    id: number;
+    slug: string;
+    workArrangement: string;
+    employmentType: string;
+    department: string;
+    salaryMin?: number | null | undefined;
+    salaryMax?: number | null | undefined;
+    salaryCurrency: string;
+    translation: {
+      locale: string;
+      title: string;
+      description: string;
+      requirements: string;
+      niceToHaves: string;
+    } | null;
+  } | {
+    data: {
+      id: number;
+      handle: string;
+      position: number;
+      items: {
+        id: number;
+        position: number;
+        parentId: number | null;
+        url: string;
+        openInNewTab: boolean;
+        translation: {
+          locale: string;
+          label: string;
+        } | null;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    handle: string;
+    position: number;
+    items: {
+      id: number;
+      position: number;
+      parentId: number | null;
+      url: string;
+      openInNewTab: boolean;
+      translation: {
+        locale: string;
+        label: string;
+      } | null;
+    }[];
+  } | {
+    locales: {
+      locale: string;
+      name: string;
+      isDefault: boolean;
+    }[];
+    default: string | null;
+  } | {
+    globals: {
+      phone: string;
+      email: string;
+      translation: {
+        locale: string;
+        tagline: string;
+        footerCopyright: string;
+        footerAddress: string;
+      } | null;
+    } | null;
+    logos: {
+      id: number;
+      position: number;
+      role: string;
+      galleryImageId: number | null;
+      translation: {
+        locale: string;
+        altText: string;
+      } | null;
+    }[];
+    ctas: {
+      id: number;
+      position: number;
+      url: string;
+      openInNewTab: boolean;
+      zone: string;
+      translation: {
+        locale: string;
+        label: string;
+      } | null;
+    }[];
+    socialLinks: {
+      id: number;
+      platform: string;
+      url: string;
+      position: number;
+    }[];
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        position: number;
+        type: string;
+        meta?: string | null | undefined;
+        translation: {
+          locale: string;
+          content: string;
+        } | null;
+      }[];
+      publishedAt: string | null;
+      author?: {
+        id: number;
+        firstName: string;
+        lastName: string;
+      } | null | undefined;
+      coverImage?: {
+        id: number;
+        slug: string;
+        r2Key: string;
+        altText: string;
+      } | null | undefined;
+      tags: string[];
+      translation: {
+        locale: string;
+        excerpt: string;
+        seoTitle: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      position: number;
+      type: string;
+      meta?: string | null | undefined;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+    publishedAt: string | null;
+    author?: {
+      id: number;
+      firstName: string;
+      lastName: string;
+    } | null | undefined;
+    coverImage?: {
+      id: number;
+      slug: string;
+      r2Key: string;
+      altText: string;
+    } | null | undefined;
+    tags: string[];
+    translation: {
+      locale: string;
+      excerpt: string;
+      seoTitle: string;
+    } | null;
   }>;
 };
 type NexusClient = ReturnType<typeof createNexusClient>;
