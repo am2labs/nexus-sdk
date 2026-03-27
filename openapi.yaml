@@ -354,6 +354,7 @@ components:
         - lastName
         - position
         - groupId
+        - image
         - translations
       properties:
         id:
@@ -368,6 +369,11 @@ components:
           type:
             - integer
             - "null"
+        image:
+          oneOf:
+            - $ref: "#/components/schemas/GalleryImage"
+            - type: "null"
+          description: Profile image, or null if none assigned
         translations:
           type: array
           items:
@@ -628,7 +634,7 @@ components:
       required:
         - id
         - role
-        - galleryImageId
+        - image
         - position
         - translations
       properties:
@@ -636,10 +642,11 @@ components:
           type: integer
         role:
           type: string
-        galleryImageId:
-          type:
-            - integer
-            - "null"
+        image:
+          oneOf:
+            - $ref: "#/components/schemas/GalleryImage"
+            - type: "null"
+          description: Logo image, or null if none assigned
         position:
           type: integer
         translations:
@@ -786,15 +793,36 @@ components:
       required:
         - id
         - slug
-        - r2Key
+        - url
         - altText
       properties:
         id:
           type: integer
         slug:
           type: string
-        r2Key:
+        url:
           type: string
+          format: uri
+          description: Fully qualified public URL to the cover image
+        altText:
+          type: string
+
+    GalleryImage:
+      type: object
+      required:
+        - id
+        - slug
+        - url
+        - altText
+      properties:
+        id:
+          type: integer
+        slug:
+          type: string
+        url:
+          type: string
+          format: uri
+          description: Fully qualified public URL to the image file
         altText:
           type: string
 

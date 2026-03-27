@@ -48,7 +48,7 @@ function createNexusClient(config) {
 	let _cachedDefaultLocale = void 0;
 	async function fetchDefaultLocale() {
 		if (_cachedDefaultLocale !== void 0) return _cachedDefaultLocale;
-		_cachedDefaultLocale = (await unwrap(http.GET("/websites/{siteId}/locales", { params: { path: { siteId: config.siteId } } }))).default ?? null;
+		_cachedDefaultLocale = (await unwrap(http.GET("/websites/{siteSlug}/locales", { params: { path: { siteSlug: config.siteSlug } } }))).default ?? null;
 		return _cachedDefaultLocale;
 	}
 	async function resolveLocale(params) {
@@ -60,14 +60,14 @@ function createNexusClient(config) {
 	}
 	return {
 		async getLocales() {
-			return unwrap(http.GET("/websites/{siteId}/locales", { params: { path: { siteId: config.siteId } } }));
+			return unwrap(http.GET("/websites/{siteSlug}/locales", { params: { path: { siteSlug: config.siteSlug } } }));
 		},
 		async getBranding(params) {
-			return maybeLocalize(await unwrap(http.GET("/websites/{siteId}/branding", { params: { path: { siteId: config.siteId } } })), await resolveLocale(params));
+			return maybeLocalize(await unwrap(http.GET("/websites/{siteSlug}/branding", { params: { path: { siteSlug: config.siteSlug } } })), await resolveLocale(params));
 		},
 		async listTestimonials(params) {
-			return maybeLocalize(await unwrap(http.GET("/websites/{siteId}/testimonials", { params: {
-				path: { siteId: config.siteId },
+			return maybeLocalize(await unwrap(http.GET("/websites/{siteSlug}/testimonials", { params: {
+				path: { siteSlug: config.siteSlug },
 				query: {
 					limit: params?.limit,
 					cursor: params?.cursor
@@ -75,8 +75,8 @@ function createNexusClient(config) {
 			} })), await resolveLocale(params));
 		},
 		async listPages(params) {
-			return maybeLocalize(await unwrap(http.GET("/websites/{siteId}/pages", { params: {
-				path: { siteId: config.siteId },
+			return maybeLocalize(await unwrap(http.GET("/websites/{siteSlug}/pages", { params: {
+				path: { siteSlug: config.siteSlug },
 				query: {
 					limit: params?.limit,
 					cursor: params?.cursor
@@ -84,14 +84,14 @@ function createNexusClient(config) {
 			} })), await resolveLocale(params));
 		},
 		async getPage(slug, params) {
-			return maybeLocalize(await unwrap(http.GET("/websites/{siteId}/pages/{slug}", { params: { path: {
-				siteId: config.siteId,
+			return maybeLocalize(await unwrap(http.GET("/websites/{siteSlug}/pages/{slug}", { params: { path: {
+				siteSlug: config.siteSlug,
 				slug
 			} } })), await resolveLocale(params));
 		},
 		async listBlogPosts(params) {
-			return maybeLocalize(await unwrap(http.GET("/websites/{siteId}/blog", { params: {
-				path: { siteId: config.siteId },
+			return maybeLocalize(await unwrap(http.GET("/websites/{siteSlug}/blog", { params: {
+				path: { siteSlug: config.siteSlug },
 				query: {
 					limit: params?.limit,
 					cursor: params?.cursor,
@@ -102,14 +102,14 @@ function createNexusClient(config) {
 			} })), await resolveLocale(params));
 		},
 		async getBlogPost(slug, params) {
-			return maybeLocalize(await unwrap(http.GET("/websites/{siteId}/blog/{slug}", { params: { path: {
-				siteId: config.siteId,
+			return maybeLocalize(await unwrap(http.GET("/websites/{siteSlug}/blog/{slug}", { params: { path: {
+				siteSlug: config.siteSlug,
 				slug
 			} } })), await resolveLocale(params));
 		},
 		async listForms(params) {
-			return maybeLocalize(await unwrap(http.GET("/websites/{siteId}/forms", { params: {
-				path: { siteId: config.siteId },
+			return maybeLocalize(await unwrap(http.GET("/websites/{siteSlug}/forms", { params: {
+				path: { siteSlug: config.siteSlug },
 				query: {
 					limit: params?.limit,
 					cursor: params?.cursor
@@ -117,14 +117,14 @@ function createNexusClient(config) {
 			} })), await resolveLocale(params));
 		},
 		async getForm(slug, params) {
-			return maybeLocalize(await unwrap(http.GET("/websites/{siteId}/forms/{slug}", { params: { path: {
-				siteId: config.siteId,
+			return maybeLocalize(await unwrap(http.GET("/websites/{siteSlug}/forms/{slug}", { params: { path: {
+				siteSlug: config.siteSlug,
 				slug
 			} } })), await resolveLocale(params));
 		},
 		async listJobs(params) {
-			return maybeLocalize(await unwrap(http.GET("/websites/{siteId}/jobs", { params: {
-				path: { siteId: config.siteId },
+			return maybeLocalize(await unwrap(http.GET("/websites/{siteSlug}/jobs", { params: {
+				path: { siteSlug: config.siteSlug },
 				query: {
 					limit: params?.limit,
 					cursor: params?.cursor
@@ -132,14 +132,14 @@ function createNexusClient(config) {
 			} })), await resolveLocale(params));
 		},
 		async getJob(slug, params) {
-			return maybeLocalize(await unwrap(http.GET("/websites/{siteId}/jobs/{slug}", { params: { path: {
-				siteId: config.siteId,
+			return maybeLocalize(await unwrap(http.GET("/websites/{siteSlug}/jobs/{slug}", { params: { path: {
+				siteSlug: config.siteSlug,
 				slug
 			} } })), await resolveLocale(params));
 		},
 		async listTeamMembers(params) {
-			return maybeLocalize(await unwrap(http.GET("/websites/{siteId}/team-members", { params: {
-				path: { siteId: config.siteId },
+			return maybeLocalize(await unwrap(http.GET("/websites/{siteSlug}/team-members", { params: {
+				path: { siteSlug: config.siteSlug },
 				query: {
 					limit: params?.limit,
 					cursor: params?.cursor
@@ -147,18 +147,18 @@ function createNexusClient(config) {
 			} })), await resolveLocale(params));
 		},
 		async listNavigations(params) {
-			return maybeLocalize(await unwrap(http.GET("/websites/{siteId}/navigations", { params: {
-				path: { siteId: config.siteId },
+			return maybeLocalize(await unwrap(http.GET("/websites/{siteSlug}/navigations", { params: {
+				path: { siteSlug: config.siteSlug },
 				query: {
 					limit: params?.limit,
 					cursor: params?.cursor
 				}
 			} })), await resolveLocale(params));
 		},
-		async getNavigation(id, params) {
-			return maybeLocalize(await unwrap(http.GET("/websites/{siteId}/navigations/{id}", { params: { path: {
-				siteId: config.siteId,
-				id
+		async getNavigation(handle, params) {
+			return maybeLocalize(await unwrap(http.GET("/websites/{siteSlug}/navigations/{handle}", { params: { path: {
+				siteSlug: config.siteSlug,
+				handle
 			} } })), await resolveLocale(params));
 		}
 	};
