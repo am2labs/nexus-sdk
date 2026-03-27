@@ -3,7 +3,7 @@ info:
   title: Nexus Public API
   version: 1.0.0
   description: >
-    Read-only API for retrieving approved content from a Nexus-managed
+    Read-only API for retrieving published content from a Nexus-managed
     website. Authenticate with a site-scoped API key issued from the admin
     dashboard.
   license:
@@ -726,6 +726,158 @@ components:
           items:
             $ref: "#/components/schemas/BrandingSocialLink"
 
+    Locale:
+      type: object
+      required:
+        - locale
+        - name
+        - isDefault
+      properties:
+        locale:
+          type: string
+          description: ISO 639-1 language code
+          examples:
+            - en
+            - es
+        name:
+          type: string
+          description: Display name
+          examples:
+            - English
+            - Spanish
+        isDefault:
+          type: boolean
+          description: Whether this is the site's default locale
+
+    LocalesResponse:
+      type: object
+      required:
+        - locales
+        - default
+      properties:
+        locales:
+          type: array
+          items:
+            $ref: "#/components/schemas/Locale"
+        default:
+          type:
+            - string
+            - "null"
+          description: >
+            The locale code of the default locale, or null if no locales are
+            configured.
+
+    BlogAuthor:
+      type: object
+      required:
+        - id
+        - firstName
+        - lastName
+      properties:
+        id:
+          type: integer
+        firstName:
+          type: string
+        lastName:
+          type: string
+
+    BlogCoverImage:
+      type: object
+      required:
+        - id
+        - slug
+        - r2Key
+        - altText
+      properties:
+        id:
+          type: integer
+        slug:
+          type: string
+        r2Key:
+          type: string
+        altText:
+          type: string
+
+    BlogPostTranslation:
+      type: object
+      required:
+        - locale
+        - excerpt
+        - seoTitle
+      properties:
+        locale:
+          type: string
+          description: ISO 639-1 language code
+          examples:
+            - en
+            - es
+        excerpt:
+          type: string
+        seoTitle:
+          type: string
+
+    BlogPost:
+      type: object
+      required:
+        - id
+        - slug
+        - title
+        - publishedAt
+        - tags
+        - translations
+        - blocks
+      properties:
+        id:
+          type: integer
+        slug:
+          type: string
+        title:
+          type: string
+        publishedAt:
+          type:
+            - string
+            - "null"
+          format: date-time
+        author:
+          oneOf:
+            - $ref: "#/components/schemas/BlogAuthor"
+            - type: "null"
+        coverImage:
+          oneOf:
+            - $ref: "#/components/schemas/BlogCoverImage"
+            - type: "null"
+        tags:
+          type: array
+          items:
+            type: string
+        translations:
+          type: array
+          items:
+            $ref: "#/components/schemas/BlogPostTranslation"
+        blocks:
+          type: array
+          items:
+            $ref: "#/components/schemas/ContentBlock"
+
+    BlogListResponse:
+      type: object
+      required:
+        - data
+        - nextCursor
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/BlogPost"
+        nextCursor:
+          type:
+            - string
+            - "null"
+          description: >
+            Opaque cursor for the next page. Pass as the `cursor` query
+            parameter to fetch the next batch. Null when there are no more
+            results.
+
     ErrorResponse:
       type: object
       required:
@@ -764,7 +916,7 @@ components:
             error: Resource not found
 
     NotFoundForm:
-      description: Form not found or not approved
+      description: Form not found or not published
       content:
         application/json:
           schema:
@@ -790,45 +942,29 @@ components:
         type: integer
       description: Numeric site identifier
 
-    testimonialId:
-      name: id
+    formSlug:
+      name: slug
       in: path
       required: true
       schema:
-        type: integer
-      description: Numeric testimonial identifier
+        type: string
+      description: Form slug identifier
 
-    formId:
-      name: id
+    pageSlug:
+      name: slug
       in: path
       required: true
       schema:
-        type: integer
-      description: Numeric form identifier
+        type: string
+      description: Page slug identifier
 
-    pageId:
-      name: id
+    jobSlug:
+      name: slug
       in: path
       required: true
       schema:
-        type: integer
-      description: Numeric page identifier
-
-    jobId:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: integer
-      description: Numeric job identifier
-
-    memberId:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: integer
-      description: Numeric team member identifier
+        type: string
+      description: Job slug identifier
 
     navigationId:
       name: id
@@ -838,14 +974,22 @@ components:
         type: integer
       description: Numeric navigation identifier
 
+    blogPostSlug:
+      name: slug
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Blog post slug identifier
+
 paths:
   /websites/{siteId}/testimonials:
     get:
       operationId: listTestimonials
-      summary: List approved testimonials
+      summary: List published testimonials
       description: >
-        Returns a paginated list of approved testimonials for the given site.
-        Only testimonials with `status = 'approved'` and no `deletedAt` value
+        Returns a paginated list of published testimonials for the given site.
+        Only testimonials with `status = 'published'` and no `deletedAt` value
         are included. All translations are embedded in every response.
       parameters:
         - $ref: "#/components/parameters/siteId"
@@ -866,7 +1010,7 @@ paths:
           description: Opaque pagination cursor returned by a previous request
       responses:
         "200":
-          description: Paginated list of approved testimonials
+          description: Paginated list of published testimonials
           content:
             application/json:
               schema:
@@ -878,38 +1022,13 @@ paths:
         "429":
           $ref: "#/components/responses/RateLimited"
 
-  /websites/{siteId}/testimonials/{id}:
-    get:
-      operationId: getTestimonial
-      summary: Get a single approved testimonial
-      description: >
-        Returns a single testimonial by ID, provided it belongs to the given
-        site, has `status = 'approved'`, and has no `deletedAt` value. All
-        translations are embedded in the response.
-      parameters:
-        - $ref: "#/components/parameters/siteId"
-        - $ref: "#/components/parameters/testimonialId"
-      responses:
-        "200":
-          description: The requested testimonial
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Testimonial"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
-
   /websites/{siteId}/forms:
     get:
       operationId: listForms
-      summary: List approved forms
+      summary: List published forms
       description: >
-        Returns a paginated list of approved forms for the given site.
-        Only forms with `status = 'approved'`, a `publishedAt` value, and no
+        Returns a paginated list of published forms for the given site.
+        Only forms with `status = 'published'`, a `publishedAt` value, and no
         `deletedAt` value are included. All translations, steps, and fields
         are embedded in every response.
       parameters:
@@ -931,7 +1050,7 @@ paths:
           description: Opaque pagination cursor returned by a previous request
       responses:
         "200":
-          description: Paginated list of approved forms
+          description: Paginated list of published forms
           content:
             application/json:
               schema:
@@ -943,17 +1062,17 @@ paths:
         "429":
           $ref: "#/components/responses/RateLimited"
 
-  /websites/{siteId}/forms/{id}:
+  /websites/{siteId}/forms/{slug}:
     get:
       operationId: getForm
-      summary: Get a single approved form
+      summary: Get a single published form
       description: >
-        Returns a single form by ID, provided it belongs to the given site,
-        has `status = 'approved'`, a `publishedAt` value, and no `deletedAt`
+        Returns a single form by slug, provided it belongs to the given site,
+        has `status = 'published'`, a `publishedAt` value, and no `deletedAt`
         value. All translations, steps, and fields are embedded in the response.
       parameters:
         - $ref: "#/components/parameters/siteId"
-        - $ref: "#/components/parameters/formId"
+        - $ref: "#/components/parameters/formSlug"
       responses:
         "200":
           description: The requested form
@@ -974,7 +1093,7 @@ paths:
       summary: List published content pages
       description: >
         Returns a paginated list of published content pages for the given site.
-        Only pages with `status = 'approved'`, a `publishedAt` value, and no
+        Only pages with `status = 'published'`, a `publishedAt` value, and no
         `deletedAt` value are included. All content blocks and their
         translations are embedded in every response.
       parameters:
@@ -1008,18 +1127,18 @@ paths:
         "429":
           $ref: "#/components/responses/RateLimited"
 
-  /websites/{siteId}/pages/{id}:
+  /websites/{siteId}/pages/{slug}:
     get:
       operationId: getPage
       summary: Get a single published content page
       description: >
-        Returns a single content page by ID, provided it belongs to the given
-        site, has `status = 'approved'`, a `publishedAt` value, and no
+        Returns a single content page by slug, provided it belongs to the given
+        site, has `status = 'published'`, a `publishedAt` value, and no
         `deletedAt` value. All content blocks and their translations are
         embedded in the response.
       parameters:
         - $ref: "#/components/parameters/siteId"
-        - $ref: "#/components/parameters/pageId"
+        - $ref: "#/components/parameters/pageSlug"
       responses:
         "200":
           description: The requested page
@@ -1037,10 +1156,10 @@ paths:
   /websites/{siteId}/team-members:
     get:
       operationId: listTeamMembers
-      summary: List approved team members
+      summary: List published team members
       description: >
-        Returns a paginated list of approved team members for the given site.
-        Only members with `status = 'approved'`, a `publishedAt` value, and no
+        Returns a paginated list of published team members for the given site.
+        Only members with `status = 'published'`, a `publishedAt` value, and no
         `deletedAt` value are included. All translations are embedded in every
         response.
       parameters:
@@ -1062,7 +1181,7 @@ paths:
           description: Opaque pagination cursor returned by a previous request
       responses:
         "200":
-          description: Paginated list of approved team members
+          description: Paginated list of published team members
           content:
             application/json:
               schema:
@@ -1074,38 +1193,13 @@ paths:
         "429":
           $ref: "#/components/responses/RateLimited"
 
-  /websites/{siteId}/team-members/{id}:
-    get:
-      operationId: getTeamMember
-      summary: Get a single approved team member
-      description: >
-        Returns a single team member by ID, provided it belongs to the given
-        site, has `status = 'approved'`, a `publishedAt` value, and no
-        `deletedAt` value. All translations are embedded in the response.
-      parameters:
-        - $ref: "#/components/parameters/siteId"
-        - $ref: "#/components/parameters/memberId"
-      responses:
-        "200":
-          description: The requested team member
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/TeamMember"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
-
   /websites/{siteId}/jobs:
     get:
       operationId: listJobs
-      summary: List approved job listings
+      summary: List published job listings
       description: >
-        Returns a paginated list of approved job listings for the given site.
-        Only jobs with `status = 'approved'`, a `publishedAt` value, and no
+        Returns a paginated list of published job listings for the given site.
+        Only jobs with `status = 'published'`, a `publishedAt` value, and no
         `deletedAt` value are included. Location and all translations are
         embedded in every response.
       parameters:
@@ -1127,7 +1221,7 @@ paths:
           description: Opaque pagination cursor returned by a previous request
       responses:
         "200":
-          description: Paginated list of approved jobs
+          description: Paginated list of published jobs
           content:
             application/json:
               schema:
@@ -1139,18 +1233,18 @@ paths:
         "429":
           $ref: "#/components/responses/RateLimited"
 
-  /websites/{siteId}/jobs/{id}:
+  /websites/{siteId}/jobs/{slug}:
     get:
       operationId: getJob
-      summary: Get a single approved job listing
+      summary: Get a single published job listing
       description: >
-        Returns a single job listing by ID, provided it belongs to the given
-        site, has `status = 'approved'`, a `publishedAt` value, and no
+        Returns a single job listing by slug, provided it belongs to the given
+        site, has `status = 'published'`, a `publishedAt` value, and no
         `deletedAt` value. Location and all translations are embedded in the
         response.
       parameters:
         - $ref: "#/components/parameters/siteId"
-        - $ref: "#/components/parameters/jobId"
+        - $ref: "#/components/parameters/jobSlug"
       responses:
         "200":
           description: The requested job listing
@@ -1168,10 +1262,10 @@ paths:
   /websites/{siteId}/navigations:
     get:
       operationId: listNavigations
-      summary: List approved navigations
+      summary: List published navigations
       description: >
-        Returns a paginated list of approved navigations for the given site.
-        Only navigations with `status = 'approved'` and a `publishedAt` value
+        Returns a paginated list of published navigations for the given site.
+        Only navigations with `status = 'published'` and a `publishedAt` value
         are included. All items and their translations are embedded in every response.
       parameters:
         - $ref: "#/components/parameters/siteId"
@@ -1192,7 +1286,7 @@ paths:
           description: Opaque pagination cursor returned by a previous request
       responses:
         "200":
-          description: Paginated list of approved navigations
+          description: Paginated list of published navigations
           content:
             application/json:
               schema:
@@ -1207,10 +1301,10 @@ paths:
   /websites/{siteId}/navigations/{id}:
     get:
       operationId: getNavigation
-      summary: Get a single approved navigation
+      summary: Get a single published navigation
       description: >
         Returns a single navigation by ID, provided it belongs to the given
-        site, has `status = 'approved'`, and has a `publishedAt` value. All
+        site, has `status = 'published'`, and has a `publishedAt` value. All
         items and their translations are embedded in the response.
       parameters:
         - $ref: "#/components/parameters/siteId"
@@ -1229,14 +1323,36 @@ paths:
         "404":
           $ref: "#/components/responses/NotFound"
 
+  /websites/{siteId}/locales:
+    get:
+      operationId: getLocales
+      summary: Get enabled locales
+      description: >
+        Returns the list of locales enabled for the given site, including which
+        one is the default. The `default` field is a convenience shortcut to the
+        default locale code.
+      parameters:
+        - $ref: "#/components/parameters/siteId"
+      responses:
+        "200":
+          description: Enabled locales for the site
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LocalesResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
   /websites/{siteId}/branding:
     get:
       operationId: getBranding
       summary: Get site branding
       description: >
         Returns the branding configuration for the given site, including
-        globals (phone, email, translations), approved logos, approved CTAs,
-        and social links. Globals is null if no approved/published row exists.
+        globals (phone, email, translations), published logos, published CTAs,
+        and social links. Globals is null if no published row exists.
       parameters:
         - $ref: "#/components/parameters/siteId"
       responses:
@@ -1258,3 +1374,92 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse"
               example:
                 error: Database unavailable.
+
+  /websites/{siteId}/blog:
+    get:
+      operationId: listBlogPosts
+      summary: List published blog posts
+      description: >
+        Returns a paginated list of published blog posts for the given site.
+        Only posts with `status = 'published'`, a `publishedAt` value, and no
+        `deletedAt` value are included. Supports tag filtering (AND logic),
+        date-range filtering, and cursor-based pagination. All translations,
+        blocks, author, and cover image data are embedded in every response.
+      parameters:
+        - $ref: "#/components/parameters/siteId"
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          description: Number of posts to return per page
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Opaque pagination cursor returned by a previous request
+        - name: tag
+          in: query
+          required: false
+          schema:
+            type: string
+          description: >
+            Filter by tag. Repeatable for AND logic (e.g. ?tag=react&tag=typescript
+            returns posts tagged with both).
+        - name: from
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+          description: Only include posts published at or after this date (ISO 8601)
+        - name: to
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+          description: Only include posts published at or before this date (ISO 8601)
+      responses:
+        "200":
+          description: Paginated list of published blog posts
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BlogListResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+
+  /websites/{siteId}/blog/{slug}:
+    get:
+      operationId: getBlogPost
+      summary: Get a single published blog post
+      description: >
+        Returns a single blog post by slug, provided it belongs to the given
+        site, has `status = 'published'`, a `publishedAt` value, and no
+        `deletedAt` value. All translations, blocks, author, and cover image
+        data are embedded in the response.
+      parameters:
+        - $ref: "#/components/parameters/siteId"
+        - $ref: "#/components/parameters/blogPostSlug"
+      responses:
+        "200":
+          description: The requested blog post
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BlogPost"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
