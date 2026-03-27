@@ -69,13 +69,26 @@ function createNexusClient(config) {
 		const body = await response.clone().json().catch(() => "(non-JSON body)");
 		console.debug(`[nexus-sdk] ${request.method} ${request.url} → ${response.status}`, body);
 	} });
-	function resolveLocale(params) {
-		return params?.locale ?? config.defaultLocale;
+	let _cachedDefaultLocale = void 0;
+	async function fetchDefaultLocale() {
+		if (_cachedDefaultLocale !== void 0) return _cachedDefaultLocale;
+		_cachedDefaultLocale = (await unwrap(http.GET("/websites/{siteId}/locales", { params: { path: { siteId: config.siteId } } }))).default ?? null;
+		return _cachedDefaultLocale;
 	}
-	function maybeLocalize(data, locale) {
+	async function resolveLocale(params) {
+		if (params?.locale) return params.locale;
+		return await fetchDefaultLocale() ?? void 0;
+	}
+	async function maybeLocalize(data, locale) {
 		return locale ? localize(data, locale) : data;
 	}
 	return {
+		async getLocales() {
+			return unwrap(http.GET("/websites/{siteId}/locales", { params: { path: { siteId: config.siteId } } }));
+		},
+		async getBranding(params) {
+			return maybeLocalize(await unwrap(http.GET("/websites/{siteId}/branding", { params: { path: { siteId: config.siteId } } })), await resolveLocale(params));
+		},
 		async listTestimonials(params) {
 			return maybeLocalize(await unwrap(http.GET("/websites/{siteId}/testimonials", { params: {
 				path: { siteId: config.siteId },
@@ -83,28 +96,7 @@ function createNexusClient(config) {
 					limit: params?.limit,
 					cursor: params?.cursor
 				}
-			} })), resolveLocale(params));
-		},
-		async getTestimonial(id, params) {
-			return maybeLocalize(await unwrap(http.GET("/websites/{siteId}/testimonials/{id}", { params: { path: {
-				siteId: config.siteId,
-				id
-			} } })), resolveLocale(params));
-		},
-		async listForms(params) {
-			return maybeLocalize(await unwrap(http.GET("/websites/{siteId}/forms", { params: {
-				path: { siteId: config.siteId },
-				query: {
-					limit: params?.limit,
-					cursor: params?.cursor
-				}
-			} })), resolveLocale(params));
-		},
-		async getForm(id, params) {
-			return maybeLocalize(await unwrap(http.GET("/websites/{siteId}/forms/{id}", { params: { path: {
-				siteId: config.siteId,
-				id
-			} } })), resolveLocale(params));
+			} })), await resolveLocale(params));
 		},
 		async listPages(params) {
 			return maybeLocalize(await unwrap(http.GET("/websites/{siteId}/pages", { params: {
@@ -113,28 +105,46 @@ function createNexusClient(config) {
 					limit: params?.limit,
 					cursor: params?.cursor
 				}
-			} })), resolveLocale(params));
+			} })), await resolveLocale(params));
 		},
-		async getPage(id, params) {
-			return maybeLocalize(await unwrap(http.GET("/websites/{siteId}/pages/{id}", { params: { path: {
+		async getPage(slug, params) {
+			return maybeLocalize(await unwrap(http.GET("/websites/{siteId}/pages/{slug}", { params: { path: {
 				siteId: config.siteId,
-				id
-			} } })), resolveLocale(params));
+				slug
+			} } })), await resolveLocale(params));
 		},
-		async listTeamMembers(params) {
-			return maybeLocalize(await unwrap(http.GET("/websites/{siteId}/team-members", { params: {
+		async listBlogPosts(params) {
+			return maybeLocalize(await unwrap(http.GET("/websites/{siteId}/blog", { params: {
+				path: { siteId: config.siteId },
+				query: {
+					limit: params?.limit,
+					cursor: params?.cursor,
+					tag: params?.tag,
+					from: params?.from,
+					to: params?.to
+				}
+			} })), await resolveLocale(params));
+		},
+		async getBlogPost(slug, params) {
+			return maybeLocalize(await unwrap(http.GET("/websites/{siteId}/blog/{slug}", { params: { path: {
+				siteId: config.siteId,
+				slug
+			} } })), await resolveLocale(params));
+		},
+		async listForms(params) {
+			return maybeLocalize(await unwrap(http.GET("/websites/{siteId}/forms", { params: {
 				path: { siteId: config.siteId },
 				query: {
 					limit: params?.limit,
 					cursor: params?.cursor
 				}
-			} })), resolveLocale(params));
+			} })), await resolveLocale(params));
 		},
-		async getTeamMember(id, params) {
-			return maybeLocalize(await unwrap(http.GET("/websites/{siteId}/team-members/{id}", { params: { path: {
+		async getForm(slug, params) {
+			return maybeLocalize(await unwrap(http.GET("/websites/{siteId}/forms/{slug}", { params: { path: {
 				siteId: config.siteId,
-				id
-			} } })), resolveLocale(params));
+				slug
+			} } })), await resolveLocale(params));
 		},
 		async listJobs(params) {
 			return maybeLocalize(await unwrap(http.GET("/websites/{siteId}/jobs", { params: {
@@ -143,13 +153,22 @@ function createNexusClient(config) {
 					limit: params?.limit,
 					cursor: params?.cursor
 				}
-			} })), resolveLocale(params));
+			} })), await resolveLocale(params));
 		},
-		async getJob(id, params) {
-			return maybeLocalize(await unwrap(http.GET("/websites/{siteId}/jobs/{id}", { params: { path: {
+		async getJob(slug, params) {
+			return maybeLocalize(await unwrap(http.GET("/websites/{siteId}/jobs/{slug}", { params: { path: {
 				siteId: config.siteId,
-				id
-			} } })), resolveLocale(params));
+				slug
+			} } })), await resolveLocale(params));
+		},
+		async listTeamMembers(params) {
+			return maybeLocalize(await unwrap(http.GET("/websites/{siteId}/team-members", { params: {
+				path: { siteId: config.siteId },
+				query: {
+					limit: params?.limit,
+					cursor: params?.cursor
+				}
+			} })), await resolveLocale(params));
 		},
 		async listNavigations(params) {
 			return maybeLocalize(await unwrap(http.GET("/websites/{siteId}/navigations", { params: {
@@ -158,16 +177,13 @@ function createNexusClient(config) {
 					limit: params?.limit,
 					cursor: params?.cursor
 				}
-			} })), resolveLocale(params));
+			} })), await resolveLocale(params));
 		},
 		async getNavigation(id, params) {
 			return maybeLocalize(await unwrap(http.GET("/websites/{siteId}/navigations/{id}", { params: { path: {
 				siteId: config.siteId,
 				id
-			} } })), resolveLocale(params));
-		},
-		async getBranding(params) {
-			return maybeLocalize(await unwrap(http.GET("/websites/{siteId}/branding", { params: { path: { siteId: config.siteId } } })), resolveLocale(params));
+			} } })), await resolveLocale(params));
 		}
 	};
 }

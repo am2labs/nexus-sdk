@@ -5,8 +5,6 @@ export interface NexusSDKConfig {
   apiKey: string;
   /** Numeric site identifier */
   siteId: number;
-  /** ISO 639-1 locale applied to all responses unless overridden per-call */
-  defaultLocale?: string;
   /** Log every request and response to the console */
   debug?: boolean;
 }
@@ -14,11 +12,20 @@ export interface NexusSDKConfig {
 export interface ListParams {
   limit?: number;
   cursor?: string;
-  /** Overrides defaultLocale for this call */
+  /** Overrides the site's default locale for this call */
   locale?: string;
 }
 
+export interface ListBlogParams extends ListParams {
+  /** Filter by tag. Repeatable — AND logic (all tags must match) */
+  tag?: string;
+  /** Only include posts published at or after this date (ISO 8601) */
+  from?: string;
+  /** Only include posts published at or before this date (ISO 8601) */
+  to?: string;
+}
+
 export interface GetParams {
-  /** Overrides defaultLocale for this call */
+  /** Overrides the site's default locale for this call */
   locale?: string;
 }
