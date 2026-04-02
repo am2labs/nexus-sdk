@@ -129,6 +129,18 @@ declare function createNexusClient(config: NexusSDKConfig): {
     data: {
       id: number;
       author: string;
+      image1: {
+        id: number;
+        slug: string;
+        url: string;
+        altText: string;
+      } | null;
+      image2: {
+        id: number;
+        slug: string;
+        url: string;
+        altText: string;
+      } | null;
       translations: {
         locale: string;
         content: string;
@@ -139,6 +151,18 @@ declare function createNexusClient(config: NexusSDKConfig): {
     data: {
       id: number;
       author: string;
+      image1: {
+        id: number;
+        slug: string;
+        url: string;
+        altText: string;
+      } | null;
+      image2: {
+        id: number;
+        slug: string;
+        url: string;
+        altText: string;
+      } | null;
       translation: {
         locale: string;
         content: string;
@@ -728,5 +752,393 @@ type Localized<T> = T extends {
   translation: U | null;
 } extends infer R ? { [K in keyof R]: Localized<R[K]> } : never : T extends Array<infer Item> ? Array<Localized<Item>> : T extends object ? { [K in keyof T]: Localized<T[K]> } : T;
 //#endregion
-export { type GetParams, type ListBlogParams, type ListParams, type Localized, type NexusClient, type NexusSDKConfig, createNexusClient };
+//#region src/generated/api.d.ts
+interface components {
+  schemas: {
+    Translation: {
+      /**
+       * @description ISO 639-1 language code
+       * @example en
+       * @example es
+       */
+      locale: string; /** @description Translated testimonial body */
+      content: string;
+    };
+    Testimonial: {
+      id: number;
+      author: string; /** @description First gallery image, or null if none assigned */
+      image1: components["schemas"]["GalleryImage"] | null; /** @description Second gallery image, or null if none assigned */
+      image2: components["schemas"]["GalleryImage"] | null;
+      translations: components["schemas"]["Translation"][];
+    };
+    TestimonialListResponse: {
+      data: components["schemas"]["Testimonial"][]; /** @description Opaque cursor for the next page. Pass as the `cursor` query parameter to fetch the next batch. Null when there are no more results. */
+      nextCursor: string | null;
+    };
+    FormTranslation: {
+      /**
+       * @description ISO 639-1 language code
+       * @example en
+       * @example es
+       */
+      locale: string;
+      title: string;
+      description?: string | null;
+      submitLabel: string;
+    };
+    FormStepTranslation: {
+      locale: string;
+      title: string;
+      description?: string | null;
+    };
+    FormStep: {
+      id: number;
+      position: number;
+      translations: components["schemas"]["FormStepTranslation"][];
+    };
+    FormFieldTranslation: {
+      locale: string;
+      label: string;
+      placeholder?: string | null;
+      helperText?: string | null; /** @description Map of option value to translated label, or null */
+      optionLabels?: Record<string, never> | null;
+    };
+    FormField: {
+      id: number;
+      stepId?: number | null;
+      parentId?: number | null;
+      position: number;
+      name: string; /** @description Field type: text, email, tel, url, number, textarea, select, radio, checkbox, checkbox_group, group */
+      type: string;
+      required: boolean; /** @description Field-type-specific configuration (options, min/max, etc.) */
+      config: Record<string, never>; /** @description Conditional visibility rules */
+      conditions: Record<string, never>;
+      translations: components["schemas"]["FormFieldTranslation"][];
+    };
+    Form: {
+      id: number;
+      slug: string; /** @description Submit action configuration */
+      submitAction: Record<string, never>; /** @description Spam protection configuration */
+      spamProtection: Record<string, never>;
+      translations: components["schemas"]["FormTranslation"][];
+      steps: components["schemas"]["FormStep"][];
+      fields: components["schemas"]["FormField"][];
+    };
+    FormListResponse: {
+      data: components["schemas"]["Form"][]; /** @description Opaque cursor for the next page. Pass as the `cursor` query parameter to fetch the next batch. Null when there are no more results. */
+      nextCursor: string | null;
+    };
+    ContentBlockTranslation: {
+      /**
+       * @description ISO 639-1 language code
+       * @example en
+       * @example es
+       */
+      locale: string; /** @description Translated block content */
+      content: string;
+    };
+    ContentBlock: {
+      id: number; /** @description Block type (e.g. text, image, video) */
+      type: string;
+      position: number; /** @description Optional JSON metadata for the block */
+      meta?: string | null;
+      translations: components["schemas"]["ContentBlockTranslation"][];
+    };
+    Page: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: components["schemas"]["ContentBlock"][];
+    };
+    PageListResponse: {
+      data: components["schemas"]["Page"][]; /** @description Opaque cursor for the next page. Pass as the `cursor` query parameter to fetch the next batch. Null when there are no more results. */
+      nextCursor: string | null;
+    };
+    TeamMemberTranslation: {
+      /**
+       * @description ISO 639-1 language code
+       * @example en
+       * @example es
+       */
+      locale: string; /** @description Translated job title */
+      title: string;
+    };
+    TeamMember: {
+      id: number;
+      firstName: string;
+      lastName: string;
+      position: number;
+      groupId: number | null; /** @description Profile image, or null if none assigned */
+      image: components["schemas"]["GalleryImage"] | null;
+      translations: components["schemas"]["TeamMemberTranslation"][];
+    };
+    TeamMemberListResponse: {
+      data: components["schemas"]["TeamMember"][]; /** @description Opaque cursor for the next page. Pass as the `cursor` query parameter to fetch the next batch. Null when there are no more results. */
+      nextCursor: string | null;
+    };
+    JobTranslation: {
+      /**
+       * @description ISO 639-1 language code
+       * @example en
+       * @example es
+       */
+      locale: string;
+      title: string;
+      description: string;
+      requirements: string;
+      niceToHaves: string;
+    };
+    JobLocation: {
+      id: number;
+      name: string;
+      city: string;
+      state: string;
+      country: string;
+    };
+    Job: {
+      id: number;
+      slug: string; /** @description Work arrangement: on_site, remote, hybrid */
+      workArrangement: string; /** @description Employment type: full_time, part_time, contract, internship */
+      employmentType: string;
+      department: string;
+      salaryMin?: number | null;
+      salaryMax?: number | null;
+      salaryCurrency: string;
+      location?: components["schemas"]["JobLocation"] | null;
+      translations: components["schemas"]["JobTranslation"][];
+    };
+    JobListResponse: {
+      data: components["schemas"]["Job"][]; /** @description Opaque cursor for the next page. Pass as the `cursor` query parameter to fetch the next batch. Null when there are no more results. */
+      nextCursor: string | null;
+    };
+    NavigationItemTranslation: {
+      /** @example en */locale: string; /** @example Home */
+      label: string;
+    };
+    NavigationItem: {
+      id: number;
+      parentId: number | null;
+      position: number;
+      url: string;
+      openInNewTab: boolean;
+      translations: components["schemas"]["NavigationItemTranslation"][];
+    };
+    Navigation: {
+      id: number; /** @example main-menu */
+      handle: string;
+      position: number;
+      items: components["schemas"]["NavigationItem"][];
+    };
+    NavigationListResponse: {
+      data: components["schemas"]["Navigation"][]; /** @description Opaque cursor for the next page. Pass as the `cursor` query parameter to fetch the next batch. Null when there are no more results. */
+      nextCursor: string | null;
+    };
+    BrandingGlobalsTranslation: {
+      /**
+       * @description ISO 639-1 language code
+       * @example en
+       * @example es
+       */
+      locale: string;
+      tagline: string;
+      footerCopyright: string;
+      footerAddress: string;
+    };
+    BrandingGlobals: {
+      phone: string;
+      email: string;
+      translations: components["schemas"]["BrandingGlobalsTranslation"][];
+    };
+    BrandingLogoTranslation: {
+      locale: string;
+      altText: string;
+    };
+    BrandingLogo: {
+      id: number;
+      role: string; /** @description Logo image, or null if none assigned */
+      image: components["schemas"]["GalleryImage"] | null;
+      position: number;
+      translations: components["schemas"]["BrandingLogoTranslation"][];
+    };
+    BrandingCtaTranslation: {
+      locale: string;
+      label: string;
+    };
+    BrandingCta: {
+      id: number;
+      zone: string;
+      url: string;
+      openInNewTab: boolean;
+      position: number;
+      translations: components["schemas"]["BrandingCtaTranslation"][];
+    };
+    BrandingSocialLink: {
+      id: number;
+      platform: string;
+      url: string;
+      position: number;
+    };
+    BrandingResponse: {
+      /** @description Site-wide globals, or null if none published */globals: components["schemas"]["BrandingGlobals"] | null;
+      logos: components["schemas"]["BrandingLogo"][];
+      ctas: components["schemas"]["BrandingCta"][];
+      socialLinks: components["schemas"]["BrandingSocialLink"][];
+    };
+    Locale: {
+      /**
+       * @description ISO 639-1 language code
+       * @example en
+       * @example es
+       */
+      locale: string;
+      /**
+       * @description Display name
+       * @example English
+       * @example Spanish
+       */
+      name: string; /** @description Whether this is the site's default locale */
+      isDefault: boolean;
+    };
+    LocalesResponse: {
+      locales: components["schemas"]["Locale"][]; /** @description The locale code of the default locale, or null if no locales are configured. */
+      default: string | null;
+    };
+    BlogAuthor: {
+      id: number;
+      firstName: string;
+      lastName: string;
+    };
+    BlogCoverImage: {
+      id: number;
+      slug: string;
+      /**
+       * Format: uri
+       * @description Fully qualified public URL to the cover image
+       */
+      url: string;
+      altText: string;
+    };
+    GalleryImage: {
+      id: number;
+      slug: string;
+      /**
+       * Format: uri
+       * @description Fully qualified public URL to the image file
+       */
+      url: string;
+      altText: string;
+    };
+    BlogPostTranslation: {
+      /**
+       * @description ISO 639-1 language code
+       * @example en
+       * @example es
+       */
+      locale: string;
+      excerpt: string;
+      seoTitle: string;
+    };
+    BlogPost: {
+      id: number;
+      slug: string;
+      title: string; /** Format: date-time */
+      publishedAt: string | null;
+      author?: components["schemas"]["BlogAuthor"] | null;
+      coverImage?: components["schemas"]["BlogCoverImage"] | null;
+      tags: string[];
+      translations: components["schemas"]["BlogPostTranslation"][];
+      blocks: components["schemas"]["ContentBlock"][];
+    };
+    BlogListResponse: {
+      data: components["schemas"]["BlogPost"][]; /** @description Opaque cursor for the next page. Pass as the `cursor` query parameter to fetch the next batch. Null when there are no more results. */
+      nextCursor: string | null;
+    };
+    ErrorResponse: {
+      /** @description Human-readable error message */error: string;
+    };
+  };
+  responses: {
+    /** @description Missing or invalid API key */Unauthorized: {
+      headers: {
+        [name: string]: unknown;
+      };
+      content: {
+        /**
+         * @example {
+         *       "error": "Missing or invalid API key"
+         *     }
+         */
+        "application/json": components["schemas"]["ErrorResponse"];
+      };
+    }; /** @description API key does not grant access to the requested site */
+    Forbidden: {
+      headers: {
+        [name: string]: unknown;
+      };
+      content: {
+        /**
+         * @example {
+         *       "error": "API key siteSlug does not match path siteSlug"
+         *     }
+         */
+        "application/json": components["schemas"]["ErrorResponse"];
+      };
+    }; /** @description Resource not found or not published */
+    NotFound: {
+      headers: {
+        [name: string]: unknown;
+      };
+      content: {
+        /**
+         * @example {
+         *       "error": "Resource not found"
+         *     }
+         */
+        "application/json": components["schemas"]["ErrorResponse"];
+      };
+    }; /** @description Form not found or not published */
+    NotFoundForm: {
+      headers: {
+        [name: string]: unknown;
+      };
+      content: {
+        /**
+         * @example {
+         *       "error": "Form not found"
+         *     }
+         */
+        "application/json": components["schemas"]["ErrorResponse"];
+      };
+    }; /** @description Rate limit exceeded (documented, not yet implemented) */
+    RateLimited: {
+      headers: {
+        [name: string]: unknown;
+      };
+      content: {
+        /**
+         * @example {
+         *       "error": "Rate limit exceeded"
+         *     }
+         */
+        "application/json": components["schemas"]["ErrorResponse"];
+      };
+    };
+  };
+  parameters: {
+    /** @description Site slug identifier */siteSlug: string; /** @description Form slug identifier */
+    formSlug: string; /** @description Page slug identifier */
+    pageSlug: string; /** @description Job slug identifier */
+    jobSlug: string; /** @description Navigation handle identifier */
+    navigationHandle: string; /** @description Blog post slug identifier */
+    blogPostSlug: string;
+  };
+  requestBodies: never;
+  headers: never;
+  pathItems: never;
+}
+//#endregion
+//#region src/index.d.ts
+type GalleryImage = components["schemas"]["GalleryImage"];
+//#endregion
+export { GalleryImage, type GetParams, type ListBlogParams, type ListParams, type Localized, type NexusClient, type NexusSDKConfig, createNexusClient };
 //# sourceMappingURL=index.d.cts.map

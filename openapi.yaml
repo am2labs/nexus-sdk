@@ -49,12 +49,24 @@ components:
       required:
         - id
         - author
+        - image1
+        - image2
         - translations
       properties:
         id:
           type: integer
         author:
           type: string
+        image1:
+          oneOf:
+            - $ref: "#/components/schemas/GalleryImage"
+            - type: "null"
+          description: First gallery image, or null if none assigned
+        image2:
+          oneOf:
+            - $ref: "#/components/schemas/GalleryImage"
+            - type: "null"
+          description: Second gallery image, or null if none assigned
         translations:
           type: array
           items:
