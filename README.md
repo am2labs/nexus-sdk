@@ -1,37 +1,40 @@
 # nexus-sdk
 
-TypeScript SDK for the Nexus Public API. Wraps all read endpoints with a type-safe client that handles authentication, site scoping, and optional locale filtering out of the box.
+TypeScript SDK for the Nexus Public API. It wraps the read-only public endpoints with a typed client that handles bearer authentication, site scoping, cursor pagination, errors, and optional locale filtering.
 
 ## Installation
 
+Install directly from the public GitHub repository:
+
 ```bash
-npm install nexus-sdk
+npm install github:am2labs/nexus-sdk
 ```
 
 ## Quick start
 
 ```ts
-import { createNexusClient } from "nexus-sdk";
+import { createNexusClient } from "@am2labs/nexus-sdk";
 
 const nexus = createNexusClient({
   baseUrl: "https://your-nexus-site.com/api/v1",
   apiKey: "nxs_your_api_key",
-  siteId: 42,
+  siteSlug: "acme",
 });
 
-const { data: testimonials } = await nexus.listTestimonials();
+const { data: pages } = await nexus.listPages();
+const page = await nexus.getPage("about-us");
 ```
 
 ## Configuration
 
-Pass a config object to `createNexusClient`. All options except `defaultLocale` are required.
+Pass a config object to `createNexusClient`.
 
 ```ts
 const nexus = createNexusClient({
   baseUrl: "https://your-nexus-site.com/api/v1", // API origin + base path
   apiKey: "nxs_your_api_key",                    // from Admin > Website > Settings
-  siteId: 42,                                    // numeric site ID
-  defaultLocale: "en",                           // optional — see Localization
+  siteSlug: "acme",                              // site slug identifier
+  debug: false,                                  // optional request/response logging
 });
 ```
 
@@ -39,8 +42,8 @@ const nexus = createNexusClient({
 |---|---|---|
 | `baseUrl` | `string` | Full URL to the API base path, e.g. `https://example.com/api/v1` |
 | `apiKey` | `string` | Bearer token issued from the Nexus admin dashboard (`nxs_...`) |
-| `siteId` | `number` | Numeric site identifier. Injected into every request automatically. |
-| `defaultLocale` | `string` | ISO 639-1 locale code. When set, enables locale filtering on all responses. |
+| `siteSlug` | `string` | Site slug identifier. Injected into every request path automatically. |
+| `debug` | `boolean` | Optional. Logs each request URL, status, and JSON response body to `console.debug`. |
 
 ### AstroJS setup
 
@@ -48,13 +51,12 @@ Create a shared client instance and import it in your pages and components:
 
 ```ts
 // src/lib/nexus.ts
-import { createNexusClient } from "nexus-sdk";
+import { createNexusClient } from "@am2labs/nexus-sdk";
 
 export const nexus = createNexusClient({
   baseUrl: import.meta.env.NEXUS_BASE_URL,
-  apiKey:  import.meta.env.NEXUS_API_KEY,
-  siteId:  Number(import.meta.env.NEXUS_SITE_ID),
-  defaultLocale: import.meta.env.NEXUS_LOCALE ?? "en",
+  apiKey: import.meta.env.NEXUS_API_KEY,
+  siteSlug: import.meta.env.NEXUS_SITE_SLUG,
 });
 ```
 
@@ -62,80 +64,61 @@ export const nexus = createNexusClient({
 # .env
 NEXUS_BASE_URL=https://your-nexus-site.com/api/v1
 NEXUS_API_KEY=nxs_your_api_key
-NEXUS_SITE_ID=42
-NEXUS_LOCALE=en
+NEXUS_SITE_SLUG=acme
 ```
 
 ## Methods
 
-Every list method accepts an optional `ListParams` object. Every get-by-id method accepts a numeric `id` and an optional `GetParams` object.
+Every list method accepts an optional `ListParams` object with `limit`, `cursor`, and `locale`. Slug-based get methods accept the slug first and an optional `GetParams` object second. `getNavigation` accepts a navigation handle.
 
-### Testimonials
+| Method | Description |
+|---|---|
+| `getLocales()` | Return enabled site locales and the default locale code. |
+| `getBranding(params?)` | Return site branding: globals, logos, CTAs, and social links. |
+| `listTestimonials(params?)` | List published testimonials. |
+| `listForms(params?)` | List published forms. |
+| `getForm(slug, params?)` | Return a published form by slug. |
+| `listPages(params?)` | List published content pages. |
+| `getPage(slug, params?)` | Return a published page by slug. |
+| `listBlogPosts(params?)` | List published blog posts. Supports `limit`, `cursor`, `tag`, `from`, `to`, and `locale`. |
+| `getBlogPost(slug, params?)` | Return a published blog post by slug. |
+| `listTeamMembers(params?)` | List published team members. |
+| `listJobs(params?)` | List published job listings. |
+| `getJob(slug, params?)` | Return a published job listing by slug. |
+| `listNavigations(params?)` | List published navigations. |
+| `getNavigation(handle, params?)` | Return a published navigation by handle. |
 
-```ts
-// List all approved testimonials (paginated)
-const { data, nextCursor } = await nexus.listTestimonials({ limit: 10 });
-
-// Get a single testimonial by ID
-const testimonial = await nexus.getTestimonial(1);
-```
-
-### Forms
-
-```ts
-// List all approved forms
-const { data, nextCursor } = await nexus.listForms();
-
-// Get a single form with all its steps and fields
-const form = await nexus.getForm(5);
-```
-
-### Pages
+### Examples
 
 ```ts
-// List all published content pages
-const { data, nextCursor } = await nexus.listPages();
+const { locales, default: defaultLocale } = await nexus.getLocales();
 
-// Get a single page with all its content blocks
-const page = await nexus.getPage(3);
-```
-
-### Team members
-
-```ts
-// List all approved team members
-const { data, nextCursor } = await nexus.listTeamMembers({ limit: 50 });
-
-// Get a single team member
-const member = await nexus.getTeamMember(7);
-```
-
-### Jobs
-
-```ts
-// List all approved job listings
-const { data, nextCursor } = await nexus.listJobs();
-
-// Get a single job listing
-const job = await nexus.getJob(12);
-```
-
-### Navigations
-
-```ts
-// List all approved navigations with their items
-const { data, nextCursor } = await nexus.listNavigations();
-
-// Get a single navigation (e.g. main menu)
-const nav = await nexus.getNavigation(1);
-```
-
-### Branding
-
-```ts
-// Get site branding: globals, logos, CTAs, social links
 const branding = await nexus.getBranding();
+
+const { data: testimonials, nextCursor } = await nexus.listTestimonials({
+  limit: 10,
+});
+
+const form = await nexus.getForm("contact-us");
+const page = await nexus.getPage("about-us");
+const job = await nexus.getJob("senior-designer");
+const nav = await nexus.getNavigation("main-menu");
 ```
+
+### Blog
+
+```ts
+const { data: posts } = await nexus.listBlogPosts({
+  tag: "react",
+  from: "2025-01-01T00:00:00Z",
+  to: "2025-12-31T23:59:59Z",
+  limit: 20,
+});
+
+const post = await nexus.getBlogPost("hello-world");
+```
+
+`from` and `to` are ISO 8601 date-time strings. `tag` filters posts by tag.
 
 ## Pagination
 
@@ -143,59 +126,66 @@ List methods return a `data` array and a `nextCursor` string. Pass `nextCursor` 
 
 ```ts
 let cursor: string | undefined;
-const allTestimonials = [];
+const allPages = [];
 
 do {
-  const { data, nextCursor } = await nexus.listTestimonials({ limit: 100, cursor });
-  allTestimonials.push(...data);
+  const { data, nextCursor } = await nexus.listPages({ limit: 100, cursor });
+  allPages.push(...data);
   cursor = nextCursor ?? undefined;
 } while (cursor);
 ```
 
-The maximum `limit` per request is `100`. The default is `20`.
+The maximum `limit` per request is `100`. The API default is `20`.
 
 ## Localization
 
-The API embeds all available translations in every response. The SDK can automatically filter these down to a single locale so your code never has to deal with the `translations` array directly.
+The API embeds all available translations in each response as `translations` arrays. For content endpoints, the SDK resolves a locale before returning data:
 
-**Set `defaultLocale` at init** and every response is transformed: each `translations: T[]` array throughout the entire response tree (including nested objects like form fields, navigation items, and branding logos) is replaced with a single `translation: T | null`.
+1. If you pass `locale` for the call, that locale is used.
+2. Otherwise, the SDK fetches `/websites/{siteSlug}/locales` once, caches the site's default locale, and uses it for later calls.
+3. If the site has no default locale, the raw response is returned with `translations` arrays intact.
+
+When a locale is resolved, every `translations: T[]` array throughout the response tree is replaced with `translation: T | null`.
 
 ```ts
-const nexus = createNexusClient({ ..., defaultLocale: "en" });
+const { data } = await nexus.listTestimonials({ locale: "en" });
 
-const { data } = await nexus.listTestimonials();
-
-// Without defaultLocale:
+// Raw API item:
 // data[0].translations = [{ locale: "en", content: "..." }, { locale: "es", content: "..." }]
 
-// With defaultLocale: "en":
+// Localized item:
 // data[0].translation = { locale: "en", content: "..." }
-// data[0].translations  ← does not exist
+// data[0].translations does not exist
 ```
 
 `translation` is `null` when the requested locale has no match for that item.
 
-**Override per call** using the `locale` option:
+Override the site default per call:
 
 ```ts
-// Use Spanish for this call only, regardless of defaultLocale
 const { data } = await nexus.listJobs({ locale: "es" });
+const page = await nexus.getPage("about-us", { locale: "es" });
 ```
 
-**Skip filtering for one call** by passing an empty string or simply not setting `defaultLocale`:
+Fetch locale metadata directly:
 
 ```ts
-// Raw response — all translation arrays intact
-const { data } = await nexus.listPages();
+const locales = await nexus.getLocales();
+// { locales: [{ locale: "en", name: "English", isDefault: true }], default: "en" }
 ```
 
-The `Localized<T>` utility type is exported if you need to annotate variables:
+The `Localized<T>` utility type is exported if you need to annotate a localized shape.
 
 ```ts
-import type { Localized } from "nexus-sdk";
-import type { components } from "nexus-sdk";
+import type { Localized } from "@am2labs/nexus-sdk";
 
-type LocalizedTestimonial = Localized<components["schemas"]["Testimonial"]>;
+type Testimonial = {
+  author: string;
+  translations: Array<{ locale: string; content: string }>;
+};
+
+type LocalizedTestimonial = Localized<Testimonial>;
+// { author: string; translation: { locale: string; content: string } | null }
 ```
 
 ## Error handling
@@ -204,7 +194,7 @@ All methods throw a plain `Error` when the request fails. The error message is t
 
 ```ts
 try {
-  const page = await nexus.getPage(999);
+  const page = await nexus.getPage("missing-page");
 } catch (err) {
   // err.message === "Resource not found"
 }
@@ -215,20 +205,24 @@ Common error messages from the API:
 | Status | Message |
 |---|---|
 | `401` | `Missing or invalid API key` |
-| `403` | `API key siteId does not match path siteId` |
+| `403` | `API key siteSlug does not match path siteSlug` |
 | `404` | `Resource not found` |
 | `429` | `Rate limit exceeded` |
 
 ## TypeScript
 
-The SDK is fully typed. Return types are inferred from the OpenAPI spec — no manual annotations needed.
+The SDK is fully typed. Return types are inferred from the OpenAPI spec, and the package exports the client and parameter types:
 
 ```ts
-// Type is inferred as the localized or raw shape automatically
-const branding = await nexus.getBranding();
-
-// Annotate a variable using the NexusClient type
-import type { NexusClient } from "nexus-sdk";
+import type {
+  GetParams,
+  ListBlogParams,
+  ListParams,
+  NexusClient,
+  NexusSDKConfig,
+} from "@am2labs/nexus-sdk";
 
 let client: NexusClient;
 ```
+
+`GalleryImage` is also exported for convenience.

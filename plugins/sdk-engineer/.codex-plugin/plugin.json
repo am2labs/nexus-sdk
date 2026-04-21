@@ -1,0 +1,39 @@
+{
+  "name": "sdk-engineer",
+  "version": "0.1.0",
+  "description": "Repo-local implementation guidance for the Nexus TypeScript SDK.",
+  "author": {
+    "name": "Nexus",
+    "url": "https://github.com/am2labs/nexus-sdk"
+  },
+  "homepage": "https://github.com/am2labs/nexus-sdk",
+  "repository": "https://github.com/am2labs/nexus-sdk",
+  "license": "ISC",
+  "keywords": [
+    "nexus",
+    "sdk",
+    "typescript",
+    "openapi",
+    "openapi-fetch"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "SDK Engineer",
+    "shortDescription": "Implement and maintain the Nexus TypeScript SDK",
+    "longDescription": "Use SDK Engineer for repo-specific guidance on OpenAPI generation, typed client wrappers, locale filtering, packaging, and test updates in the Nexus SDK.",
+    "developerName": "Nexus",
+    "category": "Coding",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Implement an endpoint wrapper in the Nexus SDK and keep generation and tests in sync",
+      "Update locale filtering behavior without breaking the public SDK surface",
+      "Regenerate API types and ship the matching dist output for this package"
+    ],
+    "brandColor": "#0f172a",
+    "screenshots": []
+  }
+}
