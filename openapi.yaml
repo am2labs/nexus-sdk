@@ -347,6 +347,8 @@ components:
       required:
         - locale
         - title
+        - shortBiography
+        - longBiography
       properties:
         locale:
           type: string
@@ -357,6 +359,12 @@ components:
         title:
           type: string
           description: Translated job title
+        shortBiography:
+          type: string
+          description: Translated short biography
+        longBiography:
+          type: string
+          description: Translated long biography
 
     TeamMember:
       type: object

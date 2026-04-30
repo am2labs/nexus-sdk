@@ -646,6 +646,8 @@ declare function createNexusClient(config: NexusSDKConfig): {
       translations: {
         locale: string;
         title: string;
+        shortBiography: string;
+        longBiography: string;
       }[];
     }[];
     nextCursor: string | null;
@@ -665,6 +667,8 @@ declare function createNexusClient(config: NexusSDKConfig): {
       translation: {
         locale: string;
         title: string;
+        shortBiography: string;
+        longBiography: string;
       } | null;
     }[];
     nextCursor: string | null;
@@ -861,7 +865,9 @@ interface components {
        * @example es
        */
       locale: string; /** @description Translated job title */
-      title: string;
+      title: string; /** @description Translated short biography */
+      shortBiography: string; /** @description Translated long biography */
+      longBiography: string;
     };
     TeamMember: {
       id: number;

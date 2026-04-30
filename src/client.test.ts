@@ -32,6 +32,34 @@ const testimonialEn = {
 };
 const testimonialListResponse = { data: [testimonialEn], nextCursor: null };
 
+const teamMemberListResponse = {
+  data: [
+    {
+      id: 1,
+      firstName: "Ada",
+      lastName: "Lovelace",
+      position: 1,
+      groupId: null,
+      image: null,
+      translations: [
+        {
+          locale: "en",
+          title: "Engineer",
+          shortBiography: "Builds reliable systems.",
+          longBiography: "Ada builds reliable systems for complex teams.",
+        },
+        {
+          locale: "es",
+          title: "Ingeniera",
+          shortBiography: "Crea sistemas confiables.",
+          longBiography: "Ada crea sistemas confiables para equipos complejos.",
+        },
+      ],
+    },
+  ],
+  nextCursor: null,
+};
+
 describe("createNexusClient", () => {
   describe("request construction", () => {
     it("injects siteId into the path", async () => {
@@ -249,6 +277,43 @@ describe("createNexusClient", () => {
       );
       await makeClient().getBlogPost("hello-world");
       expect(capturedUrl).toContain("/blog/hello-world");
+    });
+  });
+
+  describe("team members", () => {
+    it("forwards list params and localizes biography fields", async () => {
+      let url: URL | null = null;
+      server.use(
+        http.get(`${BASE_URL}/websites/:siteSlug/team-members`, ({ request, params }) => {
+          url = new URL(request.url);
+          expect(params.siteSlug).toBe(SITE_SLUG);
+          return HttpResponse.json(teamMemberListResponse);
+        })
+      );
+
+      const result = await makeClient().listTeamMembers({
+        limit: 5,
+        cursor: "team-cursor",
+        locale: "en",
+      });
+
+      expect(url!.searchParams.get("limit")).toBe("5");
+      expect(url!.searchParams.get("cursor")).toBe("team-cursor");
+      const item = result.data[0] as {
+        translation: {
+          locale: string;
+          title: string;
+          shortBiography: string;
+          longBiography: string;
+        };
+      };
+      expect(item.translation).toEqual({
+        locale: "en",
+        title: "Engineer",
+        shortBiography: "Builds reliable systems.",
+        longBiography: "Ada builds reliable systems for complex teams.",
+      });
+      expect(item).not.toHaveProperty("translations");
     });
   });
 
