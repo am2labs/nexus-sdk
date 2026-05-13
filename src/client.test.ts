@@ -25,6 +25,13 @@ const localesNone = { locales: [], default: null };
 const testimonialEn = {
   id: 1,
   author: "Alice",
+  image1: null,
+  image2: null,
+  customFields: [
+    { key: "rating", label: "Rating", type: "number", value: 5 },
+    { key: "featured", label: "Featured", type: "boolean", value: true },
+    { key: "company", label: "Company", type: "string", value: null },
+  ],
   translations: [
     { locale: "en", content: "Great service!" },
     { locale: "es", content: "¡Gran servicio!" },
@@ -183,8 +190,12 @@ describe("createNexusClient", () => {
         )
       );
       const result = await makeClient().listTestimonials();
-      const item = result.data[0] as { translation: { locale: string; content: string } };
+      const item = result.data[0] as {
+        customFields: Array<{ key: string; label: string; type: string; value: unknown }>;
+        translation: { locale: string; content: string };
+      };
       expect(item.translation).toEqual({ locale: "en", content: "Great service!" });
+      expect(item.customFields).toEqual(testimonialEn.customFields);
       expect(item).not.toHaveProperty("translations");
     });
 

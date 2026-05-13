@@ -44,6 +44,35 @@ components:
           type: string
           description: Translated testimonial body
 
+    CustomFieldValue:
+      type: object
+      required:
+        - key
+        - label
+        - type
+        - value
+      properties:
+        key:
+          type: string
+          description: Machine-readable custom field key
+        label:
+          type: string
+          description: Human-readable custom field label
+        type:
+          type: string
+          enum:
+            - string
+            - number
+            - boolean
+          description: JSON scalar type for the custom field value
+        value:
+          oneOf:
+            - type: string
+            - type: number
+            - type: boolean
+            - type: "null"
+          description: Custom field value, or null when no value has been set
+
     Testimonial:
       type: object
       required:
@@ -51,6 +80,7 @@ components:
         - author
         - image1
         - image2
+        - customFields
         - translations
       properties:
         id:
@@ -67,6 +97,11 @@ components:
             - $ref: "#/components/schemas/GalleryImage"
             - type: "null"
           description: Second gallery image, or null if none assigned
+        customFields:
+          type: array
+          description: Testimonial custom field values in configured field order
+          items:
+            $ref: "#/components/schemas/CustomFieldValue"
         translations:
           type: array
           items:

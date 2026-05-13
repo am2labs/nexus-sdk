@@ -4,3 +4,4 @@ export type { NexusSDKConfig, ListParams, ListBlogParams, GetParams } from "./ty
 export type { Localized } from "./localize.js";
 import type { components } from "./generated/api.js";
 export type GalleryImage = components["schemas"]["GalleryImage"];
+export type CustomFieldValue = components["schemas"]["CustomFieldValue"];

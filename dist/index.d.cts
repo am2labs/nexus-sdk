@@ -141,6 +141,12 @@ declare function createNexusClient(config: NexusSDKConfig): {
         url: string;
         altText: string;
       } | null;
+      customFields: {
+        key: string;
+        label: string;
+        type: "string" | "number" | "boolean";
+        value: string | number | boolean | null;
+      }[];
       translations: {
         locale: string;
         content: string;
@@ -163,6 +169,12 @@ declare function createNexusClient(config: NexusSDKConfig): {
         url: string;
         altText: string;
       } | null;
+      customFields: {
+        key: string;
+        label: string;
+        type: "string" | "number" | "boolean";
+        value: string | number | boolean | null;
+      }[];
       translation: {
         locale: string;
         content: string;
@@ -768,11 +780,22 @@ interface components {
       locale: string; /** @description Translated testimonial body */
       content: string;
     };
+    CustomFieldValue: {
+      /** @description Machine-readable custom field key */key: string; /** @description Human-readable custom field label */
+      label: string;
+      /**
+       * @description JSON scalar type for the custom field value
+       * @enum {string}
+       */
+      type: "string" | "number" | "boolean"; /** @description Custom field value, or null when no value has been set */
+      value: string | number | boolean | null;
+    };
     Testimonial: {
       id: number;
       author: string; /** @description First gallery image, or null if none assigned */
       image1: components["schemas"]["GalleryImage"] | null; /** @description Second gallery image, or null if none assigned */
-      image2: components["schemas"]["GalleryImage"] | null;
+      image2: components["schemas"]["GalleryImage"] | null; /** @description Testimonial custom field values in configured field order */
+      customFields: components["schemas"]["CustomFieldValue"][];
       translations: components["schemas"]["Translation"][];
     };
     TestimonialListResponse: {
@@ -1145,6 +1168,7 @@ interface components {
 //#endregion
 //#region src/index.d.ts
 type GalleryImage = components["schemas"]["GalleryImage"];
+type CustomFieldValue = components["schemas"]["CustomFieldValue"];
 //#endregion
-export { GalleryImage, type GetParams, type ListBlogParams, type ListParams, type Localized, type NexusClient, type NexusSDKConfig, createNexusClient };
+export { CustomFieldValue, GalleryImage, type GetParams, type ListBlogParams, type ListParams, type Localized, type NexusClient, type NexusSDKConfig, createNexusClient };
 //# sourceMappingURL=index.d.cts.map

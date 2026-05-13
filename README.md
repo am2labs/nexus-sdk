@@ -99,6 +99,8 @@ const { data: testimonials, nextCursor } = await nexus.listTestimonials({
   limit: 10,
 });
 
+const ratingField = testimonials[0]?.customFields.find((field) => field.key === "rating");
+
 const form = await nexus.getForm("contact-us");
 const page = await nexus.getPage("about-us");
 const job = await nexus.getJob("senior-designer");
@@ -215,7 +217,9 @@ The SDK is fully typed. Return types are inferred from the OpenAPI spec, and the
 
 ```ts
 import type {
+  CustomFieldValue,
   GetParams,
+  GalleryImage,
   ListBlogParams,
   ListParams,
   NexusClient,
@@ -223,6 +227,8 @@ import type {
 } from "@am2labs/nexus-sdk";
 
 let client: NexusClient;
+let image: GalleryImage | null;
+let customField: CustomFieldValue;
 ```
 
-`GalleryImage` is also exported for convenience.
+`GalleryImage` and `CustomFieldValue` are also exported for convenience.
