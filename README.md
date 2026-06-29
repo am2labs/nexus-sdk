@@ -1,6 +1,6 @@
 # nexus-sdk
 
-TypeScript SDK for the Nexus Public API. It wraps the read-only public endpoints with a typed client that handles bearer authentication, site scoping, cursor pagination, errors, and optional locale filtering.
+TypeScript SDK for the Nexus Public API. It wraps the public content and form endpoints with a typed client that handles bearer authentication, site scoping, cursor pagination, errors, and optional locale filtering.
 
 ## Installation
 
@@ -77,7 +77,8 @@ Every list method accepts an optional `ListParams` object with `limit`, `cursor`
 | `getBranding(params?)` | Return site branding: globals, logos, CTAs, and social links. |
 | `listTestimonials(params?)` | List published testimonials. |
 | `listForms(params?)` | List published forms. |
-| `getForm(slug, params?)` | Return a published form by slug. |
+| `getForm(slug, params?)` | Return a published form by slug. Supports scheduling availability query params. |
+| `submitForm(slug, body)` | Submit a published form. |
 | `listPages(params?)` | List published content pages. |
 | `getPage(slug, params?)` | Return a published page by slug. |
 | `listBlogPosts(params?)` | List published blog posts. Supports `limit`, `cursor`, `tag`, `from`, `to`, and `locale`. |
@@ -99,12 +100,45 @@ const { data: testimonials, nextCursor } = await nexus.listTestimonials({
   limit: 10,
 });
 
-const ratingField = testimonials[0]?.customFields.find((field) => field.key === "rating");
+const ratingField = testimonials[0]?.translation?.customFields.find(
+  (field) => field.key === "rating"
+);
 
 const form = await nexus.getForm("contact-us");
 const page = await nexus.getPage("about-us");
 const job = await nexus.getJob("senior-designer");
 const nav = await nexus.getNavigation("main-menu");
+```
+
+### Forms
+
+Fetch scheduling availability for scheduling fields by passing an optional window and timezone to `getForm`.
+
+```ts
+const form = await nexus.getForm("contact-us", {
+  availabilityStartTime: "2026-01-01T10:00:00Z",
+  availabilityEndTime: "2026-01-08T10:00:00Z",
+  timezone: "America/New_York",
+});
+```
+
+Submit a published form with field answers keyed by field name. Scheduling fields can include a booking request.
+
+```ts
+const submission = await nexus.submitForm("contact-us", {
+  answers: {
+    name: "Ada Lovelace",
+    email: "ada@example.com",
+    message: "Hello",
+  },
+  scheduling: {
+    fieldName: "intro_call",
+    startTime: "2026-01-02T15:00:00Z",
+    timezone: "America/New_York",
+    inviteeName: "Ada Lovelace",
+    inviteeEmail: "ada@example.com",
+  },
+});
 ```
 
 ### Blog
@@ -218,17 +252,23 @@ The SDK is fully typed. Return types are inferred from the OpenAPI spec, and the
 ```ts
 import type {
   CustomFieldValue,
+  FormSubmitRequest,
+  FormSubmitResponse,
   GetParams,
+  GetFormParams,
   GalleryImage,
   ListBlogParams,
   ListParams,
   NexusClient,
   NexusSDKConfig,
+  SchedulingAvailability,
+  SchedulingFieldConfig,
 } from "@am2labs/nexus-sdk";
 
 let client: NexusClient;
 let image: GalleryImage | null;
 let customField: CustomFieldValue;
+let availability: SchedulingAvailability;
 ```
 
-`GalleryImage` and `CustomFieldValue` are also exported for convenience.
+Common form submission and scheduling schema types are also exported for convenience.

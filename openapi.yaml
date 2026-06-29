@@ -33,6 +33,7 @@ components:
       required:
         - locale
         - content
+        - customFields
       properties:
         locale:
           type: string
@@ -43,6 +44,11 @@ components:
         content:
           type: string
           description: Translated testimonial body
+        customFields:
+          type: array
+          description: Localized testimonial custom field values in configured field order
+          items:
+            $ref: "#/components/schemas/CustomFieldValue"
 
     CustomFieldValue:
       type: object
@@ -80,7 +86,6 @@ components:
         - author
         - image1
         - image2
-        - customFields
         - translations
       properties:
         id:
@@ -97,11 +102,6 @@ components:
             - $ref: "#/components/schemas/GalleryImage"
             - type: "null"
           description: Second gallery image, or null if none assigned
-        customFields:
-          type: array
-          description: Testimonial custom field values in configured field order
-          items:
-            $ref: "#/components/schemas/CustomFieldValue"
         translations:
           type: array
           items:
@@ -203,6 +203,30 @@ components:
             - object
             - "null"
 
+    SchedulingFieldConfig:
+      type: object
+      required:
+        - provider
+        - targetId
+        - rangeLimitDays
+      properties:
+        provider:
+          type: string
+          enum:
+            - calendly
+        targetId:
+          type: string
+          description: Site-scoped scheduling target identifier
+        targetLabel:
+          type: string
+          description: Human-readable calendar or event type label
+        rangeLimitDays:
+          type: integer
+          description: Maximum supported availability query range in days
+          example: 7
+        availability:
+          $ref: "#/components/schemas/SchedulingAvailability"
+
     FormField:
       type: object
       required:
@@ -231,12 +255,17 @@ components:
           type: string
         type:
           type: string
-          description: "Field type: text, email, tel, url, number, textarea, select, radio, checkbox, checkbox_group, group"
+          description: "Field type: text, email, tel, url, number, textarea, select, radio, checkbox, checkbox_group, group, scheduling"
         required:
           type: boolean
         config:
           type: object
-          description: "Field-type-specific configuration (options, min/max, etc.)"
+          description: >
+            Field-type-specific configuration. Scheduling fields include a
+            `scheduling` object matching SchedulingFieldConfig.
+          properties:
+            scheduling:
+              $ref: "#/components/schemas/SchedulingFieldConfig"
         conditions:
           type: object
           description: "Conditional visibility rules"
@@ -244,6 +273,35 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/FormFieldTranslation"
+
+    SubmitAction:
+      oneOf:
+        - type: object
+          required:
+            - type
+            - code
+          properties:
+            type:
+              type: string
+              enum:
+                - formsubmit
+            code:
+              type: string
+              description: FormSubmit.co email address or invisible-email token
+        - type: object
+          required:
+            - type
+            - email
+          properties:
+            type:
+              type: string
+              enum:
+                - mailto
+            email:
+              type: string
+              format: email
+            subject:
+              type: string
 
     Form:
       type: object
@@ -261,8 +319,7 @@ components:
         slug:
           type: string
         submitAction:
-          type: object
-          description: "Submit action configuration"
+          $ref: "#/components/schemas/SubmitAction"
         spamProtection:
           type: object
           description: "Spam protection configuration"
@@ -297,6 +354,98 @@ components:
             Opaque cursor for the next page. Pass as the `cursor` query
             parameter to fetch the next batch. Null when there are no more
             results.
+
+    FormSubmitSchedulingRequest:
+      type: object
+      required:
+        - fieldName
+        - startTime
+        - inviteeName
+        - inviteeEmail
+      properties:
+        fieldName:
+          type: string
+          description: Name of the scheduling field being booked
+        startTime:
+          type: string
+          format: date-time
+        timezone:
+          type: string
+          description: IANA timezone for the invitee
+        inviteeName:
+          type: string
+        inviteeEmail:
+          type: string
+          format: email
+
+    FormSubmitRequest:
+      type: object
+      required:
+        - answers
+      properties:
+        answers:
+          type: object
+          description: Map of form field name to submitted value
+          additionalProperties: true
+        scheduling:
+          $ref: "#/components/schemas/FormSubmitSchedulingRequest"
+
+    FormSubmitResponse:
+      type: object
+      required:
+        - id
+        - status
+        - processingErrors
+      properties:
+        id:
+          type: integer
+          description: Captured form submission id
+        status:
+          type: string
+          enum:
+            - processed
+            - accepted
+        processingErrors:
+          type: array
+          items:
+            type: string
+
+    SchedulingAvailabilitySlot:
+      type: object
+      required:
+        - startTime
+        - status
+      properties:
+        startTime:
+          type: string
+          format: date-time
+        status:
+          type: string
+          description: Provider availability status for the slot
+        inviteesRemaining:
+          type: integer
+          description: Remaining invitee capacity for group-style slots
+
+    SchedulingAvailability:
+      type: object
+      required:
+        - startTime
+        - endTime
+        - data
+      properties:
+        startTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
+        timezone:
+          type: string
+          description: IANA timezone used by the scheduling provider
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/SchedulingAvailabilitySlot"
 
     ContentBlockTranslation:
       type: object
@@ -971,6 +1120,15 @@ components:
           description: Human-readable error message
 
   responses:
+    BadRequest:
+      description: Invalid request
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+          example:
+            error: Request body must be valid JSON.
+
     Unauthorized:
       description: Missing or invalid API key
       content:
@@ -1156,6 +1314,30 @@ paths:
       parameters:
         - $ref: "#/components/parameters/siteSlug"
         - $ref: "#/components/parameters/formSlug"
+        - name: availability_start_time
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+          description: >
+            Optional scheduling availability window start. Defaults to the
+            request time when omitted.
+        - name: availability_end_time
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+          description: >
+            Optional scheduling availability window end. Defaults to seven days
+            after the start time when omitted.
+        - name: timezone
+          in: query
+          required: false
+          schema:
+            type: string
+          description: IANA timezone used when fetching scheduling availability
       responses:
         "200":
           description: The requested form
@@ -1169,6 +1351,46 @@ paths:
           $ref: "#/components/responses/Forbidden"
         "404":
           $ref: "#/components/responses/NotFoundForm"
+
+    post:
+      operationId: submitForm
+      summary: Submit a published form
+      description: >
+        Captures a form submission for the published form, stores a snapshot of
+        the current public form schema and submitted answers, then processes any
+        scheduling and FormSubmit.co delivery configured for the form.
+      parameters:
+        - $ref: "#/components/parameters/siteSlug"
+        - $ref: "#/components/parameters/formSlug"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FormSubmitRequest"
+      responses:
+        "201":
+          description: Submission captured and processed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FormSubmitResponse"
+        "202":
+          description: Submission captured, but one or more processors failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FormSubmitResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFoundForm"
+        "429":
+          $ref: "#/components/responses/RateLimited"
 
   /websites/{siteSlug}/pages:
     get:

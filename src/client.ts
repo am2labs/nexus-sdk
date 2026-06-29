@@ -1,6 +1,12 @@
 import createClient from "openapi-fetch";
-import type { paths } from "./generated/api.js";
-import type { NexusSDKConfig, ListParams, ListBlogParams, GetParams } from "./types.js";
+import type { components, paths } from "./generated/api.js";
+import type {
+  NexusSDKConfig,
+  ListParams,
+  ListBlogParams,
+  GetParams,
+  GetFormParams,
+} from "./types.js";
 import { localize } from "./localize.js";
 
 async function unwrap<T>(
@@ -159,13 +165,32 @@ export function createNexusClient(config: NexusSDKConfig) {
       return maybeLocalize(data, await resolveLocale(params));
     },
 
-    async getForm(slug: string, params?: GetParams) {
+    async getForm(slug: string, params?: GetFormParams) {
       const data = await unwrap(
         http.GET("/websites/{siteSlug}/forms/{slug}", {
-          params: { path: { siteSlug: config.siteSlug, slug } },
+          params: {
+            path: { siteSlug: config.siteSlug, slug },
+            query: {
+              availability_start_time: params?.availabilityStartTime,
+              availability_end_time: params?.availabilityEndTime,
+              timezone: params?.timezone,
+            },
+          },
         })
       );
       return maybeLocalize(data, await resolveLocale(params));
+    },
+
+    async submitForm(
+      slug: string,
+      body: components["schemas"]["FormSubmitRequest"]
+    ) {
+      return unwrap(
+        http.POST("/websites/{siteSlug}/forms/{slug}", {
+          params: { path: { siteSlug: config.siteSlug, slug } },
+          body,
+        })
+      );
     },
 
     // --- Jobs ---

@@ -141,10 +141,26 @@ function createNexusClient(config) {
 			} })), await resolveLocale(params));
 		},
 		async getForm(slug, params) {
-			return maybeLocalize(await unwrap(http.GET("/websites/{siteSlug}/forms/{slug}", { params: { path: {
-				siteSlug: config.siteSlug,
-				slug
-			} } })), await resolveLocale(params));
+			return maybeLocalize(await unwrap(http.GET("/websites/{siteSlug}/forms/{slug}", { params: {
+				path: {
+					siteSlug: config.siteSlug,
+					slug
+				},
+				query: {
+					availability_start_time: params?.availabilityStartTime,
+					availability_end_time: params?.availabilityEndTime,
+					timezone: params?.timezone
+				}
+			} })), await resolveLocale(params));
+		},
+		async submitForm(slug, body) {
+			return unwrap(http.POST("/websites/{siteSlug}/forms/{slug}", {
+				params: { path: {
+					siteSlug: config.siteSlug,
+					slug
+				} },
+				body
+			}));
 		},
 		async listJobs(params) {
 			return maybeLocalize(await unwrap(http.GET("/websites/{siteSlug}/jobs", { params: {

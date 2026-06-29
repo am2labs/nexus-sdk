@@ -1,773 +1,3 @@
-//#region src/types.d.ts
-interface NexusSDKConfig {
-  /** Full API origin + base path, e.g. "https://example.com/api/v1" */
-  baseUrl: string;
-  /** Bearer token issued by the Nexus admin dashboard (nxs_...) */
-  apiKey: string;
-  /** Site slug identifier (from the Nexus admin dashboard) */
-  siteSlug: string;
-  /** Log every request and response to the console */
-  debug?: boolean;
-}
-interface ListParams {
-  limit?: number;
-  cursor?: string;
-  /** Overrides the site's default locale for this call */
-  locale?: string;
-}
-interface ListBlogParams extends ListParams {
-  /** Filter by tag. Repeatable — AND logic (all tags must match) */
-  tag?: string;
-  /** Only include posts published at or after this date (ISO 8601) */
-  from?: string;
-  /** Only include posts published at or before this date (ISO 8601) */
-  to?: string;
-}
-interface GetParams {
-  /** Overrides the site's default locale for this call */
-  locale?: string;
-}
-//#endregion
-//#region src/client.d.ts
-declare function createNexusClient(config: NexusSDKConfig): {
-  getLocales(): Promise<{
-    locales: {
-      locale: string;
-      name: string;
-      isDefault: boolean;
-    }[];
-    default: string | null;
-  }>;
-  getBranding(params?: GetParams): Promise<{
-    globals: {
-      phone: string;
-      email: string;
-      translations: {
-        locale: string;
-        tagline: string;
-        footerCopyright: string;
-        footerAddress: string;
-      }[];
-    } | null;
-    logos: {
-      id: number;
-      role: string;
-      image: {
-        id: number;
-        slug: string;
-        url: string;
-        altText: string;
-      } | null;
-      position: number;
-      translations: {
-        locale: string;
-        altText: string;
-      }[];
-    }[];
-    ctas: {
-      id: number;
-      zone: string;
-      url: string;
-      openInNewTab: boolean;
-      position: number;
-      translations: {
-        locale: string;
-        label: string;
-      }[];
-    }[];
-    socialLinks: {
-      id: number;
-      platform: string;
-      url: string;
-      position: number;
-    }[];
-  } | {
-    globals: {
-      phone: string;
-      email: string;
-      translation: {
-        locale: string;
-        tagline: string;
-        footerCopyright: string;
-        footerAddress: string;
-      } | null;
-    } | null;
-    logos: {
-      id: number;
-      role: string;
-      image: {
-        id: number;
-        slug: string;
-        url: string;
-        altText: string;
-      } | null;
-      position: number;
-      translation: {
-        locale: string;
-        altText: string;
-      } | null;
-    }[];
-    ctas: {
-      id: number;
-      position: number;
-      url: string;
-      zone: string;
-      openInNewTab: boolean;
-      translation: {
-        locale: string;
-        label: string;
-      } | null;
-    }[];
-    socialLinks: {
-      id: number;
-      platform: string;
-      url: string;
-      position: number;
-    }[];
-  }>;
-  listTestimonials(params?: ListParams): Promise<{
-    data: {
-      id: number;
-      author: string;
-      image1: {
-        id: number;
-        slug: string;
-        url: string;
-        altText: string;
-      } | null;
-      image2: {
-        id: number;
-        slug: string;
-        url: string;
-        altText: string;
-      } | null;
-      customFields: {
-        key: string;
-        label: string;
-        type: "string" | "number" | "boolean";
-        value: string | number | boolean | null;
-      }[];
-      translations: {
-        locale: string;
-        content: string;
-      }[];
-    }[];
-    nextCursor: string | null;
-  } | {
-    data: {
-      id: number;
-      author: string;
-      image1: {
-        id: number;
-        slug: string;
-        url: string;
-        altText: string;
-      } | null;
-      image2: {
-        id: number;
-        slug: string;
-        url: string;
-        altText: string;
-      } | null;
-      customFields: {
-        key: string;
-        label: string;
-        type: "string" | "number" | "boolean";
-        value: string | number | boolean | null;
-      }[];
-      translation: {
-        locale: string;
-        content: string;
-      } | null;
-    }[];
-    nextCursor: string | null;
-  }>;
-  listPages(params?: ListParams): Promise<{
-    data: {
-      id: number;
-      slug: string;
-      title: string;
-      blocks: {
-        id: number;
-        type: string;
-        position: number;
-        meta?: string | null | undefined;
-        translations: {
-          locale: string;
-          content: string;
-        }[];
-      }[];
-    }[];
-    nextCursor: string | null;
-  } | {
-    data: {
-      id: number;
-      slug: string;
-      title: string;
-      blocks: {
-        id: number;
-        position: number;
-        type: string;
-        meta?: string | null | undefined;
-        translation: {
-          locale: string;
-          content: string;
-        } | null;
-      }[];
-    }[];
-    nextCursor: string | null;
-  }>;
-  getPage(slug: string, params?: GetParams): Promise<{
-    id: number;
-    slug: string;
-    title: string;
-    blocks: {
-      id: number;
-      type: string;
-      position: number;
-      meta?: string | null | undefined;
-      translations: {
-        locale: string;
-        content: string;
-      }[];
-    }[];
-  } | {
-    id: number;
-    slug: string;
-    title: string;
-    blocks: {
-      id: number;
-      position: number;
-      type: string;
-      meta?: string | null | undefined;
-      translation: {
-        locale: string;
-        content: string;
-      } | null;
-    }[];
-  }>;
-  listBlogPosts(params?: ListBlogParams): Promise<{
-    data: {
-      id: number;
-      slug: string;
-      title: string;
-      publishedAt: string | null;
-      author?: {
-        id: number;
-        firstName: string;
-        lastName: string;
-      } | null | undefined;
-      coverImage?: {
-        id: number;
-        slug: string;
-        url: string;
-        altText: string;
-      } | null | undefined;
-      tags: string[];
-      translations: {
-        locale: string;
-        excerpt: string;
-        seoTitle: string;
-      }[];
-      blocks: {
-        id: number;
-        type: string;
-        position: number;
-        meta?: string | null | undefined;
-        translations: {
-          locale: string;
-          content: string;
-        }[];
-      }[];
-    }[];
-    nextCursor: string | null;
-  } | {
-    data: {
-      id: number;
-      slug: string;
-      author?: {
-        id: number;
-        firstName: string;
-        lastName: string;
-      } | null | undefined;
-      title: string;
-      blocks: {
-        id: number;
-        position: number;
-        type: string;
-        meta?: string | null | undefined;
-        translation: {
-          locale: string;
-          content: string;
-        } | null;
-      }[];
-      publishedAt: string | null;
-      coverImage?: {
-        id: number;
-        slug: string;
-        url: string;
-        altText: string;
-      } | null | undefined;
-      tags: string[];
-      translation: {
-        locale: string;
-        excerpt: string;
-        seoTitle: string;
-      } | null;
-    }[];
-    nextCursor: string | null;
-  }>;
-  getBlogPost(slug: string, params?: GetParams): Promise<{
-    id: number;
-    slug: string;
-    title: string;
-    publishedAt: string | null;
-    author?: {
-      id: number;
-      firstName: string;
-      lastName: string;
-    } | null | undefined;
-    coverImage?: {
-      id: number;
-      slug: string;
-      url: string;
-      altText: string;
-    } | null | undefined;
-    tags: string[];
-    translations: {
-      locale: string;
-      excerpt: string;
-      seoTitle: string;
-    }[];
-    blocks: {
-      id: number;
-      type: string;
-      position: number;
-      meta?: string | null | undefined;
-      translations: {
-        locale: string;
-        content: string;
-      }[];
-    }[];
-  } | {
-    id: number;
-    slug: string;
-    author?: {
-      id: number;
-      firstName: string;
-      lastName: string;
-    } | null | undefined;
-    title: string;
-    blocks: {
-      id: number;
-      position: number;
-      type: string;
-      meta?: string | null | undefined;
-      translation: {
-        locale: string;
-        content: string;
-      } | null;
-    }[];
-    publishedAt: string | null;
-    coverImage?: {
-      id: number;
-      slug: string;
-      url: string;
-      altText: string;
-    } | null | undefined;
-    tags: string[];
-    translation: {
-      locale: string;
-      excerpt: string;
-      seoTitle: string;
-    } | null;
-  }>;
-  listForms(params?: ListParams): Promise<{
-    data: {
-      id: number;
-      slug: string;
-      submitAction: {};
-      spamProtection: {};
-      translations: {
-        locale: string;
-        title: string;
-        description?: string | null | undefined;
-        submitLabel: string;
-      }[];
-      steps: {
-        id: number;
-        position: number;
-        translations: {
-          locale: string;
-          title: string;
-          description?: string | null | undefined;
-        }[];
-      }[];
-      fields: {
-        id: number;
-        stepId?: number | null | undefined;
-        parentId?: number | null | undefined;
-        position: number;
-        name: string;
-        type: string;
-        required: boolean;
-        config: {};
-        conditions: {};
-        translations: {
-          locale: string;
-          label: string;
-          placeholder?: string | null | undefined;
-          helperText?: string | null | undefined;
-          optionLabels?: {} | null | undefined;
-        }[];
-      }[];
-    }[];
-    nextCursor: string | null;
-  } | {
-    data: {
-      id: number;
-      slug: string;
-      submitAction: {};
-      spamProtection: {};
-      steps: {
-        id: number;
-        position: number;
-        translation: {
-          locale: string;
-          title: string;
-          description?: string | null | undefined;
-        } | null;
-      }[];
-      fields: {
-        name: string;
-        id: number;
-        position: number;
-        type: string;
-        stepId?: number | null | undefined;
-        parentId?: number | null | undefined;
-        required: boolean;
-        config: {};
-        conditions: {};
-        translation: {
-          locale: string;
-          label: string;
-          placeholder?: string | null | undefined;
-          helperText?: string | null | undefined;
-          optionLabels?: {} | null | undefined;
-        } | null;
-      }[];
-      translation: {
-        locale: string;
-        title: string;
-        description?: string | null | undefined;
-        submitLabel: string;
-      } | null;
-    }[];
-    nextCursor: string | null;
-  }>;
-  getForm(slug: string, params?: GetParams): Promise<{
-    id: number;
-    slug: string;
-    submitAction: {};
-    spamProtection: {};
-    translations: {
-      locale: string;
-      title: string;
-      description?: string | null | undefined;
-      submitLabel: string;
-    }[];
-    steps: {
-      id: number;
-      position: number;
-      translations: {
-        locale: string;
-        title: string;
-        description?: string | null | undefined;
-      }[];
-    }[];
-    fields: {
-      id: number;
-      stepId?: number | null | undefined;
-      parentId?: number | null | undefined;
-      position: number;
-      name: string;
-      type: string;
-      required: boolean;
-      config: {};
-      conditions: {};
-      translations: {
-        locale: string;
-        label: string;
-        placeholder?: string | null | undefined;
-        helperText?: string | null | undefined;
-        optionLabels?: {} | null | undefined;
-      }[];
-    }[];
-  } | {
-    id: number;
-    slug: string;
-    submitAction: {};
-    spamProtection: {};
-    steps: {
-      id: number;
-      position: number;
-      translation: {
-        locale: string;
-        title: string;
-        description?: string | null | undefined;
-      } | null;
-    }[];
-    fields: {
-      name: string;
-      id: number;
-      position: number;
-      type: string;
-      stepId?: number | null | undefined;
-      parentId?: number | null | undefined;
-      required: boolean;
-      config: {};
-      conditions: {};
-      translation: {
-        locale: string;
-        label: string;
-        placeholder?: string | null | undefined;
-        helperText?: string | null | undefined;
-        optionLabels?: {} | null | undefined;
-      } | null;
-    }[];
-    translation: {
-      locale: string;
-      title: string;
-      description?: string | null | undefined;
-      submitLabel: string;
-    } | null;
-  }>;
-  listJobs(params?: ListParams): Promise<{
-    data: {
-      id: number;
-      slug: string;
-      workArrangement: string;
-      employmentType: string;
-      department: string;
-      salaryMin?: number | null | undefined;
-      salaryMax?: number | null | undefined;
-      salaryCurrency: string;
-      location?: {
-        id: number;
-        name: string;
-        city: string;
-        state: string;
-        country: string;
-      } | null | undefined;
-      translations: {
-        locale: string;
-        title: string;
-        description: string;
-        requirements: string;
-        niceToHaves: string;
-      }[];
-    }[];
-    nextCursor: string | null;
-  } | {
-    data: {
-      location?: {
-        id: number;
-        name: string;
-        city: string;
-        state: string;
-        country: string;
-      } | null | undefined;
-      id: number;
-      slug: string;
-      workArrangement: string;
-      employmentType: string;
-      department: string;
-      salaryMin?: number | null | undefined;
-      salaryMax?: number | null | undefined;
-      salaryCurrency: string;
-      translation: {
-        locale: string;
-        title: string;
-        description: string;
-        requirements: string;
-        niceToHaves: string;
-      } | null;
-    }[];
-    nextCursor: string | null;
-  }>;
-  getJob(slug: string, params?: GetParams): Promise<{
-    id: number;
-    slug: string;
-    workArrangement: string;
-    employmentType: string;
-    department: string;
-    salaryMin?: number | null | undefined;
-    salaryMax?: number | null | undefined;
-    salaryCurrency: string;
-    location?: {
-      id: number;
-      name: string;
-      city: string;
-      state: string;
-      country: string;
-    } | null | undefined;
-    translations: {
-      locale: string;
-      title: string;
-      description: string;
-      requirements: string;
-      niceToHaves: string;
-    }[];
-  } | {
-    location?: {
-      id: number;
-      name: string;
-      city: string;
-      state: string;
-      country: string;
-    } | null | undefined;
-    id: number;
-    slug: string;
-    workArrangement: string;
-    employmentType: string;
-    department: string;
-    salaryMin?: number | null | undefined;
-    salaryMax?: number | null | undefined;
-    salaryCurrency: string;
-    translation: {
-      locale: string;
-      title: string;
-      description: string;
-      requirements: string;
-      niceToHaves: string;
-    } | null;
-  }>;
-  listTeamMembers(params?: ListParams): Promise<{
-    data: {
-      id: number;
-      firstName: string;
-      lastName: string;
-      position: number;
-      groupId: number | null;
-      image: {
-        id: number;
-        slug: string;
-        url: string;
-        altText: string;
-      } | null;
-      translations: {
-        locale: string;
-        title: string;
-        shortBiography: string;
-        longBiography: string;
-      }[];
-    }[];
-    nextCursor: string | null;
-  } | {
-    data: {
-      id: number;
-      image: {
-        id: number;
-        slug: string;
-        url: string;
-        altText: string;
-      } | null;
-      position: number;
-      firstName: string;
-      lastName: string;
-      groupId: number | null;
-      translation: {
-        locale: string;
-        title: string;
-        shortBiography: string;
-        longBiography: string;
-      } | null;
-    }[];
-    nextCursor: string | null;
-  }>;
-  listNavigations(params?: ListParams): Promise<{
-    data: {
-      id: number;
-      handle: string;
-      position: number;
-      items: {
-        id: number;
-        parentId: number | null;
-        position: number;
-        url: string;
-        openInNewTab: boolean;
-        translations: {
-          locale: string;
-          label: string;
-        }[];
-      }[];
-    }[];
-    nextCursor: string | null;
-  } | {
-    data: {
-      id: number;
-      handle: string;
-      position: number;
-      items: {
-        id: number;
-        position: number;
-        url: string;
-        openInNewTab: boolean;
-        parentId: number | null;
-        translation: {
-          locale: string;
-          label: string;
-        } | null;
-      }[];
-    }[];
-    nextCursor: string | null;
-  }>;
-  getNavigation(handle: string, params?: GetParams): Promise<{
-    id: number;
-    handle: string;
-    position: number;
-    items: {
-      id: number;
-      parentId: number | null;
-      position: number;
-      url: string;
-      openInNewTab: boolean;
-      translations: {
-        locale: string;
-        label: string;
-      }[];
-    }[];
-  } | {
-    id: number;
-    handle: string;
-    position: number;
-    items: {
-      id: number;
-      position: number;
-      url: string;
-      openInNewTab: boolean;
-      parentId: number | null;
-      translation: {
-        locale: string;
-        label: string;
-      } | null;
-    }[];
-  }>;
-};
-type NexusClient = ReturnType<typeof createNexusClient>;
-//#endregion
-//#region src/localize.d.ts
-/**
- * Recursive mapped type that replaces every `translations: T[]` property
- * with a single `translation: T | null` for the resolved locale.
- * Applied recursively through nested objects and arrays.
- */
-type Localized<T> = T extends {
-  translations: Array<infer U>;
-} ? Omit<T, "translations"> & {
-  translation: U | null;
-} extends infer R ? { [K in keyof R]: Localized<R[K]> } : never : T extends Array<infer Item> ? Array<Localized<Item>> : T extends object ? { [K in keyof T]: Localized<T[K]> } : T;
-//#endregion
 //#region src/generated/api.d.ts
 interface components {
   schemas: {
@@ -778,7 +8,8 @@ interface components {
        * @example es
        */
       locale: string; /** @description Translated testimonial body */
-      content: string;
+      content: string; /** @description Localized testimonial custom field values in configured field order */
+      customFields: components["schemas"]["CustomFieldValue"][];
     };
     CustomFieldValue: {
       /** @description Machine-readable custom field key */key: string; /** @description Human-readable custom field label */
@@ -794,8 +25,7 @@ interface components {
       id: number;
       author: string; /** @description First gallery image, or null if none assigned */
       image1: components["schemas"]["GalleryImage"] | null; /** @description Second gallery image, or null if none assigned */
-      image2: components["schemas"]["GalleryImage"] | null; /** @description Testimonial custom field values in configured field order */
-      customFields: components["schemas"]["CustomFieldValue"][];
+      image2: components["schemas"]["GalleryImage"] | null;
       translations: components["schemas"]["Translation"][];
     };
     TestimonialListResponse: {
@@ -830,22 +60,43 @@ interface components {
       helperText?: string | null; /** @description Map of option value to translated label, or null */
       optionLabels?: Record<string, never> | null;
     };
+    SchedulingFieldConfig: {
+      /** @enum {string} */provider: "calendly"; /** @description Site-scoped scheduling target identifier */
+      targetId: string; /** @description Human-readable calendar or event type label */
+      targetLabel?: string;
+      /**
+       * @description Maximum supported availability query range in days
+       * @example 7
+       */
+      rangeLimitDays: number;
+      availability?: components["schemas"]["SchedulingAvailability"];
+    };
     FormField: {
       id: number;
       stepId?: number | null;
       parentId?: number | null;
       position: number;
-      name: string; /** @description Field type: text, email, tel, url, number, textarea, select, radio, checkbox, checkbox_group, group */
+      name: string; /** @description Field type: text, email, tel, url, number, textarea, select, radio, checkbox, checkbox_group, group, scheduling */
       type: string;
-      required: boolean; /** @description Field-type-specific configuration (options, min/max, etc.) */
-      config: Record<string, never>; /** @description Conditional visibility rules */
+      required: boolean; /** @description Field-type-specific configuration. Scheduling fields include a `scheduling` object matching SchedulingFieldConfig. */
+      config: {
+        scheduling?: components["schemas"]["SchedulingFieldConfig"];
+      }; /** @description Conditional visibility rules */
       conditions: Record<string, never>;
       translations: components["schemas"]["FormFieldTranslation"][];
     };
+    SubmitAction: {
+      /** @enum {string} */type: "formsubmit"; /** @description FormSubmit.co email address or invisible-email token */
+      code: string;
+    } | {
+      /** @enum {string} */type: "mailto"; /** Format: email */
+      email: string;
+      subject?: string;
+    };
     Form: {
       id: number;
-      slug: string; /** @description Submit action configuration */
-      submitAction: Record<string, never>; /** @description Spam protection configuration */
+      slug: string;
+      submitAction: components["schemas"]["SubmitAction"]; /** @description Spam protection configuration */
       spamProtection: Record<string, never>;
       translations: components["schemas"]["FormTranslation"][];
       steps: components["schemas"]["FormStep"][];
@@ -854,6 +105,35 @@ interface components {
     FormListResponse: {
       data: components["schemas"]["Form"][]; /** @description Opaque cursor for the next page. Pass as the `cursor` query parameter to fetch the next batch. Null when there are no more results. */
       nextCursor: string | null;
+    };
+    FormSubmitSchedulingRequest: {
+      /** @description Name of the scheduling field being booked */fieldName: string; /** Format: date-time */
+      startTime: string; /** @description IANA timezone for the invitee */
+      timezone?: string;
+      inviteeName: string; /** Format: email */
+      inviteeEmail: string;
+    };
+    FormSubmitRequest: {
+      /** @description Map of form field name to submitted value */answers: {
+        [key: string]: unknown;
+      };
+      scheduling?: components["schemas"]["FormSubmitSchedulingRequest"];
+    };
+    FormSubmitResponse: {
+      /** @description Captured form submission id */id: number; /** @enum {string} */
+      status: "processed" | "accepted";
+      processingErrors: string[];
+    };
+    SchedulingAvailabilitySlot: {
+      /** Format: date-time */startTime: string; /** @description Provider availability status for the slot */
+      status: string; /** @description Remaining invitee capacity for group-style slots */
+      inviteesRemaining?: number;
+    };
+    SchedulingAvailability: {
+      /** Format: date-time */startTime: string; /** Format: date-time */
+      endTime: string; /** @description IANA timezone used by the scheduling provider */
+      timezone?: string;
+      data: components["schemas"]["SchedulingAvailabilitySlot"][];
     };
     ContentBlockTranslation: {
       /**
@@ -1087,7 +367,20 @@ interface components {
     };
   };
   responses: {
-    /** @description Missing or invalid API key */Unauthorized: {
+    /** @description Invalid request */BadRequest: {
+      headers: {
+        [name: string]: unknown;
+      };
+      content: {
+        /**
+         * @example {
+         *       "error": "Request body must be valid JSON."
+         *     }
+         */
+        "application/json": components["schemas"]["ErrorResponse"];
+      };
+    }; /** @description Missing or invalid API key */
+    Unauthorized: {
       headers: {
         [name: string]: unknown;
       };
@@ -1166,9 +459,894 @@ interface components {
   pathItems: never;
 }
 //#endregion
+//#region src/types.d.ts
+interface NexusSDKConfig {
+  /** Full API origin + base path, e.g. "https://example.com/api/v1" */
+  baseUrl: string;
+  /** Bearer token issued by the Nexus admin dashboard (nxs_...) */
+  apiKey: string;
+  /** Site slug identifier (from the Nexus admin dashboard) */
+  siteSlug: string;
+  /** Log every request and response to the console */
+  debug?: boolean;
+}
+interface ListParams {
+  limit?: number;
+  cursor?: string;
+  /** Overrides the site's default locale for this call */
+  locale?: string;
+}
+interface ListBlogParams extends ListParams {
+  /** Filter by tag. Repeatable — AND logic (all tags must match) */
+  tag?: string;
+  /** Only include posts published at or after this date (ISO 8601) */
+  from?: string;
+  /** Only include posts published at or before this date (ISO 8601) */
+  to?: string;
+}
+interface GetParams {
+  /** Overrides the site's default locale for this call */
+  locale?: string;
+}
+interface GetFormParams extends GetParams {
+  /** Scheduling availability window start (ISO 8601 date-time) */
+  availabilityStartTime?: string;
+  /** Scheduling availability window end (ISO 8601 date-time) */
+  availabilityEndTime?: string;
+  /** IANA timezone used when fetching scheduling availability */
+  timezone?: string;
+}
+//#endregion
+//#region src/client.d.ts
+declare function createNexusClient(config: NexusSDKConfig): {
+  getLocales(): Promise<{
+    locales: {
+      locale: string;
+      name: string;
+      isDefault: boolean;
+    }[];
+    default: string | null;
+  }>;
+  getBranding(params?: GetParams): Promise<{
+    globals: {
+      phone: string;
+      email: string;
+      translations: {
+        locale: string;
+        tagline: string;
+        footerCopyright: string;
+        footerAddress: string;
+      }[];
+    } | null;
+    logos: {
+      id: number;
+      role: string;
+      image: {
+        id: number;
+        slug: string;
+        url: string;
+        altText: string;
+      } | null;
+      position: number;
+      translations: {
+        locale: string;
+        altText: string;
+      }[];
+    }[];
+    ctas: {
+      id: number;
+      zone: string;
+      url: string;
+      openInNewTab: boolean;
+      position: number;
+      translations: {
+        locale: string;
+        label: string;
+      }[];
+    }[];
+    socialLinks: {
+      id: number;
+      platform: string;
+      url: string;
+      position: number;
+    }[];
+  } | {
+    globals: {
+      phone: string;
+      email: string;
+      translation: {
+        locale: string;
+        tagline: string;
+        footerCopyright: string;
+        footerAddress: string;
+      } | null;
+    } | null;
+    logos: {
+      id: number;
+      role: string;
+      image: {
+        id: number;
+        slug: string;
+        url: string;
+        altText: string;
+      } | null;
+      position: number;
+      translation: {
+        locale: string;
+        altText: string;
+      } | null;
+    }[];
+    ctas: {
+      id: number;
+      position: number;
+      url: string;
+      zone: string;
+      openInNewTab: boolean;
+      translation: {
+        locale: string;
+        label: string;
+      } | null;
+    }[];
+    socialLinks: {
+      id: number;
+      platform: string;
+      url: string;
+      position: number;
+    }[];
+  }>;
+  listTestimonials(params?: ListParams): Promise<{
+    data: {
+      id: number;
+      author: string;
+      image1: {
+        id: number;
+        slug: string;
+        url: string;
+        altText: string;
+      } | null;
+      image2: {
+        id: number;
+        slug: string;
+        url: string;
+        altText: string;
+      } | null;
+      translations: {
+        locale: string;
+        content: string;
+        customFields: {
+          key: string;
+          label: string;
+          type: "string" | "number" | "boolean";
+          value: string | number | boolean | null;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      author: string;
+      image1: {
+        id: number;
+        slug: string;
+        url: string;
+        altText: string;
+      } | null;
+      image2: {
+        id: number;
+        slug: string;
+        url: string;
+        altText: string;
+      } | null;
+      translation: {
+        locale: string;
+        content: string;
+        customFields: {
+          key: string;
+          label: string;
+          type: "string" | "number" | "boolean";
+          value: string | number | boolean | null;
+        }[];
+      } | null;
+    }[];
+    nextCursor: string | null;
+  }>;
+  listPages(params?: ListParams): Promise<{
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        type: string;
+        position: number;
+        meta?: string | null | undefined;
+        translations: {
+          locale: string;
+          content: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      blocks: {
+        id: number;
+        position: number;
+        type: string;
+        meta?: string | null | undefined;
+        translation: {
+          locale: string;
+          content: string;
+        } | null;
+      }[];
+    }[];
+    nextCursor: string | null;
+  }>;
+  getPage(slug: string, params?: GetParams): Promise<{
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      type: string;
+      position: number;
+      meta?: string | null | undefined;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+  } | {
+    id: number;
+    slug: string;
+    title: string;
+    blocks: {
+      id: number;
+      position: number;
+      type: string;
+      meta?: string | null | undefined;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+  }>;
+  listBlogPosts(params?: ListBlogParams): Promise<{
+    data: {
+      id: number;
+      slug: string;
+      title: string;
+      publishedAt: string | null;
+      author?: {
+        id: number;
+        firstName: string;
+        lastName: string;
+      } | null | undefined;
+      coverImage?: {
+        id: number;
+        slug: string;
+        url: string;
+        altText: string;
+      } | null | undefined;
+      tags: string[];
+      translations: {
+        locale: string;
+        excerpt: string;
+        seoTitle: string;
+      }[];
+      blocks: {
+        id: number;
+        type: string;
+        position: number;
+        meta?: string | null | undefined;
+        translations: {
+          locale: string;
+          content: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      author?: {
+        id: number;
+        firstName: string;
+        lastName: string;
+      } | null | undefined;
+      title: string;
+      blocks: {
+        id: number;
+        position: number;
+        type: string;
+        meta?: string | null | undefined;
+        translation: {
+          locale: string;
+          content: string;
+        } | null;
+      }[];
+      publishedAt: string | null;
+      coverImage?: {
+        id: number;
+        slug: string;
+        url: string;
+        altText: string;
+      } | null | undefined;
+      tags: string[];
+      translation: {
+        locale: string;
+        excerpt: string;
+        seoTitle: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  }>;
+  getBlogPost(slug: string, params?: GetParams): Promise<{
+    id: number;
+    slug: string;
+    title: string;
+    publishedAt: string | null;
+    author?: {
+      id: number;
+      firstName: string;
+      lastName: string;
+    } | null | undefined;
+    coverImage?: {
+      id: number;
+      slug: string;
+      url: string;
+      altText: string;
+    } | null | undefined;
+    tags: string[];
+    translations: {
+      locale: string;
+      excerpt: string;
+      seoTitle: string;
+    }[];
+    blocks: {
+      id: number;
+      type: string;
+      position: number;
+      meta?: string | null | undefined;
+      translations: {
+        locale: string;
+        content: string;
+      }[];
+    }[];
+  } | {
+    id: number;
+    slug: string;
+    author?: {
+      id: number;
+      firstName: string;
+      lastName: string;
+    } | null | undefined;
+    title: string;
+    blocks: {
+      id: number;
+      position: number;
+      type: string;
+      meta?: string | null | undefined;
+      translation: {
+        locale: string;
+        content: string;
+      } | null;
+    }[];
+    publishedAt: string | null;
+    coverImage?: {
+      id: number;
+      slug: string;
+      url: string;
+      altText: string;
+    } | null | undefined;
+    tags: string[];
+    translation: {
+      locale: string;
+      excerpt: string;
+      seoTitle: string;
+    } | null;
+  }>;
+  listForms(params?: ListParams): Promise<{
+    data: {
+      id: number;
+      slug: string;
+      submitAction: {
+        type: "formsubmit";
+        code: string;
+      } | {
+        type: "mailto";
+        email: string;
+        subject?: string | undefined;
+      };
+      spamProtection: {};
+      translations: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+        submitLabel: string;
+      }[];
+      steps: {
+        id: number;
+        position: number;
+        translations: {
+          locale: string;
+          title: string;
+          description?: string | null | undefined;
+        }[];
+      }[];
+      fields: {
+        id: number;
+        stepId?: number | null | undefined;
+        parentId?: number | null | undefined;
+        position: number;
+        name: string;
+        type: string;
+        required: boolean;
+        config: {
+          scheduling?: {
+            provider: "calendly";
+            targetId: string;
+            targetLabel?: string | undefined;
+            rangeLimitDays: number;
+            availability?: {
+              startTime: string;
+              endTime: string;
+              timezone?: string | undefined;
+              data: {
+                startTime: string;
+                status: string;
+                inviteesRemaining?: number | undefined;
+              }[];
+            } | undefined;
+          } | undefined;
+        };
+        conditions: {};
+        translations: {
+          locale: string;
+          label: string;
+          placeholder?: string | null | undefined;
+          helperText?: string | null | undefined;
+          optionLabels?: {} | null | undefined;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      slug: string;
+      submitAction: {
+        type: "formsubmit";
+        code: string;
+      } | {
+        type: "mailto";
+        email: string;
+        subject?: string | undefined;
+      };
+      spamProtection: {};
+      steps: {
+        id: number;
+        position: number;
+        translation: {
+          locale: string;
+          title: string;
+          description?: string | null | undefined;
+        } | null;
+      }[];
+      fields: {
+        name: string;
+        id: number;
+        position: number;
+        type: string;
+        stepId?: number | null | undefined;
+        parentId?: number | null | undefined;
+        required: boolean;
+        config: {
+          scheduling?: {
+            provider: "calendly";
+            targetId: string;
+            targetLabel?: string | undefined;
+            rangeLimitDays: number;
+            availability?: {
+              startTime: string;
+              endTime: string;
+              timezone?: string | undefined;
+              data: {
+                startTime: string;
+                status: string;
+                inviteesRemaining?: number | undefined;
+              }[];
+            } | undefined;
+          } | undefined;
+        };
+        conditions: {};
+        translation: {
+          locale: string;
+          label: string;
+          placeholder?: string | null | undefined;
+          helperText?: string | null | undefined;
+          optionLabels?: {} | null | undefined;
+        } | null;
+      }[];
+      translation: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+        submitLabel: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  }>;
+  getForm(slug: string, params?: GetFormParams): Promise<{
+    id: number;
+    slug: string;
+    submitAction: {
+      type: "formsubmit";
+      code: string;
+    } | {
+      type: "mailto";
+      email: string;
+      subject?: string | undefined;
+    };
+    spamProtection: {};
+    translations: {
+      locale: string;
+      title: string;
+      description?: string | null | undefined;
+      submitLabel: string;
+    }[];
+    steps: {
+      id: number;
+      position: number;
+      translations: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+      }[];
+    }[];
+    fields: {
+      id: number;
+      stepId?: number | null | undefined;
+      parentId?: number | null | undefined;
+      position: number;
+      name: string;
+      type: string;
+      required: boolean;
+      config: {
+        scheduling?: {
+          provider: "calendly";
+          targetId: string;
+          targetLabel?: string | undefined;
+          rangeLimitDays: number;
+          availability?: {
+            startTime: string;
+            endTime: string;
+            timezone?: string | undefined;
+            data: {
+              startTime: string;
+              status: string;
+              inviteesRemaining?: number | undefined;
+            }[];
+          } | undefined;
+        } | undefined;
+      };
+      conditions: {};
+      translations: {
+        locale: string;
+        label: string;
+        placeholder?: string | null | undefined;
+        helperText?: string | null | undefined;
+        optionLabels?: {} | null | undefined;
+      }[];
+    }[];
+  } | {
+    id: number;
+    slug: string;
+    submitAction: {
+      type: "formsubmit";
+      code: string;
+    } | {
+      type: "mailto";
+      email: string;
+      subject?: string | undefined;
+    };
+    spamProtection: {};
+    steps: {
+      id: number;
+      position: number;
+      translation: {
+        locale: string;
+        title: string;
+        description?: string | null | undefined;
+      } | null;
+    }[];
+    fields: {
+      name: string;
+      id: number;
+      position: number;
+      type: string;
+      stepId?: number | null | undefined;
+      parentId?: number | null | undefined;
+      required: boolean;
+      config: {
+        scheduling?: {
+          provider: "calendly";
+          targetId: string;
+          targetLabel?: string | undefined;
+          rangeLimitDays: number;
+          availability?: {
+            startTime: string;
+            endTime: string;
+            timezone?: string | undefined;
+            data: {
+              startTime: string;
+              status: string;
+              inviteesRemaining?: number | undefined;
+            }[];
+          } | undefined;
+        } | undefined;
+      };
+      conditions: {};
+      translation: {
+        locale: string;
+        label: string;
+        placeholder?: string | null | undefined;
+        helperText?: string | null | undefined;
+        optionLabels?: {} | null | undefined;
+      } | null;
+    }[];
+    translation: {
+      locale: string;
+      title: string;
+      description?: string | null | undefined;
+      submitLabel: string;
+    } | null;
+  }>;
+  submitForm(slug: string, body: components["schemas"]["FormSubmitRequest"]): Promise<{
+    id: number;
+    status: "processed" | "accepted";
+    processingErrors: string[];
+  }>;
+  listJobs(params?: ListParams): Promise<{
+    data: {
+      id: number;
+      slug: string;
+      workArrangement: string;
+      employmentType: string;
+      department: string;
+      salaryMin?: number | null | undefined;
+      salaryMax?: number | null | undefined;
+      salaryCurrency: string;
+      location?: {
+        id: number;
+        name: string;
+        city: string;
+        state: string;
+        country: string;
+      } | null | undefined;
+      translations: {
+        locale: string;
+        title: string;
+        description: string;
+        requirements: string;
+        niceToHaves: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      location?: {
+        id: number;
+        name: string;
+        city: string;
+        state: string;
+        country: string;
+      } | null | undefined;
+      id: number;
+      slug: string;
+      workArrangement: string;
+      employmentType: string;
+      department: string;
+      salaryMin?: number | null | undefined;
+      salaryMax?: number | null | undefined;
+      salaryCurrency: string;
+      translation: {
+        locale: string;
+        title: string;
+        description: string;
+        requirements: string;
+        niceToHaves: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  }>;
+  getJob(slug: string, params?: GetParams): Promise<{
+    id: number;
+    slug: string;
+    workArrangement: string;
+    employmentType: string;
+    department: string;
+    salaryMin?: number | null | undefined;
+    salaryMax?: number | null | undefined;
+    salaryCurrency: string;
+    location?: {
+      id: number;
+      name: string;
+      city: string;
+      state: string;
+      country: string;
+    } | null | undefined;
+    translations: {
+      locale: string;
+      title: string;
+      description: string;
+      requirements: string;
+      niceToHaves: string;
+    }[];
+  } | {
+    location?: {
+      id: number;
+      name: string;
+      city: string;
+      state: string;
+      country: string;
+    } | null | undefined;
+    id: number;
+    slug: string;
+    workArrangement: string;
+    employmentType: string;
+    department: string;
+    salaryMin?: number | null | undefined;
+    salaryMax?: number | null | undefined;
+    salaryCurrency: string;
+    translation: {
+      locale: string;
+      title: string;
+      description: string;
+      requirements: string;
+      niceToHaves: string;
+    } | null;
+  }>;
+  listTeamMembers(params?: ListParams): Promise<{
+    data: {
+      id: number;
+      firstName: string;
+      lastName: string;
+      position: number;
+      groupId: number | null;
+      image: {
+        id: number;
+        slug: string;
+        url: string;
+        altText: string;
+      } | null;
+      translations: {
+        locale: string;
+        title: string;
+        shortBiography: string;
+        longBiography: string;
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      image: {
+        id: number;
+        slug: string;
+        url: string;
+        altText: string;
+      } | null;
+      position: number;
+      firstName: string;
+      lastName: string;
+      groupId: number | null;
+      translation: {
+        locale: string;
+        title: string;
+        shortBiography: string;
+        longBiography: string;
+      } | null;
+    }[];
+    nextCursor: string | null;
+  }>;
+  listNavigations(params?: ListParams): Promise<{
+    data: {
+      id: number;
+      handle: string;
+      position: number;
+      items: {
+        id: number;
+        parentId: number | null;
+        position: number;
+        url: string;
+        openInNewTab: boolean;
+        translations: {
+          locale: string;
+          label: string;
+        }[];
+      }[];
+    }[];
+    nextCursor: string | null;
+  } | {
+    data: {
+      id: number;
+      handle: string;
+      position: number;
+      items: {
+        id: number;
+        position: number;
+        url: string;
+        openInNewTab: boolean;
+        parentId: number | null;
+        translation: {
+          locale: string;
+          label: string;
+        } | null;
+      }[];
+    }[];
+    nextCursor: string | null;
+  }>;
+  getNavigation(handle: string, params?: GetParams): Promise<{
+    id: number;
+    handle: string;
+    position: number;
+    items: {
+      id: number;
+      parentId: number | null;
+      position: number;
+      url: string;
+      openInNewTab: boolean;
+      translations: {
+        locale: string;
+        label: string;
+      }[];
+    }[];
+  } | {
+    id: number;
+    handle: string;
+    position: number;
+    items: {
+      id: number;
+      position: number;
+      url: string;
+      openInNewTab: boolean;
+      parentId: number | null;
+      translation: {
+        locale: string;
+        label: string;
+      } | null;
+    }[];
+  }>;
+};
+type NexusClient = ReturnType<typeof createNexusClient>;
+//#endregion
+//#region src/localize.d.ts
+/**
+ * Recursive mapped type that replaces every `translations: T[]` property
+ * with a single `translation: T | null` for the resolved locale.
+ * Applied recursively through nested objects and arrays.
+ */
+type Localized<T> = T extends {
+  translations: Array<infer U>;
+} ? Omit<T, "translations"> & {
+  translation: U | null;
+} extends infer R ? { [K in keyof R]: Localized<R[K]> } : never : T extends Array<infer Item> ? Array<Localized<Item>> : T extends object ? { [K in keyof T]: Localized<T[K]> } : T;
+//#endregion
 //#region src/index.d.ts
 type GalleryImage = components["schemas"]["GalleryImage"];
 type CustomFieldValue = components["schemas"]["CustomFieldValue"];
+type FormSubmitRequest = components["schemas"]["FormSubmitRequest"];
+type FormSubmitResponse = components["schemas"]["FormSubmitResponse"];
+type FormSubmitSchedulingRequest = components["schemas"]["FormSubmitSchedulingRequest"];
+type SchedulingAvailability = components["schemas"]["SchedulingAvailability"];
+type SchedulingAvailabilitySlot = components["schemas"]["SchedulingAvailabilitySlot"];
+type SchedulingFieldConfig = components["schemas"]["SchedulingFieldConfig"];
 //#endregion
-export { CustomFieldValue, GalleryImage, type GetParams, type ListBlogParams, type ListParams, type Localized, type NexusClient, type NexusSDKConfig, createNexusClient };
+export { CustomFieldValue, FormSubmitRequest, FormSubmitResponse, FormSubmitSchedulingRequest, GalleryImage, type GetFormParams, type GetParams, type ListBlogParams, type ListParams, type Localized, type NexusClient, type NexusSDKConfig, SchedulingAvailability, SchedulingAvailabilitySlot, SchedulingFieldConfig, createNexusClient };
 //# sourceMappingURL=index.d.mts.map

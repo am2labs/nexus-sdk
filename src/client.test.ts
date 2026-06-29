@@ -22,22 +22,33 @@ const localesEn = { locales: [{ locale: "en", name: "English", isDefault: true }
 const localesNone = { locales: [], default: null };
 
 // Testimonial fixtures
+const testimonialCustomFields = [
+  { key: "rating", label: "Rating", type: "number", value: 5 },
+  { key: "featured", label: "Featured", type: "boolean", value: true },
+  { key: "company", label: "Company", type: "string", value: null },
+];
+
 const testimonialEn = {
   id: 1,
   author: "Alice",
   image1: null,
   image2: null,
-  customFields: [
-    { key: "rating", label: "Rating", type: "number", value: 5 },
-    { key: "featured", label: "Featured", type: "boolean", value: true },
-    { key: "company", label: "Company", type: "string", value: null },
-  ],
   translations: [
-    { locale: "en", content: "Great service!" },
-    { locale: "es", content: "¡Gran servicio!" },
+    { locale: "en", content: "Great service!", customFields: testimonialCustomFields },
+    { locale: "es", content: "¡Gran servicio!", customFields: testimonialCustomFields },
   ],
 };
 const testimonialListResponse = { data: [testimonialEn], nextCursor: null };
+
+const formResponse = {
+  id: 1,
+  slug: "contact-us",
+  translations: [{ locale: "en", title: "Contact Us", submitLabel: "Send" }],
+  steps: [],
+  fields: [],
+  submitAction: { type: "mailto", email: "team@example.com" },
+  spamProtection: {},
+};
 
 const teamMemberListResponse = {
   data: [
@@ -135,6 +146,61 @@ describe("createNexusClient", () => {
       await makeClient().getNavigation("main-menu");
       expect(capturedUrl).toContain("/navigations/main-menu");
     });
+
+    it("maps getForm availability params to snake_case query params", async () => {
+      let url: URL | null = null;
+      server.use(
+        http.get(`${BASE_URL}/websites/:siteSlug/forms/:slug`, ({ request, params }) => {
+          url = new URL(request.url);
+          expect(params.siteSlug).toBe(SITE_SLUG);
+          expect(params.slug).toBe("contact-us");
+          return HttpResponse.json(formResponse);
+        })
+      );
+
+      await makeClient().getForm("contact-us", {
+        availabilityStartTime: "2026-01-01T10:00:00Z",
+        availabilityEndTime: "2026-01-08T10:00:00Z",
+        timezone: "America/New_York",
+        locale: "en",
+      });
+
+      expect(url!.searchParams.get("availability_start_time")).toBe("2026-01-01T10:00:00Z");
+      expect(url!.searchParams.get("availability_end_time")).toBe("2026-01-08T10:00:00Z");
+      expect(url!.searchParams.get("timezone")).toBe("America/New_York");
+    });
+
+    it("submits a form with auth, path params, and JSON body", async () => {
+      let capturedAuth = "";
+      let capturedBody: unknown;
+      server.use(
+        http.post(`${BASE_URL}/websites/:siteSlug/forms/:slug`, async ({ request, params }) => {
+          capturedAuth = request.headers.get("Authorization") ?? "";
+          capturedBody = await request.json();
+          expect(params.siteSlug).toBe(SITE_SLUG);
+          expect(params.slug).toBe("contact-us");
+          return HttpResponse.json(
+            { id: 10, status: "processed", processingErrors: [] },
+            { status: 201 }
+          );
+        })
+      );
+
+      await makeClient().submitForm("contact-us", {
+        answers: {
+          name: "Ada Lovelace",
+          email: "ada@example.com",
+        },
+      });
+
+      expect(capturedAuth).toBe(`Bearer ${API_KEY}`);
+      expect(capturedBody).toEqual({
+        answers: {
+          name: "Ada Lovelace",
+          email: "ada@example.com",
+        },
+      });
+    });
   });
 
   describe("locale resolution", () => {
@@ -180,6 +246,7 @@ describe("createNexusClient", () => {
       const result = await makeClient().listTestimonials();
       expect(result.data[0]).toHaveProperty("translations");
       expect(result.data[0]).not.toHaveProperty("translation");
+      expect(result.data[0]).not.toHaveProperty("customFields");
     });
 
     it("applies the API default locale — replaces translations with translation", async () => {
@@ -191,11 +258,18 @@ describe("createNexusClient", () => {
       );
       const result = await makeClient().listTestimonials();
       const item = result.data[0] as {
-        customFields: Array<{ key: string; label: string; type: string; value: unknown }>;
-        translation: { locale: string; content: string };
+        translation: {
+          locale: string;
+          content: string;
+          customFields: Array<{ key: string; label: string; type: string; value: unknown }>;
+        };
       };
-      expect(item.translation).toEqual({ locale: "en", content: "Great service!" });
-      expect(item.customFields).toEqual(testimonialEn.customFields);
+      expect(item.translation).toEqual({
+        locale: "en",
+        content: "Great service!",
+        customFields: testimonialCustomFields,
+      });
+      expect(item).not.toHaveProperty("customFields");
       expect(item).not.toHaveProperty("translations");
     });
 
@@ -328,6 +402,42 @@ describe("createNexusClient", () => {
     });
   });
 
+  describe("forms", () => {
+    it("returns a processed response when submitForm receives 201", async () => {
+      server.use(
+        http.post(`${BASE_URL}/websites/:siteSlug/forms/:slug`, () =>
+          HttpResponse.json(
+            { id: 11, status: "processed", processingErrors: [] },
+            { status: 201 }
+          )
+        )
+      );
+
+      await expect(
+        makeClient().submitForm("contact-us", { answers: { message: "Hello" } })
+      ).resolves.toEqual({ id: 11, status: "processed", processingErrors: [] });
+    });
+
+    it("returns an accepted response when submitForm receives 202", async () => {
+      server.use(
+        http.post(`${BASE_URL}/websites/:siteSlug/forms/:slug`, () =>
+          HttpResponse.json(
+            { id: 12, status: "accepted", processingErrors: ["Delivery failed"] },
+            { status: 202 }
+          )
+        )
+      );
+
+      await expect(
+        makeClient().submitForm("contact-us", { answers: { message: "Hello" } })
+      ).resolves.toEqual({
+        id: 12,
+        status: "accepted",
+        processingErrors: ["Delivery failed"],
+      });
+    });
+  });
+
   describe("error handling", () => {
     it("throws with the API error string on 404", async () => {
       server.use(
@@ -357,6 +467,18 @@ describe("createNexusClient", () => {
         )
       );
       await expect(makeClient().getBranding()).rejects.toThrow("Missing or invalid API key");
+    });
+
+    it("throws with the API error string when submitForm receives 400", async () => {
+      server.use(
+        http.post(`${BASE_URL}/websites/:siteSlug/forms/:slug`, () =>
+          HttpResponse.json({ error: "Request body must be valid JSON." }, { status: 400 })
+        )
+      );
+
+      await expect(
+        makeClient().submitForm("contact-us", { answers: {} })
+      ).rejects.toThrow("Request body must be valid JSON.");
     });
   });
 });

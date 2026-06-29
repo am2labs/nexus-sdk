@@ -29,3 +29,12 @@ export interface GetParams {
   /** Overrides the site's default locale for this call */
   locale?: string;
 }
+
+export interface GetFormParams extends GetParams {
+  /** Scheduling availability window start (ISO 8601 date-time) */
+  availabilityStartTime?: string;
+  /** Scheduling availability window end (ISO 8601 date-time) */
+  availabilityEndTime?: string;
+  /** IANA timezone used when fetching scheduling availability */
+  timezone?: string;
+}
